@@ -1,0 +1,201 @@
+{
+  "$comment": "schemaVersion 0.1.0",
+  "$ref": "#/definitions/depot",
+  "definitions": {
+    "depot": {
+      "type": "object",
+      "properties": {
+        "provider": {
+          "type": "string",
+          "minLength": 1
+        },
+        "contractNumber": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "startDate": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "endDate": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/depot/properties/startDate/anyOf/0"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "premium": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "amount": {
+                  "type": "object",
+                  "properties": {
+                    "amount": {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    "currency": {
+                      "type": "string",
+                      "const": "EUR",
+                      "default": "EUR"
+                    }
+                  },
+                  "required": [
+                    "amount"
+                  ],
+                  "additionalProperties": false
+                },
+                "interval": {
+                  "type": "string",
+                  "enum": [
+                    "monatlich",
+                    "vierteljaehrlich",
+                    "halbjaehrlich",
+                    "jaehrlich",
+                    "einmalig"
+                  ]
+                }
+              },
+              "required": [
+                "amount",
+                "interval"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "contractType": {
+          "type": "string",
+          "const": "depot"
+        },
+        "custodian": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "totalValue": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/depot/properties/premium/anyOf/0/properties/amount"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "asOfDate": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "positions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "isin": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^[A-Z]{2}[A-Z0-9]{9}\\d$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "units": {
+                "anyOf": [
+                  {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "marketValue": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/depot/properties/premium/anyOf/0/properties/amount"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "ter": {
+                "anyOf": [
+                  {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 10
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "name",
+              "isin",
+              "units",
+              "marketValue",
+              "ter"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "provider",
+        "contractNumber",
+        "startDate",
+        "endDate",
+        "premium",
+        "contractType",
+        "custodian",
+        "totalValue",
+        "asOfDate",
+        "positions"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

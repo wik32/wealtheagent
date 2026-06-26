@@ -1,0 +1,22 @@
+{
+  "contractType": "privathaftpflicht",
+  "data": {
+    "provider": "HUK-COBURG",
+    "contractNumber": "PH-4471-882",
+    "startDate": "2019-03-01",
+    "endDate": null,
+    "premium": {
+      "amount": {
+        "amount": 58.9,
+        "currency": "EUR"
+      },
+      "interval": "jaehrlich"
+    },
+    "coverageSum": {
+      "amount": 10000000,
+      "currency": "EUR"
+    },
+    "deductible": null,
+    "insuredPersons": "single"
+  }
+}

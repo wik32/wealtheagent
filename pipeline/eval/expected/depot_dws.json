@@ -1,0 +1,48 @@
+{
+  "contractType": "depot",
+  "data": {
+    "provider": "DWS",
+    "contractNumber": "7720451-001",
+    "startDate": null,
+    "endDate": null,
+    "premium": null,
+    "custodian": "DWS",
+    "totalValue": {
+      "amount": 24651.25,
+      "currency": "EUR"
+    },
+    "asOfDate": "2026-05-31",
+    "positions": [
+      {
+        "name": "Xtrackers MSCI World UCITS ETF",
+        "isin": "IE00BJ0KDQ92",
+        "units": 120.5,
+        "marketValue": {
+          "amount": 13250.75,
+          "currency": "EUR"
+        },
+        "ter": 0.19
+      },
+      {
+        "name": "DWS Top Dividende LD",
+        "isin": "DE0009848119",
+        "units": 45,
+        "marketValue": {
+          "amount": 6480,
+          "currency": "EUR"
+        },
+        "ter": 1.45
+      },
+      {
+        "name": "iShares Core EUR Govt Bond UCITS ETF",
+        "isin": "IE00B4WXJJ64",
+        "units": 38.2,
+        "marketValue": {
+          "amount": 4920.5,
+          "currency": "EUR"
+        },
+        "ter": 0.09
+      }
+    ]
+  }
+}

@@ -28,12 +28,8 @@ targets:
         INFOPLIST_FILE: WealthEagent/Info.plist
     entitlements:
       path: WealthEagent/WealthEagent.entitlements
-      properties:
-        com.apple.developer.icloud-container-identifiers:
-          - iCloud.de.wealtheagent.app
-        com.apple.developer.icloud-services:
-          - CloudKit
-        com.apple.developer.ubiquity-kvstore-identifier: $(TeamIdentifierPrefix)de.wealtheagent.app
+      # CloudKit wird aktiviert sobald paid Developer Account vorhanden.
+      # Bis dahin: LocalContractRepository (SwiftData)
     dependencies: []
     preBuildScripts:
       - name: SwiftLint

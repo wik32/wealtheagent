@@ -1,0 +1,23 @@
+{
+  "contractType": "krankenversicherung",
+  "data": {
+    "provider": "ERGO",
+    "contractNumber": "ZZ-88-291004",
+    "startDate": "2022-01-01",
+    "endDate": null,
+    "premium": {
+      "amount": {
+        "amount": 24.9,
+        "currency": "EUR"
+      },
+      "interval": "monatlich"
+    },
+    "kind": "zusatz_zahn",
+    "tariff": "ZahnPremium ZEZ80",
+    "reimbursementPercent": 80,
+    "annualLimit": {
+      "amount": 2500,
+      "currency": "EUR"
+    }
+  }
+}

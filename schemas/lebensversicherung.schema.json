@@ -1,0 +1,151 @@
+{
+  "$comment": "schemaVersion 0.1.0",
+  "$ref": "#/definitions/lebensversicherung",
+  "definitions": {
+    "lebensversicherung": {
+      "type": "object",
+      "properties": {
+        "provider": {
+          "type": "string",
+          "minLength": 1
+        },
+        "contractNumber": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "startDate": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "endDate": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/lebensversicherung/properties/startDate/anyOf/0"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "premium": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "amount": {
+                  "type": "object",
+                  "properties": {
+                    "amount": {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    "currency": {
+                      "type": "string",
+                      "const": "EUR",
+                      "default": "EUR"
+                    }
+                  },
+                  "required": [
+                    "amount"
+                  ],
+                  "additionalProperties": false
+                },
+                "interval": {
+                  "type": "string",
+                  "enum": [
+                    "monatlich",
+                    "vierteljaehrlich",
+                    "halbjaehrlich",
+                    "jaehrlich",
+                    "einmalig"
+                  ]
+                }
+              },
+              "required": [
+                "amount",
+                "interval"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "contractType": {
+          "type": "string",
+          "const": "lebensversicherung"
+        },
+        "kind": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "risikoleben",
+                "kapitalleben",
+                "fondsgebunden"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sumInsured": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/lebensversicherung/properties/premium/anyOf/0/properties/amount"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "beneficiary": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "surrenderValue": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/lebensversicherung/properties/premium/anyOf/0/properties/amount"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "provider",
+        "contractNumber",
+        "startDate",
+        "endDate",
+        "premium",
+        "contractType",
+        "kind",
+        "sumInsured",
+        "beneficiary",
+        "surrenderValue"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}
