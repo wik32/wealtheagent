@@ -1,126 +1,168 @@
 // ObservationsViewModelTests.swift
-// Priority 4 — Walking skeleton: ViewModel integration tests
+// Layer 2 — In-memory acceptance tests for ObservationsViewModel.
 //
-// Uses XCTest (not Swift Testing) because ViewModel integration tests involve
-// async @Observable state and are at the layer that integrates ports + pure functions.
-// Layer 3 tests: example-only, no PBT.
+// Driving port: ObservationsViewModel.loadInsights()
+// Dependencies: MockContractRepository + MockCatalogProvider (in-memory doubles)
+// Framework: XCTest (async @Observable ViewModel integration — per ATDD policy)
 //
-// Walking skeleton: ObservationsViewModel wires ContractRepository + InsightsEngine.
-// Driving port: ObservationsViewModel.loadInsights() → InsightsEngine.insights(contracts:catalog:)
-//
-// @contract-shape:bounded-change — ViewModel state update is bounded to
-//   observable properties: insights, isLoading, error.
+// @contract-shape:bounded-change — ViewModel state mutation bounded to:
+//   insights, isLoading, error.
 //
 // NON-NEGOTIABLE: zero "Empfehlung/empfehlen" in test names or assertion strings.
+// All observations are Beobachtungen — factual, never advisory.
+//
+// Test sequence (one enabled at a time for DELIVER):
+//   1. testUserWithTwoPrivathaftpflichtSeesDopplungBeobachtung  ← WALKING SKELETON (live RED)
+//   2–6: all other tests XCTSkip until skeleton is GREEN.
 
 import XCTest
 @testable import WealthEagent
 
 // MARK: - ObservationsViewModelTests
 
+@MainActor
 final class ObservationsViewModelTests: XCTestCase {
 
-    // MARK: - Walking skeleton: duplicate Beobachtung visible to user
+    // MARK: - setUp / tearDown
 
-    /// Walking skeleton: user with 2 Privathaftpflicht contracts
-    /// → ObservationsViewModel.insights contains 1 Dopplung-Beobachtung.
+    var mockRepo: MockContractRepository!
+    var mockCatalog: MockCatalogProvider!
+
+    override func setUp() async throws {
+        mockRepo = MockContractRepository(contracts: MockContractRepository.fixtureContracts())
+        mockCatalog = MockCatalogProvider()
+    }
+
+    override func tearDown() async throws {
+        mockRepo = nil
+        mockCatalog = nil
+    }
+
+    // MARK: ── Walking skeleton ──────────────────────────────────────────────
+    //
+    // FIRST test to enable in DELIVER.
+    // Remove the XCTSkip line when InsightsEngine.insights() is implemented.
+
+    /// Walking skeleton: user with two Privathaftpflicht contracts
+    /// sees exactly one Dopplung-Beobachtung in the Observations tab.
     ///
-    /// FIRST WALKING SKELETON to enable in DELIVER
-    /// (after InsightsEngine.insights() is implemented and the duplicate test is green).
-    func testUserWithTwoPrivathaftpflichtSeesDuplicateBeobachtung() async throws {
-        // DELIVER: unskip this test when InsightsEngine GREEN for duplicate detection.
-        throw XCTSkip("Walking skeleton — enable after InsightsEngine duplicate detection is implemented")
-
+    /// Covers the end-to-end path:
+    ///   MockContractRepository → ObservationsViewModel.loadInsights()
+    ///   → InsightsEngine.insights(contracts:catalog:) → FinInsights.duplicates
+    func testUserWithTwoPrivathaftpflichtSeesDopplungBeobachtung() async throws {
         // Given: user has two Privathaftpflicht contracts
-        let repository = MockContractRepository(contracts: [
+        let repo = MockContractRepository(contracts: [
             MockContractRepository.hukPrivathaftpflicht(),
             MockContractRepository.axaPrivathaftpflicht()
         ])
-        let catalogProvider = MockCatalogProvider()
-        let sut = ObservationsViewModel(
-            contractRepository: repository,
-            catalogProvider: catalogProvider
-        )
+        let sut = ObservationsViewModel(contractRepository: repo, catalogProvider: mockCatalog)
 
-        // When: ViewModel loads insights
+        // When: ViewModel loads Beobachtungen
         await sut.loadInsights()
 
         // Then: exactly 1 Dopplung-Beobachtung for Privathaftpflicht is visible
-        let duplicates = sut.insights.duplicates
-        XCTAssertEqual(duplicates.count, 1,
-                       "Expected 1 Dopplung, got \(duplicates.count)")
-        XCTAssertEqual(duplicates.first?.categoryKey, "privathaftpflicht",
-                       "Dopplung should be for privathaftpflicht")
-        XCTAssertEqual(duplicates.first?.kind, .duplicate)
+        let dopplungen = sut.insights.duplicates
+        XCTAssertEqual(dopplungen.count, 1,
+                       "Erwartet 1 Dopplung-Beobachtung, erhalten \(dopplungen.count)")
+        XCTAssertEqual(dopplungen.first?.categoryKey, "privathaftpflicht",
+                       "Dopplung-Beobachtung muss für privathaftpflicht sein")
+        XCTAssertEqual(dopplungen.first?.kind, .duplicate)
     }
 
-    // MARK: - Walking skeleton: missing Beobachtung visible to user
+    // MARK: ── Happy-path Beobachtungen ──────────────────────────────────────
 
-    /// Walking skeleton: user with no Berufsunfähigkeit contract
-    /// → ObservationsViewModel.insights contains 1 Lücken-Beobachtung for BU.
+    /// User with no Berufsunfähigkeit contract sees a Lücken-Beobachtung for BU.
     func testUserWithNoBerufsunfaehigkeitSeesLueckeBeobachtung() async throws {
-        throw XCTSkip("Walking skeleton — enable after InsightsEngine gap detection is implemented")
+        throw XCTSkip("Lücken-Beobachtung — enable after walking skeleton is GREEN")
 
-        // Given: portfolio has no BU contract (standard fixture)
-        let repository = MockContractRepository(contracts: MockContractRepository.fixtureContracts())
-        let catalogProvider = MockCatalogProvider()
-        let sut = ObservationsViewModel(
-            contractRepository: repository,
-            catalogProvider: catalogProvider
-        )
+        // Given: fixture portfolio (HUK PHV + AXA PHV + Depot — no BU)
+        let sut = ObservationsViewModel(contractRepository: mockRepo, catalogProvider: mockCatalog)
 
-        // When: ViewModel loads insights
+        // When: ViewModel loads Beobachtungen
         await sut.loadInsights()
 
-        // Then: Lücken-Beobachtung for Berufsunfähigkeit is present
-        let missingBU = sut.insights.missingCategories.first {
+        // Then: Lücken-Beobachtung for berufsunfaehigkeit is present
+        let buLuecke = sut.insights.missingCategories.first {
             $0.categoryKey == "berufsunfaehigkeit"
         }
-        XCTAssertNotNil(missingBU,
-                        "Expected Lücken-Beobachtung for berufsunfaehigkeit — none found")
-        XCTAssertEqual(missingBU?.kind, .missing)
+        XCTAssertNotNil(buLuecke,
+                        "Erwartet Lücken-Beobachtung für berufsunfaehigkeit — keine gefunden")
+        XCTAssertEqual(buLuecke?.kind, .missing)
     }
 
-    // MARK: - Error path: repository failure
+    /// User with an empty portfolio sees no Beobachtungen.
+    func testEmptyPortfolioProducesNoBeobachtungen() async throws {
+        throw XCTSkip("Leeres Portfolio — enable after walking skeleton is GREEN")
 
-    /// When ContractRepository.list() throws → ViewModel surfaces the error.
-    func testRepositoryFailureSurfacesErrorState() async throws {
-        throw XCTSkip("Error path — enable after walking skeleton tests pass")
+        // Given: user has no confirmed contracts
+        let emptyRepo = MockContractRepository(contracts: [])
+        let sut = ObservationsViewModel(contractRepository: emptyRepo, catalogProvider: mockCatalog)
 
-        // Given: repository that always errors
-        let repository = MockContractRepository()
-        repository.listError = MockRepositoryError.connectionUnavailable
-
-        let sut = ObservationsViewModel(
-            contractRepository: repository,
-            catalogProvider: MockCatalogProvider()
-        )
-
-        // When: ViewModel loads insights
+        // When: ViewModel loads Beobachtungen
         await sut.loadInsights()
 
-        // Then: error state is set, insights are empty
-        XCTAssertNotNil(sut.error, "ViewModel should surface repository error")
-        XCTAssertTrue(sut.insights.isEmpty, "Insights should be empty when repository fails")
+        // Then: no Beobachtungen visible (not even gap observations — nothing to measure)
+        XCTAssertTrue(sut.insights.isEmpty,
+                      "Leeres Portfolio darf keine Beobachtungen produzieren")
     }
 
-    // MARK: - Loading state
+    // MARK: ── Error paths ────────────────────────────────────────────────────
 
-    /// isLoading is true during loadInsights() and false afterwards.
-    func testLoadingStateIsTrueDuringFetchAndFalseAfter() async throws {
-        throw XCTSkip("Loading state test — enable after walking skeleton tests pass")
+    /// When repository is unavailable, ViewModel surfaces the error and keeps insights empty.
+    func testRepositoryUnavailableShowsFehlerstatus() async throws {
+        throw XCTSkip("Fehlerstatus — enable after walking skeleton is GREEN")
 
-        let repository = MockContractRepository()
-        let sut = ObservationsViewModel(
-            contractRepository: repository,
-            catalogProvider: MockCatalogProvider()
-        )
+        // Given: repository that always throws
+        let failingRepo = MockContractRepository(contracts: [])
+        failingRepo.listError = MockRepositoryError.connectionUnavailable
+        let sut = ObservationsViewModel(contractRepository: failingRepo, catalogProvider: mockCatalog)
 
-        XCTAssertFalse(sut.isLoading, "isLoading should be false before fetch")
-
+        // When: ViewModel loads Beobachtungen
         await sut.loadInsights()
 
-        XCTAssertFalse(sut.isLoading, "isLoading should be false after fetch completes")
+        // Then: error is surfaced, Beobachtungen remain empty
+        XCTAssertNotNil(sut.error, "Verbindungsfehler muss im Fehlerstatus sichtbar sein")
+        XCTAssertTrue(sut.insights.isEmpty,
+                      "Bei Fehler dürfen keine Beobachtungen angezeigt werden")
+    }
+
+    // MARK: ── Loading state ──────────────────────────────────────────────────
+
+    /// isLoading is false before and after loadInsights() completes.
+    func testLadeindikatorIsFalseBeforeAndAfterLoad() async throws {
+        throw XCTSkip("Ladeindikator — enable after walking skeleton is GREEN")
+
+        // Given: standard repository
+        let sut = ObservationsViewModel(contractRepository: mockRepo, catalogProvider: mockCatalog)
+
+        // Before: not loading
+        XCTAssertFalse(sut.isLoading, "isLoading muss vor dem Laden false sein")
+
+        // When: ViewModel loads Beobachtungen
+        await sut.loadInsights()
+
+        // After: loading finished
+        XCTAssertFalse(sut.isLoading, "isLoading muss nach dem Laden false sein")
+    }
+
+    // MARK: ── Sign-out ───────────────────────────────────────────────────────
+
+    /// After sign-out, all Beobachtungen are cleared from the ViewModel.
+    func testAbmeldenBereingtAlleBeobachtungen() async throws {
+        throw XCTSkip("Abmelden — enable after walking skeleton is GREEN")
+
+        // Given: ViewModel with loaded Beobachtungen
+        let sut = ObservationsViewModel(contractRepository: mockRepo, catalogProvider: mockCatalog)
+        await sut.loadInsights()
+        XCTAssertFalse(sut.insights.isEmpty, "Voraussetzung: Beobachtungen vorhanden")
+
+        // When: user signs out
+        sut.signOut()
+
+        // Then: Beobachtungen are cleared
+        XCTAssertTrue(sut.insights.isEmpty,
+                      "Nach Abmelden dürfen keine Beobachtungen angezeigt werden")
+        XCTAssertNil(sut.error, "Nach Abmelden muss der Fehlerstatus gelöscht sein")
     }
 }
 

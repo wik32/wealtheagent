@@ -14,7 +14,10 @@ import Observation
 ///   - insights: FinInsights
 ///   - isLoading: Bool
 ///   - error: Error?
+///
+/// @contract-shape:bounded-change — state update bounded to: insights, isLoading, error.
 @Observable
+@MainActor
 final class ObservationsViewModel {
 
     // MARK: - Observable state (Universe)
@@ -39,8 +42,12 @@ final class ObservationsViewModel {
     // DELIVER wave: replace fatalError with real implementation.
 
     /// Loads confirmed contracts from the repository and computes Beobachtungen.
-    @MainActor
     func loadInsights() async {
+        fatalError("Not yet implemented — RED scaffold. DELIVER wave replaces this.")
+    }
+
+    /// Clears all Beobachtungen and error state (called on sign-out).
+    func signOut() {
         fatalError("Not yet implemented — RED scaffold. DELIVER wave replaces this.")
     }
 }
