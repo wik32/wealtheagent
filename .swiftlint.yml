@@ -1,0 +1,29 @@
+excluded:
+  - WealthEagentTests
+
+opt_in_rules:
+  - empty_count
+  - explicit_init
+  - force_unwrapping
+
+custom_rules:
+  no_cloudkit_in_domain:
+    name: "No CloudKit in Domain"
+    regex: "import CloudKit"
+    included: "WealthEagent/Domain/.*\\.swift"
+    message: "Domain layer must not import CloudKit"
+    severity: error
+
+  no_vision_in_domain:
+    name: "No Vision in Domain"
+    regex: "import Vision"
+    included: "WealthEagent/Domain/.*\\.swift"
+    message: "Domain layer must not import Vision"
+    severity: error
+
+  no_cloudkit_in_viewmodels:
+    name: "No CloudKit in ViewModels"
+    regex: "import CloudKit"
+    included: "WealthEagent/ViewModels/.*\\.swift"
+    message: "ViewModels must use ContractRepository protocol, not CloudKit directly"
+    severity: error
