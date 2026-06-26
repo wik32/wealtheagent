@@ -1,0 +1,188 @@
+{
+  "roadmap": {
+    "project_id": "domain-core",
+    "created_at": "2026-06-26T20:14:33.774714+00:00",
+    "total_steps": 9,
+    "validation": {
+      "status": "approved",
+      "approved_at": "2026-06-26T20:14:33.774714+00:00"
+    }
+  },
+  "phases": [
+    {
+      "id": "01",
+      "name": "Duplicate detection",
+      "steps": [
+        {
+          "id": "01-01",
+          "name": "InsightsEngine — duplicate detection (walking skeleton)",
+          "criteria": [
+            "InsightsEngine.insights(contracts:catalog:) no longer calls fatalError",
+            "Two contracts with categoryKey='privathaftpflicht' produce insights.duplicates.count == 1",
+            "The duplicate Insight has categoryKey == 'privathaftpflicht' and kind == .duplicate",
+            "The function is a pure static function with no I/O or mutation",
+            "All 22 existing tests that are wrapped in withKnownIssue remain skipped (not broken)"
+          ],
+          "files_to_modify": [
+            "WealthEagent/Services/InsightsEngine.swift",
+            "WealthEagent/Domain/FinInsights.swift"
+          ],
+          "test_file": "WealthEagentTests/Domain/InsightsEngineTests.swift",
+          "scenario_name": "duplicatePrivathaftpflichtProducesDopplung",
+          "implementation_notes": "Replace fatalError in InsightsEngine.insights(contracts:catalog:) with real logic. Implement duplicate detection: group contracts by categoryKey, filter groups where count >= 2 AND catalog.category(for:key)?.allowsDuplicateObservation == true, produce one Insight(kind:.duplicate) per qualifying group. titleDe/titleEn/detailDe/detailEn must not contain 'Empfehlung' or 'empfehlen'. FinInsights.beobachtungen is the union of all observations; duplicates, missingCategories, comparisons are computed properties already declared in the scaffold — no changes to FinInsights struct needed for this step. Stub gaps and comparisons to return empty arrays for now."
+        },
+        {
+          "id": "01-02",
+          "name": "InsightsEngine — single contract, no duplicate",
+          "criteria": [
+            "One contract with categoryKey='privathaftpflicht' produces insights.duplicates.isEmpty == true",
+            "Step 01-01 test remains GREEN",
+            "No regressions in any previously passing test"
+          ],
+          "files_to_modify": [
+            "WealthEagent/Services/InsightsEngine.swift"
+          ],
+          "test_file": "WealthEagentTests/Domain/InsightsEngineTests.swift",
+          "scenario_name": "singlePrivathaftpflichtNoDuplicate",
+          "implementation_notes": "Remove the withKnownIssue wrapper from singlePrivathaftpflichtNoDuplicate. The duplicate detection logic from 01-01 should already handle this correctly (groups with count < 2 produce no insight). If the test is already GREEN from 01-01, simply remove the wrapper and verify. No new logic should be needed."
+        },
+        {
+          "id": "01-03",
+          "name": "InsightsEngine — portfolio categories allow multiple contracts (noDuplicate)",
+          "criteria": [
+            "Two depot contracts produce zero duplicate insights for 'depot'",
+            "Two sparplan contracts produce zero duplicate insights for 'sparplan'",
+            "Two tagesgeld_festgeld contracts produce zero duplicate insights for 'tagesgeld_festgeld'",
+            "Two liquiditaetsreserve contracts produce zero duplicate insights for 'liquiditaetsreserve'",
+            "Three hausrat contracts produce exactly one (not two) duplicate insight for 'hausrat'"
+          ],
+          "files_to_modify": [
+            "WealthEagent/Services/InsightsEngine.swift"
+          ],
+          "test_file": "WealthEagentTests/Domain/InsightsEngineTests.swift",
+          "scenario_name": "depotAllowsMultipleContracts",
+          "implementation_notes": "Remove withKnownIssue from all four noDuplicate tests and the three-contracts boundary test. The allowsDuplicateObservation property is already declared on ContractCategory in the scaffold — the filtering logic in 01-01 should already consult it. The three-contracts case tests that grouping by categoryKey produces at most one Insight per key regardless of group size. Verify the duplicate logic maps one group → one Insight (not n-1 Insights)."
+        }
+      ]
+    },
+    {
+      "id": "02",
+      "name": "Gap detection + Coverage score",
+      "steps": [
+        {
+          "id": "02-01",
+          "name": "InsightsEngine — gap detection (Lücke)",
+          "criteria": [
+            "fixtureContracts() (no BU) produces at least one Insight with kind=.missing and categoryKey='berufsunfaehigkeit'",
+            "Adding a BU contract removes the BU gap from insights.missingCategories",
+            "A portfolio with only a single privathaftpflicht produces no gap for 'depot' (level-2 category)",
+            "A portfolio covering all 11 level-1 categories produces insights.missingCategories.isEmpty == true",
+            "All duplicate detection tests remain GREEN"
+          ],
+          "files_to_modify": [
+            "WealthEagent/Services/InsightsEngine.swift"
+          ],
+          "test_file": "WealthEagentTests/Domain/InsightsEngineTests.swift",
+          "scenario_name": "missingBerufsunfaehigkeitProducesLuecke",
+          "implementation_notes": "Remove withKnownIssue from all four gap tests. Implement gap detection in InsightsEngine: collect the set of categoryKeys present in the contracts array, iterate catalog.level1Categories, produce one Insight(kind:.missing) for each level-1 category whose key is absent from the portfolio. Gap detection is level-1 only — catalog.level1Categories already filters by needsLevel == 1 via the scaffold property. titleDe must be factual: 'In deinen Unterlagen ist keine [nameDe] vorhanden.' titleEn equivalent. No 'Empfehlung' or 'empfehlen' in any string."
+        },
+        {
+          "id": "02-02",
+          "name": "InsightsEngine — coverage score (Abdeckungsgrad)",
+          "criteria": [
+            "Empty portfolio produces coverageScore == 0 and beobachtungen.isEmpty == true",
+            "Portfolio with 1 unique level-1 category (privathaftpflicht, counted once despite 2 contracts) out of 11 produces coverageScore == Int(1.0/11.0 * 100) == 9",
+            "Portfolio covering all 11 level-1 categories produces coverageScore == 100",
+            "Any partial portfolio produces coverageScore in 0...100",
+            "All prior GREEN tests remain GREEN"
+          ],
+          "files_to_modify": [
+            "WealthEagent/Services/InsightsEngine.swift"
+          ],
+          "test_file": "WealthEagentTests/Domain/InsightsEngineTests.swift",
+          "scenario_name": "emptyPortfolioScoreZeroNoInsights",
+          "implementation_notes": "Remove withKnownIssue from all four coverage score tests. Implement coverage score: count distinct level-1 categoryKeys present in the contracts array (use Set intersection with catalog.level1Categories.map(\\.key)), divide by catalog.level1Categories.count, multiply by 100, convert to Int (truncating). Store the result in FinInsights.coverageScore. The empty-portfolio test also asserts beobachtungen.isEmpty — with no contracts, gaps would fire for all 11 level-1 categories; reconcile by verifying the test fixture (it uses empty contracts array []) and confirming the gap logic produces missing insights. Re-read emptyPortfolioScoreZeroNoInsights: it asserts insights.beobachtungen.isEmpty with [] contracts. This means gaps must NOT fire on empty portfolio, OR the test intends zero observations. Read the test body carefully before implementing — the test asserts both coverageScore==0 AND beobachtungen.isEmpty, which means gap detection must be suppressed for empty portfolio or the empty-portfolio case is special-cased. Implement accordingly."
+        }
+      ]
+    },
+    {
+      "id": "03",
+      "name": "TER comparison + Composition",
+      "steps": [
+        {
+          "id": "03-01",
+          "name": "InsightsEngine — TER cost comparison (Kennzahl)",
+          "criteria": [
+            "A depot with fields['ter_percent'] = .number(1.45) produces one Insight with kind=.comparison and categoryKey='depot'",
+            "A depot with fields['ter_percent'] = .number(0.20) produces no comparison insight for 'depot'",
+            "A depot with fields['ter_percent'] = .number(1.0) (exactly at threshold) produces a comparison insight",
+            "A depot with no 'ter_percent' field produces no comparison insight",
+            "All prior GREEN tests remain GREEN"
+          ],
+          "files_to_modify": [
+            "WealthEagent/Services/InsightsEngine.swift"
+          ],
+          "test_file": "WealthEagentTests/Domain/InsightsEngineTests.swift",
+          "scenario_name": "depotHighTERProducesKennzahl",
+          "implementation_notes": "Remove withKnownIssue from all four TER tests. Implement comparison detection: for each contract where categoryKey == 'depot', extract fields['ter_percent'], unwrap the .number case, compare value >= 1.0. Produce one Insight(kind:.comparison) if threshold met. If field is absent or not .number, produce no insight. titleDe must be factual: 'Dein Depot hat eine TER von [value] %.' — no Empfehlung. The ContractFieldValue enum has a .number(Double) case — unwrap with if case .number(let ter) = contract.fields['ter_percent']."
+        },
+        {
+          "id": "03-02",
+          "name": "InsightsEngine — full composition (walking skeleton integration)",
+          "criteria": [
+            "fixtureContracts() (2 PHV + Depot TER 1.45%, no BU) produces: duplicates.count==1 (privathaftpflicht), missingCategories contains berufsunfaehigkeit, comparisons.count>=1 (depot TER), coverageScore < 50",
+            "No Insight in any beobachtungen array has titleDe/titleEn/detailDe/detailEn containing 'empfehlung' or 'empfehlen' (case-insensitive)",
+            "No Insight text contains 'defino' or 'din 77230' (case-insensitive)",
+            "All 22 InsightsEngine tests are GREEN (withKnownIssue wrappers all removed)"
+          ],
+          "files_to_modify": [
+            "WealthEagent/Services/InsightsEngine.swift"
+          ],
+          "test_file": "WealthEagentTests/Domain/InsightsEngineTests.swift",
+          "scenario_name": "standardFixtureProducesExpectedObservations",
+          "implementation_notes": "Remove withKnownIssue from all three walking skeleton / invariant tests. No new logic should be needed — this step validates that the composition of duplicate + gap + coverage + comparison sub-functions in insights(contracts:catalog:) is correct. If any banned-term test fails, audit all Insight titleDe/titleEn/detailDe/detailEn strings produced in steps 02-01, 02-02, and 03-01 and remove any 'Empfehlung', 'empfehlen', 'Defino', 'DIN 77230'. This is a compliance invariant, not a logic fix."
+        }
+      ]
+    },
+    {
+      "id": "04",
+      "name": "Catalog decoding + Lookup",
+      "steps": [
+        {
+          "id": "04-01",
+          "name": "Catalog — structure and decode (22 categories, 3 levels)",
+          "criteria": [
+            "MockCatalogProvider().catalog().categories.count == 22",
+            "catalog.byLevel[1]?.count == 11",
+            "catalog.byLevel[2]?.count == 8",
+            "catalog.byLevel[3]?.count == 3",
+            "Every ContractCategory in catalog.categories has a non-empty key string"
+          ],
+          "files_to_modify": [
+            "WealthEagentTests/Mocks/MockCatalogProvider.swift"
+          ],
+          "test_file": "WealthEagentTests/Domain/CatalogTests.swift",
+          "scenario_name": "catalogHas22Categories",
+          "implementation_notes": "Remove withKnownIssue from all six CatalogStructure tests. The MockCatalogProvider.allCategories() already declares 22 categories (11+8+3) in the scaffold. Count the list: level 1 (privathaftpflicht, berufsunfaehigkeit, krankenversicherung, pflegeversicherung, risikoleben, unfallversicherung, hausrat, wohngebaeude, rechtsschutz, kfz, tierhalterhaftpflicht = 11), level 2 (liquiditaetsreserve, altersvorsorge, lebensversicherung, immobilienfinanzierung, bausparvertrag, depot, sparplan, tagesgeld_festgeld = 8), level 3 (sterbegeld, reiseversicherung, krankentagegeld = 3). Total = 22. If MockCatalogProvider.allCategories() already returns these 22, the tests may already pass once withKnownIssue is removed. Verify; if count differs, add missing category builders matching the catalog.json schema."
+        },
+        {
+          "id": "04-02",
+          "name": "Catalog — criteria lookup, gross_negligence_waiver, bilingual names, error handling",
+          "criteria": [
+            "catalog.criteriaFor('privathaftpflicht').count == 10",
+            "catalog.criteriaFor('privathaftpflicht') contains key 'gross_negligence_waiver'",
+            "All 10 expected phv criterion keys present (min_coverage_sum, gradual_damage, gross_negligence_waiver, lost_key_cover, volunteer_work, tenant_damage, overseas_cover, pet_sitting, contingency_cover, e_mobility)",
+            "gross_negligence_waiver present in criteria for: privathaftpflicht, hausrat, kfz, wohngebaeude",
+            "category(for: 'privathaftpflicht').name(locale: de_DE) != name(locale: en_US) and both non-empty"
+          ],
+          "files_to_modify": [
+            "WealthEagentTests/Mocks/MockCatalogProvider.swift"
+          ],
+          "test_file": "WealthEagentTests/Domain/CatalogTests.swift",
+          "scenario_name": "privathaftpflichtHas10Criteria",
+          "implementation_notes": "Remove withKnownIssue from all remaining CatalogTests. Most logic is already implemented in the scaffold: allowsDuplicateObservation is a computed property on ContractCategory, name(locale:) is implemented, criteriaFor() and category(for:) are implemented on Catalog, phvCriteria() returns 10 criteria. The banned-terms test checks purpose/relevance/watch — audit these strings in MockCatalogProvider for 'Empfehlung'/'empfehlen' (the word 'Stiftung Warentest empfiehlt' appears in kfz criteria whyItMatters — this field is NOT in the banned-terms test's checked fields: only purpose/relevance/watch/nameDe/nameEn are checked). The gross_negligence_waiver cross-category tests require hausratCriteria(), kfzCriteria(), and wohngebaeuedeCriteria() to each contain a criterion with key 'gross_negligence_waiver' — verify this is present in each builder (it is in the scaffold). If all builders are correct, removing withKnownIssue should be sufficient."
+        }
+      ]
+    }
+  ]
+}
