@@ -1,4 +1,4 @@
-# FinanzApp — CLAUDE.md
+# WealthEagent — CLAUDE.md
 
 ## Was ist das?
 
@@ -13,101 +13,78 @@ Provisionsfrei, transparent, EU-only. Eine B2C-App für Deutschland, die Nutzern
 | Regel | Detail |
 |---|---|
 | Kein „empfehlen/Empfehlung" | In user-facing Text nie verwenden. Stattdessen: „Beobachtungen", „Fakten", „wir messen" |
-| Kein „Defino" / „DIN 77230" | Nicht in UI-Text. Stattdessen: „anerkannte Bedarfssystematik" (DE) / „a recognised needs hierarchy" (EN) |
-| EU-only Datenspeicherung | Hard requirement — kein US-only Hosting |
-| Kein Normtext reproduzieren | DIN-77230-Beuth-Text darf nicht wörtlich übernommen werden |
+| Kein „Defino" / „DIN 77230" | Nirgends verwenden — weder UI noch Code-Kommentare noch Docs |
+| EU-only Datenspeicherung | Hard requirement — iCloud erfüllt das für EU-Nutzer |
 | Keine Finanzberatung | Nur Fakten aus Unterlagen des Nutzers. Niemals Anlage- oder Versicherungsempfehlungen |
 
 ---
 
-## Aktueller Stack
+## Stack (festgelegt)
 
-```
-Flutter (Dart) — iOS, Material 3
-├── lib/theme.dart              Editorial Design System (Serif + Sp-Grid)
-├── lib/widgets/editorial.dart  Kicker, Hairline, StatRow, PullQuote
-├── lib/data/catalog.dart       ContractCategory, ContractCriterion, ContractFieldSpec
-├── lib/data/catalog_controller.dart   ChangeNotifier, lädt catalog.json + Supabase
-├── lib/data/contracts_controller.dart ChangeNotifier, Vertragsbestand
-├── assets/catalog.json         22 Kategorien (kanonische Quelle, Offline-Fallback)
-└── test/widget_test.dart       7 Widget-Tests (tall viewport pattern: 1000×2200+)
-```
+- **SwiftUI** — iOS 17+, iPhone + iPad
+- **CloudKit** — Private Database für Verträge, Apple Sign-In via iCloud Account
+- **Apple Vision** — On-device OCR, kein Cloud-Dienst
+- **Swift Package Manager** — keine 3rd-party Architektur-Frameworks
+- **Swift Testing + XCTest** — Testframework
 
-**Backend (entschieden 2026-06-19):** Supabase + AWS Bedrock entfernt. Neuer Stack: **SwiftUI + CloudKit**. Apple Sign-In via CloudKit Container (kein eigener Auth-Server). EU-Datenspeicherung via iCloud. Flutter-Codebase bleibt als Referenz/Archiv.
-
-**Android-Strategie:** Wenn Marktbedarf entsteht → separates Produkt in Kotlin/Jetpack Compose + Firebase. Kein Port, kein Kompromiss in der iOS-App.
+**Android:** Separates Produkt (Kotlin + Firebase) wenn Marktbedarf entsteht. Kein Port.
 
 ---
 
-## Architektur (festgelegt)
+## Architektur (festgelegt, siehe docs/product/architecture/)
 
-- **SwiftUI** — iOS (iPhone + iPad), macOS via Catalyst möglich
-- **CloudKit** — Private Database für Verträge, Public Database für Katalog-Updates
-- **Apple Sign-In** — Auth automatisch über CloudKit Container (iCloud Account)
-- **Apple Vision** — On-device OCR für Dokumenten-Extraktion (kein Cloud-Dienst nötig)
-- **catalog.json** — Katalog bleibt im App-Bundle (kein Server nötig)
+**MVVM + Protocol-Typed Ports (Option B)**
+
+```
+Views → ViewModels (@Observable) → Ports (Protokolle) → Domain
+                                          ↑
+                                     Adapters (CloudKit, Vision, Bundle)
+```
+
+- `Domain/` — pure Swift value types, null framework imports
+- `Ports/` — Swift protocols (`ContractRepository`, `CatalogProvider`, `DocumentScanner`)
+- `Adapters/` — CloudKit, Vision, Bundle-JSON Implementierungen
+- `Services/` — pure functions (`InsightsEngine`, `ContractParser`)
+- `ViewModels/` — `@Observable` classes, rufen Ports auf
+- `Views/` — SwiftUI, nur ViewModels + Domain sehen
+
+**Dependency rule (SwiftLint enforced):**
+`Domain` importiert nur Foundation. `Ports` importiert nur Domain. `Adapters` importiert Ports + Apple frameworks. `ViewModels` importiert Ports + Domain. `Views` importiert ViewModels + Domain.
 
 ---
 
-## Katalog-Systematik (22 Kategorien)
+## Kategoriensystematik (22 Vertragsarten)
 
-Drei Stufen nach anerkannter Bedarfssystematik:
+Drei Stufen — Bezeichnung neutral, ohne externe Systematik-Referenz:
 
-- **Stufe 1** — Existenzielle Grundabsicherung: Privathaftpflicht, BU, Kranken, Pflege, Risikoleben, Unfall, Hausrat, Wohngebäude, Rechtsschutz, Kfz, Tierhalterhaftpflicht
-- **Stufe 2** — Vermögensaufbau & Vorsorge: Liquiditätsreserve, Altersvorsorge, Lebensversicherung, Immobilienfinanzierung, Bausparvertrag, Depot, Sparplan, Tagesgeld/Festgeld
+- **Stufe 1** — Basisabsicherung: Privathaftpflicht, BU, Kranken, Pflege, Risikoleben, Unfall, Hausrat, Wohngebäude, Rechtsschutz, Kfz, Tierhalterhaftpflicht
+- **Stufe 2** — Vermögensaufbau: Liquiditätsreserve, Altersvorsorge, Lebensversicherung, Immobilienfinanzierung, Bausparvertrag, Depot, Sparplan, Tagesgeld/Festgeld
 - **Stufe 3** — Ergänzungen: Sterbegeld, Reiseversicherung, Krankentagegeld
 
-Leistungskriterien (für inhaltlichen Vergleich) hinterlegt für: Privathaftpflicht (8), BU (5), Hausrat (5), Kfz (7), Rechtsschutz (6), Risikoleben (5), Reise (5).
+Leistungskriterien werden neu aufgesetzt auf Basis von Stiftung Warentest / Morgen & Morgen — nicht aus DIN 77230.
 
 ---
 
-## Design System
+## CloudKit Schema
 
-`theme.dart` + `widgets/editorial.dart`:
-
-```dart
-FinColors.cream / .ink / .muted / .gold (Terrakotta) / .green
-Sp.xs=4 / .sm=8 / .md=12 / .lg=16 / .xl=20 / .xxl=24 / .xxxl=32
-serif(size, weight, color, height, spacing)   // New York font
-Kicker / Hairline / EditorialHeader / StatRow / PullQuote
-```
-
-Dark Mode via `context.isDark` — alle Farben über Context-Extensions (`context.inkColor`, `context.paperColor`, etc.).
-
----
-
-## Datenschicht (aktuell Flutter)
-
-- `AppConfig.forceMock = true` → Mock-Repository (kein Netz, für Tests)
-- Mock-Bestand: 11 Verträge, davon 2× Privathaftpflicht (HUK + AXA) → triggert Dopplung-Insight + Compare
-- `catalogController.load()` → lädt `assets/catalog.json` (Offline) oder Supabase (Live)
-- `contractsController.insights` → `FinInsights.from()` — deterministisch, keine KI
+- Zone: `FinanzAppZone` (Custom Zone, Private Database)
+- Record-Typen: `CDContract`, `CDPendingContract`, `CDUserProfile`
+- `fieldsJSON` als String (~1 KB pro Vertrag)
+- Canary-Probe beim App-Start prüft tatsächliche Write-Permission
 
 ---
 
 ## Tests
 
-```bash
-cd app && flutter test          # 7 Widget-Tests + 2 Unit-Tests
-cd app && flutter analyze       # Muss sauber sein (0 Issues)
-```
-
-**Tall viewport pattern** (obligatorisch für Editorial-Layouts):
-```dart
-tester.view.physicalSize = const Size(1000, 2200);
-tester.view.devicePixelRatio = 1.0;
-addTearDown(tester.view.resetPhysicalSize);
-```
-
-`HomeShell._screens` muss ein **non-const getter** sein (kein `const` List) — sonst bricht Locale-Switching.
+- Pure functions (`InsightsEngine`, `ContractParser`) → Swift Testing (`#expect`)
+- ViewModels mit Mock-Ports → XCTest
+- Scaffold-Marker: `// SCAFFOLD: true` + `fatalError("Not yet implemented")`
 
 ---
 
 ## Offene Punkte
 
-- [ ] Backend-Entscheidung: CloudKit vs. Alternative (Firebase, eigener Server, Supabase-Rückkehr)
-- [ ] Dokumenten-Extraktion: Ersatz für AWS Bedrock
-- [ ] Apple/Google OAuth konfigurieren (falls Supabase zurückkommt)
-- [ ] iPhone-Deployment (Simulator „server died"-Fehler noch nicht gelöst)
-- [ ] Legal-Review vor Launch (Disclaimer-Texte, Bedarfssystematik-Formulierungen)
-- [ ] Leistungskriterien für Unfallversicherung, Wohngebäude, Pflegeversicherung ergänzen
+- [ ] Xcode-Projekt anlegen (Bundle-ID: `de.wealtheagent.app`, CloudKit-Container: `iCloud.de.wealtheagent.app`)
+- [ ] Leistungskriterien neu recherchieren (Stiftung Warentest, Morgen & Morgen)
+- [ ] Legal-Review vor Launch (Disclaimer-Texte)
+- [ ] SwiftLint-Regeln für Layer-Enforcement einrichten
