@@ -45,8 +45,6 @@ final class DashboardViewModelTests: XCTestCase {
     /// Validates that DashboardViewModel.load() calls InsightsEngine and
     /// surfaces the result in the coverageScore property.
     func testPortfolioMitElfVertraegenZeigtAbdeckungsgrad() async throws {
-        throw XCTSkip("Dashboard walking skeleton — enable after DashboardViewModel.load() is implemented")
-
         // Given: fixture portfolio (HUK PHV + AXA PHV + Depot)
         let sut = DashboardViewModel(contractRepository: mockRepo, catalogProvider: mockCatalog)
 
@@ -64,8 +62,6 @@ final class DashboardViewModelTests: XCTestCase {
 
     /// Empty portfolio → coverageScore is 0 and monthlySpend is 0.0.
     func testLeemesPortfolioZeigtNullAbdeckungsgrad() async throws {
-        throw XCTSkip("Leeres Portfolio — enable after walking skeleton is GREEN")
-
         // Given: no confirmed contracts
         let emptyRepo = MockContractRepository(contracts: [])
         let sut = DashboardViewModel(contractRepository: emptyRepo, catalogProvider: mockCatalog)
@@ -84,8 +80,6 @@ final class DashboardViewModelTests: XCTestCase {
 
     /// Single annual-premium contract → monthlySpend is premium / 12.
     func testJaehrlichesPraemieWirdAufMonatAufgeteilt() async throws {
-        throw XCTSkip("Monatliche Ausgaben — enable after walking skeleton is GREEN")
-
         // Given: one annual contract at 120 EUR/year
         var contract = MockContractRepository.hukPrivathaftpflicht()
         contract.premiumAmount = 120.00
@@ -106,8 +100,6 @@ final class DashboardViewModelTests: XCTestCase {
 
     /// Repository failure → error state is surfaced, metrics remain at zero.
     func testRepositoryFehlerZeigtFehlerstatus() async throws {
-        throw XCTSkip("Fehlerstatus Dashboard — enable after walking skeleton is GREEN")
-
         // Given: repository that always throws
         let failingRepo = MockContractRepository(contracts: [])
         failingRepo.listError = MockRepositoryError.connectionUnavailable

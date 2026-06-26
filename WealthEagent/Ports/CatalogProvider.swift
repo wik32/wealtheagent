@@ -10,7 +10,7 @@ import Foundation
 /// Synchronous — catalog.json is a bundle resource, always available.
 /// Implemented by BundleCatalogProvider in production.
 /// Implemented by MockCatalogProvider in tests.
-protocol CatalogProvider {
+protocol CatalogProvider: Sendable {
     /// Returns the decoded Catalog.
     /// Pure function after first load (result is cached in memory).
     func catalog() -> Catalog

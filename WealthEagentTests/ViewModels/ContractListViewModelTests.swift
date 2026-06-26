@@ -40,8 +40,6 @@ final class ContractListViewModelTests: XCTestCase {
 
     /// Empty repository → contracts array is empty after load().
     func testLeemesPortfolioZeigtKeineVertraege() async throws {
-        throw XCTSkip("Leeres Portfolio — enable after ContractListViewModel.load() is implemented")
-
         // Given: no confirmed contracts in repository
         let sut = ContractListViewModel(contractRepository: mockRepo)
 
@@ -59,8 +57,6 @@ final class ContractListViewModelTests: XCTestCase {
 
     /// Adding a contract → it appears in contracts after reload.
     func testVertragHinzufuegenErscheintInListe() async throws {
-        throw XCTSkip("Vertrag hinzufügen — enable after walking skeleton is GREEN")
-
         // Given: initially empty portfolio
         let sut = ContractListViewModel(contractRepository: mockRepo)
         await sut.load()
@@ -82,8 +78,6 @@ final class ContractListViewModelTests: XCTestCase {
     /// Confirming a pending contract promotes it to the contracts list
     /// and removes it from pendingContracts.
     func testEntwurfBestaetigungVerschiebtInVertragsListe() async throws {
-        throw XCTSkip("Entwurf bestätigen — enable after walking skeleton is GREEN")
-
         // Given: one pending contract in review queue
         let pending = PendingContract(
             id: UUID(),
@@ -110,8 +104,6 @@ final class ContractListViewModelTests: XCTestCase {
 
     /// Fixture repository (HUK PHV + AXA PHV + Depot) loads all 3 contracts.
     func testFixturePortfolioLaedtDreiVertraege() async throws {
-        throw XCTSkip("Fixture-Portfolio — enable after walking skeleton is GREEN")
-
         // Given: standard fixture portfolio
         let fixtureRepo = MockContractRepository(contracts: MockContractRepository.fixtureContracts())
         let sut = ContractListViewModel(contractRepository: fixtureRepo)
@@ -128,8 +120,6 @@ final class ContractListViewModelTests: XCTestCase {
 
     /// Repository failure → error state is surfaced, contracts remain empty.
     func testRepositoryFehlerZeigtFehlerstatus() async throws {
-        throw XCTSkip("Fehlerstatus Vertragsliste — enable after walking skeleton is GREEN")
-
         // Given: repository that always throws
         mockRepo.listError = MockRepositoryError.connectionUnavailable
         let sut = ContractListViewModel(contractRepository: mockRepo)

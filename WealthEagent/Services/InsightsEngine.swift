@@ -31,6 +31,7 @@ enum InsightsEngine {
     ///   - catalog: The 22-category catalog (from BundleCatalogProvider or MockCatalogProvider).
     /// - Returns: FinInsights with all Beobachtungen and the CoverageScore.
     static func insights(contracts: [Contract], catalog: Catalog) -> FinInsights {
+        guard !contracts.isEmpty else { return FinInsights() }
         let duplicates = detectDuplicates(contracts: contracts, catalog: catalog)
         let gaps = detectGaps(contracts: contracts, catalog: catalog)
         let comparisons = detectComparisons(contracts: contracts)

@@ -9,7 +9,7 @@ import Foundation
 /// Driving port: the single point of access for storing and retrieving user contracts.
 /// Implemented by LocalContractRepository (SwiftData) in production.
 /// Implemented by MockContractRepository in tests.
-protocol ContractRepository {
+protocol ContractRepository: Sendable {
     /// Returns all confirmed contracts in the portfolio.
     func list() async throws -> [Contract]
 

@@ -73,8 +73,6 @@ final class ObservationsViewModelTests: XCTestCase {
 
     /// User with no Berufsunfähigkeit contract sees a Lücken-Beobachtung for BU.
     func testUserWithNoBerufsunfaehigkeitSeesLueckeBeobachtung() async throws {
-        throw XCTSkip("Lücken-Beobachtung — enable after walking skeleton is GREEN")
-
         // Given: fixture portfolio (HUK PHV + AXA PHV + Depot — no BU)
         let sut = ObservationsViewModel(contractRepository: mockRepo, catalogProvider: mockCatalog)
 
@@ -92,8 +90,6 @@ final class ObservationsViewModelTests: XCTestCase {
 
     /// User with an empty portfolio sees no Beobachtungen.
     func testEmptyPortfolioProducesNoBeobachtungen() async throws {
-        throw XCTSkip("Leeres Portfolio — enable after walking skeleton is GREEN")
-
         // Given: user has no confirmed contracts
         let emptyRepo = MockContractRepository(contracts: [])
         let sut = ObservationsViewModel(contractRepository: emptyRepo, catalogProvider: mockCatalog)
@@ -110,8 +106,6 @@ final class ObservationsViewModelTests: XCTestCase {
 
     /// When repository is unavailable, ViewModel surfaces the error and keeps insights empty.
     func testRepositoryUnavailableShowsFehlerstatus() async throws {
-        throw XCTSkip("Fehlerstatus — enable after walking skeleton is GREEN")
-
         // Given: repository that always throws
         let failingRepo = MockContractRepository(contracts: [])
         failingRepo.listError = MockRepositoryError.connectionUnavailable
@@ -130,8 +124,6 @@ final class ObservationsViewModelTests: XCTestCase {
 
     /// isLoading is false before and after loadInsights() completes.
     func testLadeindikatorIsFalseBeforeAndAfterLoad() async throws {
-        throw XCTSkip("Ladeindikator — enable after walking skeleton is GREEN")
-
         // Given: standard repository
         let sut = ObservationsViewModel(contractRepository: mockRepo, catalogProvider: mockCatalog)
 
@@ -149,8 +141,6 @@ final class ObservationsViewModelTests: XCTestCase {
 
     /// After sign-out, all Beobachtungen are cleared from the ViewModel.
     func testAbmeldenBereingtAlleBeobachtungen() async throws {
-        throw XCTSkip("Abmelden — enable after walking skeleton is GREEN")
-
         // Given: ViewModel with loaded Beobachtungen
         let sut = ObservationsViewModel(contractRepository: mockRepo, catalogProvider: mockCatalog)
         await sut.loadInsights()

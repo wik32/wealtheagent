@@ -193,12 +193,10 @@ struct InsightsEngineCoverageScoreTests {
     /// @contract-shape:pure-function
     @Test("Leeres Portfolio hat Abdeckungsgrad 0 und keine Beobachtungen")
     func emptyPortfolioScoreZeroNoInsights() throws {
-        withKnownIssue("InsightsEngine not yet implemented — RED scaffold") {
-            let insights = InsightsEngine.insights(contracts: [], catalog: mockCatalog)
+        let insights = InsightsEngine.insights(contracts: [], catalog: mockCatalog)
 
-            #expect(insights.coverageScore == 0)
-            #expect(insights.beobachtungen.isEmpty)
-        }
+        #expect(insights.coverageScore == 0)
+        #expect(insights.beobachtungen.isEmpty)
     }
 
     /// N covered / total level-1 → correct integer score 0–100.

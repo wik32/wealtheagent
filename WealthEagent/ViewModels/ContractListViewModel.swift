@@ -1,6 +1,5 @@
 // ContractListViewModel.swift
 // ViewModels — @Observable. Imports Ports + Domain only. No framework imports.
-// SCAFFOLD: true
 //
 // @contract-shape:bounded-change — state update bounded to: contracts, pendingContracts, isLoading, error.
 //
@@ -38,27 +37,51 @@ final class ContractListViewModel {
         self.contractRepository = contractRepository
     }
 
-    // MARK: - SCAFFOLD: fatalError placeholder
-    // DELIVER wave: replace fatalError with real implementation.
+    // MARK: - Commands
 
     /// Loads confirmed contracts and pending contracts from the repository.
     func load() async {
-        fatalError("Not yet implemented — RED scaffold. DELIVER wave replaces this.")
+        isLoading = true
+        error = nil
+        do {
+            contracts = try await contractRepository.list()
+            pendingContracts = try await contractRepository.listPending()
+        } catch {
+            self.error = error
+            contracts = []
+            pendingContracts = []
+        }
+        isLoading = false
     }
 
     /// Saves a new confirmed contract and reloads the portfolio.
     func add(contract: Contract) async {
-        fatalError("Not yet implemented — RED scaffold. DELIVER wave replaces this.")
+        do {
+            try await contractRepository.save(contract)
+            await load()
+        } catch {
+            self.error = error
+        }
     }
 
     /// Promotes a pending contract to confirmed and removes it from the review queue.
     /// Applies optional field corrections the user made during review.
     func confirm(pending: PendingContract, corrected: ContractFields? = nil) async {
-        fatalError("Not yet implemented — RED scaffold. DELIVER wave replaces this.")
+        do {
+            _ = try await contractRepository.confirm(pending, corrected: corrected)
+            await load()
+        } catch {
+            self.error = error
+        }
     }
 
     /// Discards a pending contract (user rejected the OCR result).
     func discard(pending: PendingContract) async {
-        fatalError("Not yet implemented — RED scaffold. DELIVER wave replaces this.")
+        do {
+            try await contractRepository.discard(id: pending.id)
+            await load()
+        } catch {
+            self.error = error
+        }
     }
 }

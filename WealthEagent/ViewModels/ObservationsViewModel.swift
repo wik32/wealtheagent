@@ -1,6 +1,5 @@
 // ObservationsViewModel.swift
 // ViewModels — @Observable. Imports Ports + Domain only. No framework imports.
-// SCAFFOLD: true
 
 import Foundation
 import Observation
@@ -38,16 +37,26 @@ final class ObservationsViewModel {
         self.catalogProvider = catalogProvider
     }
 
-    // MARK: - SCAFFOLD: fatalError placeholder
-    // DELIVER wave: replace fatalError with real implementation.
+    // MARK: - Commands
 
     /// Loads confirmed contracts from the repository and computes Beobachtungen.
     func loadInsights() async {
-        fatalError("Not yet implemented — RED scaffold. DELIVER wave replaces this.")
+        isLoading = true
+        error = nil
+        do {
+            let contracts = try await contractRepository.list()
+            let catalog = catalogProvider.catalog()
+            insights = InsightsEngine.insights(contracts: contracts, catalog: catalog)
+        } catch {
+            self.error = error
+            insights = FinInsights()
+        }
+        isLoading = false
     }
 
     /// Clears all Beobachtungen and error state (called on sign-out).
     func signOut() {
-        fatalError("Not yet implemented — RED scaffold. DELIVER wave replaces this.")
+        insights = FinInsights()
+        error = nil
     }
 }
