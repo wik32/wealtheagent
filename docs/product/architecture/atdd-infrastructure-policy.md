@@ -23,8 +23,9 @@ Per `nw-distill` Project Infrastructure Policy. One file per project. Apply-if-e
 
 | Port | Mechanism | Note |
 |---|---|---|
-| `CloudKitContractRepository` | Requires real iCloud account + CloudKit container | Not included in unit test suite. Covered by `probe()` contract + manual integration test on device. Add Xcode UI test target when CI includes a real device. |
-| `BundleCatalogProvider` | Real bundle read from `catalog.json` | DELIVER: add one integration test in `FinanzAppTests` that instantiates `BundleCatalogProvider` and calls `.catalog()`. Verifies JSON decodes to 22 categories. |
+| `LocalContractRepository` (SwiftData) | In-process SwiftData `ModelContainer(isStoredInMemoryOnly: true)` in tests | **Active adapter for Stage 1** — CloudKit entitlement removed (free Apple account limitation). SwiftData in-memory store gives fast, isolated tests. No network, no iCloud account required. |
+| `CloudKitContractRepository` | Requires real iCloud account + CloudKit container | **Deferred** — re-enable with paid Apple account. Not included in unit test suite. Covered by `probe()` contract + manual integration test on device. |
+| `BundleCatalogProvider` | Real bundle read from `catalog.json` | DELIVER: add one integration test in `WealthEagentTests` that instantiates `BundleCatalogProvider` and calls `.catalog()`. Verifies JSON decodes to 22 categories. |
 
 ---
 

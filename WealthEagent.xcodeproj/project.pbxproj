@@ -29,7 +29,7 @@
 		7D28DE6CAC728C3AF9CFECF5 /* WealthEagent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WealthEagent.entitlements; sourceTree = "<group>"; };
 		BCA09DD53DA5B76D2F9638FB /* WealthEagentApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WealthEagentApp.swift; sourceTree = "<group>"; };
 		F5558D4CA853C7F641A9A45A /* WealthEagentTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = WealthEagentTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		F6BA756955178691E99F1F10 /* WealthEagent.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = WealthEagent.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F6BA756955178691E99F1F10 /* WealthEagent.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WealthEagent.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -127,7 +127,6 @@
 				LastUpgradeCheck = 1600;
 				TargetAttributes = {
 					5CD0D81BF7DCD440288FA40A = {
-						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -226,7 +225,7 @@
 				CODE_SIGN_ENTITLEMENTS = WealthEagent/WealthEagent.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = QTS752542Z;
 				INFOPLIST_FILE = WealthEagent/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -246,7 +245,7 @@
 				CODE_SIGN_ENTITLEMENTS = WealthEagent/WealthEagent.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = QTS752542Z;
 				INFOPLIST_FILE = WealthEagent/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
