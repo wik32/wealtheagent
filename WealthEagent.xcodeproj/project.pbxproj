@@ -10,6 +10,20 @@
 		946EC19FB095A9EC83E1C22A /* WealthEagentApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA09DD53DA5B76D2F9638FB /* WealthEagentApp.swift */; };
 		97948E64FE94B212B0C728DA /* WealthEagentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A7D700AC32D44FD17515E7 /* WealthEagentTests.swift */; };
 		990CB43C091AC80A983FF5B5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4485079719C38983628CD6 /* ContentView.swift */; };
+		264260CE5672463FAFCF805F /* BundleCatalogProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC3632A3A1A44B09C29B6A9 /* BundleCatalogProvider.swift */; };
+		FABC5D1BBD044219BE3E8B92 /* LocalContractRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B992CF4D6624B5C964F5D4C /* LocalContractRepository.swift */; };
+		1AB8218E96524C6E836B0B74 /* Catalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC2A347C80A42EA93FC0069 /* Catalog.swift */; };
+		A8C3BFC15F19444CAFE96419 /* Contract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462CEF71C6664EEDA7B28229 /* Contract.swift */; };
+		061949139C534362A1189710 /* ContractCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9128EB145964DE288683DE8 /* ContractCategory.swift */; };
+		D0B5D3BA01FD4AB0840F3227 /* FinInsights.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9730B3D88A143C18D055E4A /* FinInsights.swift */; };
+		AD28530A71C24CD5A0083CD3 /* CatalogProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6C0026602F04EF0A85F3F0C /* CatalogProvider.swift */; };
+		587F2C34DD314D9F9E91E605 /* ContractRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A62DCE1DAC55424AACA6B440 /* ContractRepository.swift */; };
+		699C815A53D14C95BD9C6B63 /* InsightsEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93400131D00A48669B027431 /* InsightsEngine.swift */; };
+		3371A221EDA54C39A34A4E64 /* ObservationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916C668FD32949FCBE0891D1 /* ObservationsViewModel.swift */; };
+		EB4BA93A888B465994CA324B /* InsightsEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B41AD6DDB8407D981DD714 /* InsightsEngineTests.swift */; };
+		91CE1CCDFEAB4996826BD3D2 /* MockCatalogProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CA26DE7436C4096B8578885 /* MockCatalogProvider.swift */; };
+		2A8C49535AB34B828D74EE1C /* MockContractRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E11B5D1F1724FBDA5CD8A0E /* MockContractRepository.swift */; };
+		F30629D48E49429A986C3D18 /* ObservationsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C473F06B02724E1FBE76C212 /* ObservationsViewModelTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,6 +44,20 @@
 		BCA09DD53DA5B76D2F9638FB /* WealthEagentApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WealthEagentApp.swift; sourceTree = "<group>"; };
 		F5558D4CA853C7F641A9A45A /* WealthEagentTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = WealthEagentTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6BA756955178691E99F1F10 /* WealthEagent.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WealthEagent.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2CC3632A3A1A44B09C29B6A9 /* BundleCatalogProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundleCatalogProvider.swift; sourceTree = "<group>"; };
+		0B992CF4D6624B5C964F5D4C /* LocalContractRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalContractRepository.swift; sourceTree = "<group>"; };
+		FFC2A347C80A42EA93FC0069 /* Catalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Catalog.swift; sourceTree = "<group>"; };
+		462CEF71C6664EEDA7B28229 /* Contract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contract.swift; sourceTree = "<group>"; };
+		C9128EB145964DE288683DE8 /* ContractCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractCategory.swift; sourceTree = "<group>"; };
+		E9730B3D88A143C18D055E4A /* FinInsights.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinInsights.swift; sourceTree = "<group>"; };
+		E6C0026602F04EF0A85F3F0C /* CatalogProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogProvider.swift; sourceTree = "<group>"; };
+		A62DCE1DAC55424AACA6B440 /* ContractRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractRepository.swift; sourceTree = "<group>"; };
+		93400131D00A48669B027431 /* InsightsEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightsEngine.swift; sourceTree = "<group>"; };
+		916C668FD32949FCBE0891D1 /* ObservationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationsViewModel.swift; sourceTree = "<group>"; };
+		51B41AD6DDB8407D981DD714 /* InsightsEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightsEngineTests.swift; sourceTree = "<group>"; };
+		3CA26DE7436C4096B8578885 /* MockCatalogProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCatalogProvider.swift; sourceTree = "<group>"; };
+		4E11B5D1F1724FBDA5CD8A0E /* MockContractRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockContractRepository.swift; sourceTree = "<group>"; };
+		C473F06B02724E1FBE76C212 /* ObservationsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationsViewModelTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -44,6 +72,9 @@
 		64EA4919547DC381F94DE6F7 /* WealthEagentTests */ = {
 			isa = PBXGroup;
 			children = (
+				7BA0C95B02BA40B0886DCA03 /* Domain */,
+				44FBD8D04DEE498F9518A35F /* Mocks */,
+				F94F9E0678C14B6FB80E3EEF /* ViewModels */,
 				45A7D700AC32D44FD17515E7 /* WealthEagentTests.swift */,
 			);
 			path = WealthEagentTests;
@@ -61,6 +92,11 @@
 		B33170139BEF0C88D85C3029 /* WealthEagent */ = {
 			isa = PBXGroup;
 			children = (
+				24DB7FE378B74BAE84597667 /* Adapters */,
+				D8562628FF534BC19F15AB11 /* Domain */,
+				6A464A2D8C7C490DBB0D1BA2 /* Ports */,
+				23D7760717564D7D8C0BB86C /* Services */,
+				2902F8C3683C4934BBE246B8 /* ViewModels */,
 				596FA21DE8587D8A64061357 /* Info.plist */,
 				7D28DE6CAC728C3AF9CFECF5 /* WealthEagent.entitlements */,
 				BCA09DD53DA5B76D2F9638FB /* WealthEagentApp.swift */,
@@ -76,6 +112,76 @@
 				64EA4919547DC381F94DE6F7 /* WealthEagentTests */,
 				A9E63166D6A9A6F281D60F09 /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		24DB7FE378B74BAE84597667 /* Adapters */ = {
+			isa = PBXGroup;
+			children = (
+				2CC3632A3A1A44B09C29B6A9 /* BundleCatalogProvider.swift */,
+				0B992CF4D6624B5C964F5D4C /* LocalContractRepository.swift */,
+			);
+			path = Adapters;
+			sourceTree = "<group>";
+		};
+		D8562628FF534BC19F15AB11 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				FFC2A347C80A42EA93FC0069 /* Catalog.swift */,
+				462CEF71C6664EEDA7B28229 /* Contract.swift */,
+				C9128EB145964DE288683DE8 /* ContractCategory.swift */,
+				E9730B3D88A143C18D055E4A /* FinInsights.swift */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		6A464A2D8C7C490DBB0D1BA2 /* Ports */ = {
+			isa = PBXGroup;
+			children = (
+				E6C0026602F04EF0A85F3F0C /* CatalogProvider.swift */,
+				A62DCE1DAC55424AACA6B440 /* ContractRepository.swift */,
+			);
+			path = Ports;
+			sourceTree = "<group>";
+		};
+		23D7760717564D7D8C0BB86C /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				93400131D00A48669B027431 /* InsightsEngine.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		2902F8C3683C4934BBE246B8 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				916C668FD32949FCBE0891D1 /* ObservationsViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		7BA0C95B02BA40B0886DCA03 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+					51B41AD6DDB8407D981DD714 /* InsightsEngineTests.swift */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		44FBD8D04DEE498F9518A35F /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				3CA26DE7436C4096B8578885 /* MockCatalogProvider.swift */,
+				4E11B5D1F1724FBDA5CD8A0E /* MockContractRepository.swift */,
+			);
+			path = Mocks;
+			sourceTree = "<group>";
+		};
+		F94F9E0678C14B6FB80E3EEF /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				C473F06B02724E1FBE76C212 /* ObservationsViewModelTests.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -177,6 +283,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				264260CE5672463FAFCF805F /* BundleCatalogProvider.swift in Sources */,
+				FABC5D1BBD044219BE3E8B92 /* LocalContractRepository.swift in Sources */,
+				1AB8218E96524C6E836B0B74 /* Catalog.swift in Sources */,
+				A8C3BFC15F19444CAFE96419 /* Contract.swift in Sources */,
+				061949139C534362A1189710 /* ContractCategory.swift in Sources */,
+				D0B5D3BA01FD4AB0840F3227 /* FinInsights.swift in Sources */,
+				AD28530A71C24CD5A0083CD3 /* CatalogProvider.swift in Sources */,
+				587F2C34DD314D9F9E91E605 /* ContractRepository.swift in Sources */,
+				699C815A53D14C95BD9C6B63 /* InsightsEngine.swift in Sources */,
+				3371A221EDA54C39A34A4E64 /* ObservationsViewModel.swift in Sources */,
 				990CB43C091AC80A983FF5B5 /* ContentView.swift in Sources */,
 				946EC19FB095A9EC83E1C22A /* WealthEagentApp.swift in Sources */,
 			);
@@ -186,6 +302,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+					EB4BA93A888B465994CA324B /* InsightsEngineTests.swift in Sources */,
+				91CE1CCDFEAB4996826BD3D2 /* MockCatalogProvider.swift in Sources */,
+				2A8C49535AB34B828D74EE1C /* MockContractRepository.swift in Sources */,
+				F30629D48E49429A986C3D18 /* ObservationsViewModelTests.swift in Sources */,
 				97948E64FE94B212B0C728DA /* WealthEagentTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -205,6 +325,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -385,6 +506,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

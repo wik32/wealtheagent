@@ -10,6 +10,7 @@
 //
 // NON-NEGOTIABLE: zero "Empfehlung/empfehlen" in test names or assertion strings.
 
+import Foundation
 import Testing
 @testable import WealthEagent
 
