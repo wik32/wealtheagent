@@ -30,6 +30,7 @@ struct AddContractView: View {
                 vertragsartSection
                 anbieterSection
                 beitragSection
+                laufzeitSection
                 if !viewModel.availableCriteria.isEmpty {
                     kriterienSection
                 }
@@ -91,6 +92,24 @@ struct AddContractView: View {
                 Text("Halbjährlich").tag("halbjaehrlich")
                 Text("Jährlich").tag("jaehrlich")
                 Text("Einmalig").tag("einmalig")
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var laufzeitSection: some View {
+        Section("Laufzeit") {
+            Toggle("Startdatum", isOn: $viewModel.hasStartDate)
+            if viewModel.hasStartDate {
+                DatePicker("", selection: $viewModel.startDate, displayedComponents: .date)
+                    .datePickerStyle(.compact)
+                    .labelsHidden()
+            }
+            Toggle("Vertragsende", isOn: $viewModel.hasEndDate)
+            if viewModel.hasEndDate {
+                DatePicker("", selection: $viewModel.endDate, in: viewModel.startDate..., displayedComponents: .date)
+                    .datePickerStyle(.compact)
+                    .labelsHidden()
             }
         }
     }

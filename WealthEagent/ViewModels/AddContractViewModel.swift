@@ -31,6 +31,13 @@ final class AddContractViewModel {
     var premiumInterval: String = "monatlich"
     var contractNumber: String = ""
 
+    // MARK: - Laufzeit
+
+    var hasStartDate: Bool = false
+    var startDate: Date = Date()
+    var hasEndDate: Bool = false
+    var endDate: Date = Date()
+
     /// Criterion key → user-checked (true = contract covers this criterion).
     var criteriaChecked: [String: Bool] = [:]
 
@@ -56,9 +63,10 @@ final class AddContractViewModel {
 
     // MARK: - Init
 
-    init(contractRepository: ContractRepository, catalog: Catalog) {
+    init(contractRepository: ContractRepository, catalog: Catalog, preselectedCategoryKey: String = "") {
         self.contractRepository = contractRepository
         self.catalog = catalog
+        self.selectedCategoryKey = preselectedCategoryKey
     }
 
     // MARK: - Commands
@@ -77,6 +85,8 @@ final class AddContractViewModel {
             categoryKey: selectedCategoryKey,
             provider: trimmedProvider,
             contractNumber: contractNumber.isEmpty ? nil : contractNumber,
+            startDate: hasStartDate ? startDate : nil,
+            endDate: hasEndDate ? endDate : nil,
             premiumAmount: amount,
             premiumInterval: premiumInterval.isEmpty ? nil : premiumInterval,
             criteria: criteriaChecked

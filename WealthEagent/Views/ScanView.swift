@@ -1,11 +1,10 @@
 // ScanView.swift
-// Views — SwiftUI. Document scan flow using PhotosPicker (on-device, no cloud).
+// Views — Document scan: live camera OR photo library → Apple Vision OCR.
 //
 // Stage-1 vocabulary constraint (CLAUDE.md):
 //   - "Dokument scannen" — sheet title
-//   - "Dokument auswählen" — picker label
-//   - "Dokument wird analysiert" — scanning state
-//   - "Entwurf gespeichert" — success state
+//   - "Foto aufnehmen" — camera button
+//   - "Aus Bibliothek wählen" — library button
 //   - "Empfehlung" / "empfehlen" BANNED
 
 import SwiftUI
@@ -13,16 +12,13 @@ import PhotosUI
 
 // MARK: - ScanView
 
-/// Modal sheet for scanning a document photo with Apple Vision (on-device OCR).
-/// After a successful scan, dismisses to allow the caller to show PendingContractReviewView.
 struct ScanView: View {
 
     @Bindable var viewModel: ScanViewModel
     var onDismiss: () -> Void
 
     @State private var selectedItem: PhotosPickerItem?
-
-    // MARK: - Body
+    @State private var showCamera = false
 
     var body: some View {
         NavigationStack {
@@ -41,6 +37,11 @@ struct ScanView: View {
             }
             .onChange(of: selectedItem) { _, newItem in
                 Task { await loadAndScan(item: newItem) }
+            }
+            .fullScreenCover(isPresented: $showCamera) {
+                CameraPickerView { data in
+                    Task { await viewModel.scan(imageData: data) }
+                }
             }
         }
     }
@@ -65,19 +66,31 @@ struct ScanView: View {
                 .font(.system(size: 64))
                 .foregroundStyle(.secondary)
 
-            Text("Versicherungspolice oder Kontoauszug fotografieren")
+            Text("Versicherungspolice oder Kontoauszug aufnehmen")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
 
-            PhotosPicker(
-                selection: $selectedItem,
-                matching: .images
-            ) {
-                Label("Dokument auswählen", systemImage: "photo.badge.plus")
-                    .frame(maxWidth: .infinity)
+            VStack(spacing: 12) {
+                if CameraPickerView.isAvailable {
+                    Button {
+                        showCamera = true
+                    } label: {
+                        Label("Foto aufnehmen", systemImage: "camera.fill")
+                            .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.borderedProminent)
+                }
+
+                PhotosPicker(
+                    selection: $selectedItem,
+                    matching: .images
+                ) {
+                    Label("Aus Bibliothek wählen", systemImage: "photo.on.rectangle")
+                        .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(BorderedButtonStyle())
             }
-            .buttonStyle(.borderedProminent)
 
             if let error = viewModel.error {
                 Text(error.localizedDescription)

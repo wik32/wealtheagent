@@ -1,25 +1,22 @@
 // ObservationsView.swift
 // Views — SwiftUI. Reads from ObservationsViewModel (@Observable). No business logic.
 //
-// Stage-1 vocabulary constraint (ubiquitous-language.md + CLAUDE.md):
-//   - "Beobachtungen" — headline and list title (NOT "Empfehlungen")
-//   - "Dopplung" / "Lücke" / "Vergleich" — kind badge labels
-//   - "Keine Beobachtungen — füge Verträge hinzu" — empty state
-//   - Tapping a "Dopplung" row opens CompareView (factual comparison, NO Empfehlung)
-//   - "Empfehlung" / "empfehlen" are BANNED from all View text
+// Stage-1 vocabulary constraint (CLAUDE.md):
+//   - "Beobachtungen" — headline (NOT "Empfehlungen")
+//   - "Dopplung" → Tap → CompareView
+//   - "Lücke" → Tap → AddContractView (Kategorie vorausgewählt)
+//   - "Empfehlung" / "empfehlen" BANNED
 
 import SwiftUI
 
 // MARK: - ObservationsView
 
-/// Beobachtungen tab — lists factual observations derived from the contract portfolio.
-/// Duplicate insights are tappable and open a side-by-side CompareView.
 struct ObservationsView: View {
 
     @State var viewModel: ObservationsViewModel
     @State private var comparingInsight: Insight?
-
-    // MARK: - Body
+    @State private var showAddForMissing = false
+    @State private var missingCategoryKey = ""
 
     var body: some View {
         NavigationStack {
@@ -36,6 +33,18 @@ struct ObservationsView: View {
             .sheet(item: $comparingInsight) { insight in
                 compareSheet(for: insight)
             }
+            .sheet(isPresented: $showAddForMissing, onDismiss: {
+                Task { await viewModel.loadInsights() }
+            }) {
+                AddContractView(
+                    viewModel: AddContractViewModel(
+                        contractRepository: viewModel.contractRepository,
+                        catalog: viewModel.catalog,
+                        preselectedCategoryKey: missingCategoryKey
+                    ),
+                    onDismiss: { showAddForMissing = false }
+                )
+            }
         }
         .task { await viewModel.loadInsights() }
     }
@@ -45,14 +54,25 @@ struct ObservationsView: View {
     @ViewBuilder
     private var insightsList: some View {
         List(viewModel.insights.beobachtungen) { insight in
-            if insight.kind == .duplicate {
+            switch insight.kind {
+            case .duplicate:
                 Button {
                     comparingInsight = insight
                 } label: {
                     BeobachtungRow(insight: insight, isInteractive: true)
                 }
                 .buttonStyle(.plain)
-            } else {
+
+            case .missing:
+                Button {
+                    missingCategoryKey = insight.categoryKey
+                    showAddForMissing = true
+                } label: {
+                    BeobachtungRow(insight: insight, isInteractive: true)
+                }
+                .buttonStyle(.plain)
+
+            case .comparison:
                 BeobachtungRow(insight: insight, isInteractive: false)
             }
         }
@@ -99,29 +119,24 @@ struct ObservationsView: View {
 
 // MARK: - BeobachtungRow
 
-/// Single row in the Beobachtungen list.
-/// Shows: kind badge (Dopplung/Lücke/Vergleich) + title + detail.
-/// Interactive duplicate rows show a chevron to signal tappability.
 struct BeobachtungRow: View {
 
     let insight: Insight
     let isInteractive: Bool
 
-    // MARK: - Kind badge label mapping (domain language — no technical terms)
-
     private var kindLabel: String {
         switch insight.kind {
-        case .duplicate:   return "Dopplung"
-        case .missing:     return "Lücke"
-        case .comparison:  return "Vergleich"
+        case .duplicate:  return "Dopplung"
+        case .missing:    return "Lücke"
+        case .comparison: return "Vergleich"
         }
     }
 
     private var kindColor: Color {
         switch insight.kind {
-        case .duplicate:   return .orange
-        case .missing:     return .gray
-        case .comparison:  return .blue
+        case .duplicate:  return .orange
+        case .missing:    return .gray
+        case .comparison: return .blue
         }
     }
 

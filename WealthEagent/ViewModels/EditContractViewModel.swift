@@ -30,6 +30,10 @@ final class EditContractViewModel {
     var premiumAmountText: String
     var premiumInterval: String
     var contractNumber: String
+    var hasStartDate: Bool
+    var startDate: Date
+    var hasEndDate: Bool
+    var endDate: Date
     var criteriaChecked: [String: Bool]
 
     // MARK: - Catalog + identity
@@ -60,6 +64,10 @@ final class EditContractViewModel {
         self.provider = contract.provider
         self.contractNumber = contract.contractNumber ?? ""
         self.premiumInterval = contract.premiumInterval ?? "monatlich"
+        self.hasStartDate = contract.startDate != nil
+        self.startDate = contract.startDate ?? Date()
+        self.hasEndDate = contract.endDate != nil
+        self.endDate = contract.endDate ?? Date()
         self.criteriaChecked = contract.criteria
         self.catalog = catalog
         self.contractRepository = contractRepository
@@ -89,6 +97,8 @@ final class EditContractViewModel {
             categoryKey: selectedCategoryKey,
             provider: trimmedProvider,
             contractNumber: contractNumber.isEmpty ? nil : contractNumber,
+            startDate: hasStartDate ? startDate : nil,
+            endDate: hasEndDate ? endDate : nil,
             premiumAmount: amount,
             premiumInterval: premiumInterval.isEmpty ? nil : premiumInterval,
             criteria: criteriaChecked

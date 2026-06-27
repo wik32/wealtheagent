@@ -29,7 +29,7 @@ final class ObservationsViewModel {
 
     // MARK: - Dependencies (protocol-typed, injectable for tests)
 
-    private let contractRepository: ContractRepository
+    let contractRepository: ContractRepository
     private let catalogProvider: CatalogProvider
 
     // MARK: - Init
