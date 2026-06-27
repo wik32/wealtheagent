@@ -10,6 +10,8 @@
 //   - premiumAmountText: String
 //   - premiumInterval: String
 //   - contractNumber: String
+//   - criteriaChecked: [String: Bool]
+//   - availableCriteria: [ContractCriterion] (computed)
 //   - canSave: Bool (computed)
 
 import Foundation
@@ -21,17 +23,27 @@ final class AddContractViewModel {
 
     // MARK: - Form state
 
-    var selectedCategoryKey: String = ""
+    var selectedCategoryKey: String = "" {
+        didSet { if oldValue != selectedCategoryKey { resetCriteria() } }
+    }
     var provider: String = ""
     var premiumAmountText: String = ""
     var premiumInterval: String = "monatlich"
     var contractNumber: String = ""
 
-    // MARK: - Catalog (for category picker)
+    /// Criterion key → user-checked (true = contract covers this criterion).
+    var criteriaChecked: [String: Bool] = [:]
+
+    // MARK: - Catalog (for pickers)
 
     let catalog: Catalog
 
-    // MARK: - Validation
+    // MARK: - Computed
+
+    /// Criteria available for the currently selected category.
+    var availableCriteria: [ContractCriterion] {
+        catalog.criteriaFor(selectedCategoryKey)
+    }
 
     var canSave: Bool {
         !provider.trimmingCharacters(in: .whitespaces).isEmpty &&
@@ -52,7 +64,6 @@ final class AddContractViewModel {
     // MARK: - Commands
 
     /// Builds a Contract from form state and persists it via the repository.
-    /// Silently returns if canSave precondition is unmet (defensive guard for disabled button race).
     func save() async throws {
         let trimmedProvider = provider.trimmingCharacters(in: .whitespaces)
         guard !trimmedProvider.isEmpty, !selectedCategoryKey.isEmpty else { return }
@@ -67,8 +78,15 @@ final class AddContractViewModel {
             provider: trimmedProvider,
             contractNumber: contractNumber.isEmpty ? nil : contractNumber,
             premiumAmount: amount,
-            premiumInterval: premiumInterval.isEmpty ? nil : premiumInterval
+            premiumInterval: premiumInterval.isEmpty ? nil : premiumInterval,
+            criteria: criteriaChecked
         )
         try await contractRepository.save(contract)
+    }
+
+    // MARK: - Private
+
+    private func resetCriteria() {
+        criteriaChecked = [:]
     }
 }

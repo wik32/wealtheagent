@@ -132,4 +132,52 @@ final class AddContractViewModelTests: XCTestCase {
         XCTAssertEqual(saved.first?.provider, "TK",
                        "Leerzeichen am Anfang/Ende des Anbieters müssen entfernt werden")
     }
+
+    // MARK: — Leistungskriterien
+
+    /// Selecting a category loads its criteria into availableCriteria.
+    func testKategorieWahlLaedtLeistungskriterien() {
+        let sut = AddContractViewModel(contractRepository: repo, catalog: catalog)
+        sut.selectedCategoryKey = "privathaftpflicht"
+        XCTAssertEqual(sut.availableCriteria.count, 10,
+                       "Privathaftpflicht hat 10 Leistungskriterien zur Erfassung")
+    }
+
+    /// No criteria available before a category is selected.
+    func testKeinKriteriumenOhneKategorieWahl() {
+        let sut = AddContractViewModel(contractRepository: repo, catalog: catalog)
+        XCTAssertTrue(sut.availableCriteria.isEmpty,
+                      "Ohne Kategorie sind keine Kriterien verfügbar")
+    }
+
+    /// Criteria reset when category changes.
+    func testKriterienWerdenBeiKategoriewechselZurueckgesetzt() {
+        let sut = AddContractViewModel(contractRepository: repo, catalog: catalog)
+        sut.selectedCategoryKey = "privathaftpflicht"
+        sut.criteriaChecked["gross_negligence_waiver"] = true
+
+        sut.selectedCategoryKey = "hausrat"
+
+        XCTAssertTrue(sut.criteriaChecked.isEmpty,
+                      "Kriterien müssen bei Kategorienwechsel zurückgesetzt werden")
+    }
+
+    /// save() persists criteria in the saved Contract.
+    func testSpeichernPersistiertKriterien() async throws {
+        let sut = AddContractViewModel(contractRepository: repo, catalog: catalog)
+        sut.selectedCategoryKey = "privathaftpflicht"
+        sut.provider = "HUK-COBURG"
+        sut.criteriaChecked["gross_negligence_waiver"] = true
+        sut.criteriaChecked["lost_key_cover"] = true
+        sut.criteriaChecked["overseas_cover"] = false
+
+        try await sut.save()
+
+        let saved = try await repo.list()
+        XCTAssertEqual(saved.first?.criteria["gross_negligence_waiver"], true,
+                       "Erfüllte Kriterien müssen im Vertrag gespeichert werden")
+        XCTAssertEqual(saved.first?.criteria["lost_key_cover"], true)
+        XCTAssertEqual(saved.first?.criteria["overseas_cover"], false,
+                       "Nicht-erfüllte Kriterien müssen als false gespeichert werden")
+    }
 }

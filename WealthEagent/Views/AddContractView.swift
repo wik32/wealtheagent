@@ -7,6 +7,7 @@
 //   - "Anbieter" — provider field label
 //   - "Beitrag" — premium section label
 //   - "Zahlungsrhythmus" — interval picker label
+//   - "Leistungskriterien" — criteria section label
 //   - "Speichern" / "Abbrechen" — action buttons
 //   - "Empfehlung" / "empfehlen" are BANNED from all View text
 
@@ -15,8 +16,7 @@ import SwiftUI
 // MARK: - AddContractView
 
 /// Modal form for manually entering a new financial contract.
-/// Presented as a sheet from ContractListView when the user taps "+".
-/// Receives an AddContractViewModel via dependency injection (Pillar 3).
+/// Shows Leistungskriterien checkboxes when a category is selected.
 struct AddContractView: View {
 
     @Bindable var viewModel: AddContractViewModel
@@ -30,6 +30,9 @@ struct AddContractView: View {
                 vertragsartSection
                 anbieterSection
                 beitragSection
+                if !viewModel.availableCriteria.isEmpty {
+                    kriterienSection
+                }
                 optionalSection
             }
             .navigationTitle("Vertrag erfassen")
@@ -89,6 +92,26 @@ struct AddContractView: View {
                 Text("Jährlich").tag("jaehrlich")
                 Text("Einmalig").tag("einmalig")
             }
+        }
+    }
+
+    @ViewBuilder
+    private var kriterienSection: some View {
+        Section {
+            ForEach(viewModel.availableCriteria) { criterion in
+                Toggle(isOn: Binding(
+                    get: { viewModel.criteriaChecked[criterion.key] ?? false },
+                    set: { viewModel.criteriaChecked[criterion.key] = $0 }
+                )) {
+                    Text(criterion.labelDe)
+                        .font(.body)
+                }
+            }
+        } header: {
+            Text("Leistungskriterien")
+        } footer: {
+            Text("Welche Merkmale bietet dein Vertrag?")
+                .font(.caption)
         }
     }
 
