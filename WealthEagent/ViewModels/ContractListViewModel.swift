@@ -75,6 +75,16 @@ final class ContractListViewModel {
         }
     }
 
+    /// Permanently deletes a confirmed contract.
+    func delete(contract: Contract) async {
+        do {
+            try await contractRepository.delete(id: contract.id)
+            await load()
+        } catch {
+            self.error = error
+        }
+    }
+
     /// Discards a pending contract (user rejected the OCR result).
     func discard(pending: PendingContract) async {
         do {

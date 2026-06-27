@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		03BC1138B57874B6DFBAD987 /* InMemoryContractRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B681B0B6E68CA74814C0F9A2 /* InMemoryContractRepository.swift */; };
 		04CD6D5A2B34EA4325F0214A /* ContractRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA945059A87E8C70DDA320E /* ContractRepository.swift */; };
 		0AD1FE4A57DAC1257E94EBEA /* CompareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBFBB2E59ED83C71B6474024 /* CompareView.swift */; };
+		1264A1697AEF4BDEF701E446 /* EditContractViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF74E4D0C10162E46E3F5DB9 /* EditContractViewModel.swift */; };
 		131305B59DB1A1FA4C0EFD67 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E6CD9C997B132642C5D8FB4 /* DashboardView.swift */; };
 		18410085FD4C4E65B64E315E /* BundleCatalogProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E092F74D768692D8AE0B5AF /* BundleCatalogProvider.swift */; };
 		270938B995C41BD2D7242A73 /* InsightsEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE3384024629E4E973A8990 /* InsightsEngineTests.swift */; };
@@ -35,6 +35,7 @@
 		80418FAF84B26F604671650A /* ObservationsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB569B9B60F756831B510D46 /* ObservationsViewModelTests.swift */; };
 		85F016352F15F1DBD168D756 /* DashboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B72045EFA49D93B44B52E4D /* DashboardViewModel.swift */; };
 		85F657ADE7BB632DB3514515 /* MockContractRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE8015359DBEA1460AC2EB0 /* MockContractRepository.swift */; };
+		8B1DEB89C99189CAA88CC226 /* EditContractView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72E7BC3C872D4C8E8D9A25A /* EditContractView.swift */; };
 		8D77F54EF3CD0275B58C7957 /* LocalContractRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBE5AF723E7A50C147C97CEE /* LocalContractRepository.swift */; };
 		946EC19FB095A9EC83E1C22A /* WealthEagentApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA09DD53DA5B76D2F9638FB /* WealthEagentApp.swift */; };
 		97948E64FE94B212B0C728DA /* WealthEagentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A7D700AC32D44FD17515E7 /* WealthEagentTests.swift */; };
@@ -57,6 +58,7 @@
 		EADFC1C2DCA388510132698C /* Contract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD9287173F8458945A67EE8 /* Contract.swift */; };
 		EF42AA55607C8DB7B591EC1E /* ObservationsViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EF37D9606EC17539B5DE9CB /* ObservationsViewTests.swift */; };
 		EF60EA48FDFA81125349C280 /* MockDocumentScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = A801E464E5844D05952CD829 /* MockDocumentScanner.swift */; };
+		F5F2603AC12E8077E1B89F82 /* EditContractViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20147EA0524858A4CFD09693 /* EditContractViewModelTests.swift */; };
 		FA5F3C6EAE3843083096FAC4 /* ScanViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5BA60A21BAC8B4E987843E /* ScanViewModelTests.swift */; };
 		FB32D945155CFD13269B0D63 /* MockCatalogProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B83BC698F86F43A51BF64AF /* MockCatalogProvider.swift */; };
 		FF2539BBE5A7591E9F55181F /* AddContractViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8F3E123D016F44641A0199 /* AddContractViewModelTests.swift */; };
@@ -80,6 +82,7 @@
 		12337E758B1CB82A34D133DF /* DashboardViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewModelTests.swift; sourceTree = "<group>"; };
 		1D4485079719C38983628CD6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		1E6CD9C997B132642C5D8FB4 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+		20147EA0524858A4CFD09693 /* EditContractViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditContractViewModelTests.swift; sourceTree = "<group>"; };
 		24923F11B52207F59123F109 /* CatalogProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogProvider.swift; sourceTree = "<group>"; };
 		2EF3930C97A0F7625C92BD1C /* ContractListViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractListViewTests.swift; sourceTree = "<group>"; };
 		2FA6503C264BC38257C5E253 /* ObservationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationsViewModel.swift; sourceTree = "<group>"; };
@@ -115,8 +118,8 @@
 		A4FA3FA8E14149E903B5FA2D /* ScanViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanViewModel.swift; sourceTree = "<group>"; };
 		A801E464E5844D05952CD829 /* MockDocumentScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDocumentScanner.swift; sourceTree = "<group>"; };
 		ABE8015359DBEA1460AC2EB0 /* MockContractRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockContractRepository.swift; sourceTree = "<group>"; };
+		AF74E4D0C10162E46E3F5DB9 /* EditContractViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditContractViewModel.swift; sourceTree = "<group>"; };
 		B1C24918D7B1B6B548819D41 /* Catalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Catalog.swift; sourceTree = "<group>"; };
-		B681B0B6E68CA74814C0F9A2 /* InMemoryContractRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryContractRepository.swift; sourceTree = "<group>"; };
 		BCA09DD53DA5B76D2F9638FB /* WealthEagentApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WealthEagentApp.swift; sourceTree = "<group>"; };
 		C68B60B1CC1309533DEAD3C4 /* CompareViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompareViewModelTests.swift; sourceTree = "<group>"; };
 		C709899C7EDDA3F4CAE1F3E4 /* catalog.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = catalog.json; sourceTree = "<group>"; };
@@ -127,6 +130,7 @@
 		DB569B9B60F756831B510D46 /* ObservationsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationsViewModelTests.swift; sourceTree = "<group>"; };
 		DBE5AF723E7A50C147C97CEE /* LocalContractRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalContractRepository.swift; sourceTree = "<group>"; };
 		DFFF1AA241B10E2AC54BFFAC /* PendingContractReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingContractReviewView.swift; sourceTree = "<group>"; };
+		E72E7BC3C872D4C8E8D9A25A /* EditContractView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditContractView.swift; sourceTree = "<group>"; };
 		EA831E573CC0D38461A04A61 /* CatalogTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogTests.swift; sourceTree = "<group>"; };
 		F5558D4CA853C7F641A9A45A /* WealthEagentTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = WealthEagentTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6BA756955178691E99F1F10 /* WealthEagent.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = WealthEagent.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -140,6 +144,7 @@
 				986BCF27A189C5ECCD8B9253 /* CompareViewModel.swift */,
 				8FED3B8B0C8140C82827437E /* ContractListViewModel.swift */,
 				9B72045EFA49D93B44B52E4D /* DashboardViewModel.swift */,
+				AF74E4D0C10162E46E3F5DB9 /* EditContractViewModel.swift */,
 				2FA6503C264BC38257C5E253 /* ObservationsViewModel.swift */,
 				315B41E8DCFF5226B6E4EA84 /* PendingContractReviewViewModel.swift */,
 				A4FA3FA8E14149E903B5FA2D /* ScanViewModel.swift */,
@@ -154,6 +159,7 @@
 				C68B60B1CC1309533DEAD3C4 /* CompareViewModelTests.swift */,
 				CDD703CECA91642042E46451 /* ContractListViewModelTests.swift */,
 				12337E758B1CB82A34D133DF /* DashboardViewModelTests.swift */,
+				20147EA0524858A4CFD09693 /* EditContractViewModelTests.swift */,
 				DB569B9B60F756831B510D46 /* ObservationsViewModelTests.swift */,
 				6B81D0A841C58F7CAB356714 /* PendingContractReviewViewModelTests.swift */,
 				8E5BA60A21BAC8B4E987843E /* ScanViewModelTests.swift */,
@@ -187,6 +193,7 @@
 				1D4485079719C38983628CD6 /* ContentView.swift */,
 				382BD1F2BCE1B790E77F2551 /* ContractListView.swift */,
 				1E6CD9C997B132642C5D8FB4 /* DashboardView.swift */,
+				E72E7BC3C872D4C8E8D9A25A /* EditContractView.swift */,
 				811D14C278546725C4611396 /* ObservationsView.swift */,
 				DFFF1AA241B10E2AC54BFFAC /* PendingContractReviewView.swift */,
 				545A5895211B936A7B5247FD /* ScanView.swift */,
@@ -211,7 +218,6 @@
 			isa = PBXGroup;
 			children = (
 				3E092F74D768692D8AE0B5AF /* BundleCatalogProvider.swift */,
-				B681B0B6E68CA74814C0F9A2 /* InMemoryContractRepository.swift */,
 				DBE5AF723E7A50C147C97CEE /* LocalContractRepository.swift */,
 				0B1E0B1617C7CAA48F617035 /* VisionDocumentScanner.swift */,
 			);
@@ -453,8 +459,9 @@
 				131305B59DB1A1FA4C0EFD67 /* DashboardView.swift in Sources */,
 				85F016352F15F1DBD168D756 /* DashboardViewModel.swift in Sources */,
 				5E3C75B5556997BA19E39638 /* DocumentScanner.swift in Sources */,
+				8B1DEB89C99189CAA88CC226 /* EditContractView.swift in Sources */,
+				1264A1697AEF4BDEF701E446 /* EditContractViewModel.swift in Sources */,
 				DF6B85789AE6899332631828 /* FinInsights.swift in Sources */,
-				03BC1138B57874B6DFBAD987 /* InMemoryContractRepository.swift in Sources */,
 				56EA6BDB0A6E10DF336DD49D /* InsightsEngine.swift in Sources */,
 				8D77F54EF3CD0275B58C7957 /* LocalContractRepository.swift in Sources */,
 				AEC9BB0B6888015A2E6BCD61 /* OCRResult.swift in Sources */,
@@ -484,6 +491,7 @@
 				AFBCAF22E5EF37E5B3B6F00F /* ContractParserTests.swift in Sources */,
 				2BC7A4A5FA0B54F9C8915851 /* DashboardViewModelTests.swift in Sources */,
 				A1B55DE98106B7E33704BCBE /* DashboardViewTests.swift in Sources */,
+				F5F2603AC12E8077E1B89F82 /* EditContractViewModelTests.swift in Sources */,
 				270938B995C41BD2D7242A73 /* InsightsEngineTests.swift in Sources */,
 				295E3AF31753E1E73A23D169 /* LocalContractRepositoryTests.swift in Sources */,
 				FB32D945155CFD13269B0D63 /* MockCatalogProvider.swift in Sources */,

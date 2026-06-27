@@ -1,6 +1,5 @@
 // Contract.swift
 // Domain — pure Swift value types. No framework imports beyond Foundation.
-// SCAFFOLD: true
 
 import Foundation
 

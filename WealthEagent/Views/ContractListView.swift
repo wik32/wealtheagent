@@ -23,6 +23,7 @@ struct ContractListView: View {
     @State private var showAddContract = false
     @State private var showScan = false
     @State private var pendingToReview: PendingContract?
+    @State private var editingContract: Contract?
 
     // MARK: - Body
 
@@ -34,8 +35,18 @@ struct ContractListView: View {
                 } else if viewModel.contracts.isEmpty {
                     emptyStateView
                 } else {
-                    List(viewModel.contracts) { contract in
-                        ContractRow(contract: contract)
+                    List {
+                        ForEach(viewModel.contracts) { contract in
+                            ContractRow(contract: contract)
+                                .contentShape(Rectangle())
+                                .onTapGesture { editingContract = contract }
+                        }
+                        .onDelete { indexSet in
+                            for index in indexSet {
+                                let contract = viewModel.contracts[index]
+                                Task { await viewModel.delete(contract: contract) }
+                            }
+                        }
                     }
                     .listStyle(.plain)
                 }
@@ -69,6 +80,19 @@ struct ContractListView: View {
                 Task { await viewModel.load() }
             }) {
                 ScanView(viewModel: scanViewModel, onDismiss: { showScan = false })
+            }
+            // Edit-contract sheet (tap on existing contract row)
+            .sheet(item: $editingContract, onDismiss: {
+                Task { await viewModel.load() }
+            }) { contract in
+                EditContractView(
+                    viewModel: EditContractViewModel(
+                        contract: contract,
+                        contractRepository: viewModel.contractRepository,
+                        catalog: catalogProvider.catalog()
+                    ),
+                    onDismiss: { editingContract = nil }
+                )
             }
             // Review sheet (shown after successful scan)
             .sheet(item: $pendingToReview, onDismiss: {

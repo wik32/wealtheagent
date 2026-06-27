@@ -1,6 +1,5 @@
 // FinInsights.swift
 // Domain — pure Swift value types. No framework imports beyond Foundation.
-// SCAFFOLD: true
 //
 // Insights Context language constraint (ADR-004 + ubiquitous-language.md):
 // The word "Empfehlung" (recommendation) is BANNED from this file.

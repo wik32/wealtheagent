@@ -1,6 +1,5 @@
 // CatalogProvider.swift
 // Ports — Swift protocols. Import Domain only. No framework imports.
-// SCAFFOLD: true
 
 import Foundation
 
