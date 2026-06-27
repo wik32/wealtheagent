@@ -1,34 +1,28 @@
 // DashboardView.swift
-// Views — SwiftUI. Reads from DashboardViewModel (@Observable). No business logic.
+// Views — SwiftUI. Übersicht-Tab: Abdeckungsgrad, monatliche Ausgaben, Kategorien-Status.
 //
-// Stage-1 vocabulary constraint (ubiquitous-language.md + CLAUDE.md):
+// Stage-1 vocabulary constraint (CLAUDE.md):
 //   - "Dein Finanzbild" — headline
-//   - "% abgedeckt" — coverage label (NOT "Empfehlung")
-//   - "Noch keine Verträge erfasst" — empty state
-//   - "Beobachtungen", "Fakten", "Dopplung", "Lücke" are allowed
-//   - "Empfehlung" / "empfehlen" are BANNED from all View text
+//   - "Abgedeckt" / "Noch nicht erfasst" — category status labels
+//   - "Empfehlung" / "empfehlen" BANNED
 
 import SwiftUI
 
 // MARK: - DashboardView
 
-/// Übersicht tab — shows Abdeckungsgrad and monatliche Ausgaben.
-/// Receives a DashboardViewModel via dependency injection (Pillar 3: app as in production).
 struct DashboardView: View {
 
     @State var viewModel: DashboardViewModel
-
-    // MARK: - Body
 
     var body: some View {
         NavigationStack {
             Group {
                 if viewModel.isLoading {
                     ProgressView()
-                } else if viewModel.coverageScore == 0 && viewModel.monthlySpend == 0.0 {
+                } else if viewModel.contractCount == 0 {
                     emptyStateView
                 } else {
-                    scoreView
+                    scrollContent
                 }
             }
             .navigationTitle("Dein Finanzbild")
@@ -36,43 +30,139 @@ struct DashboardView: View {
         .task { await viewModel.load() }
     }
 
-    // MARK: - Subviews
+    // MARK: - Scroll content
 
-    /// Large coverage number + "% abgedeckt" label + monthly spend.
-    @ViewBuilder
-    private var scoreView: some View {
-        VStack(spacing: 24) {
-            VStack(spacing: 4) {
-                Text("\(viewModel.coverageScore)%")
-                    .font(.system(size: 64, weight: .bold, design: .rounded))
-                Text("abgedeckt")
+    private var scrollContent: some View {
+        ScrollView {
+            VStack(spacing: 24) {
+                coverageCard
+                spendCard
+                if !viewModel.coveredCategories.isEmpty {
+                    categorySection(
+                        title: "Abgedeckt",
+                        categories: viewModel.coveredCategories,
+                        icon: "checkmark.circle.fill",
+                        color: .green
+                    )
+                }
+                if !viewModel.missingCategories.isEmpty {
+                    categorySection(
+                        title: "Noch nicht erfasst",
+                        categories: viewModel.missingCategories,
+                        icon: "circle",
+                        color: .secondary
+                    )
+                }
+            }
+            .padding()
+        }
+    }
+
+    // MARK: - Coverage card
+
+    private var coverageCard: some View {
+        VStack(spacing: 12) {
+            HStack {
+                Text("Basisabsicherung")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
+                Spacer()
+                Text("\(viewModel.coverageScore) %")
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
             }
-            Divider()
-            VStack(spacing: 4) {
+            ProgressView(value: Double(viewModel.coverageScore), total: 100)
+                .tint(coverageTint)
+            Text("\(viewModel.coveredCategories.count) von 11 Kategorien erfasst")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .padding()
+        .background(Color(.secondarySystemGroupedBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+    }
+
+    private var coverageTint: Color {
+        switch viewModel.coverageScore {
+        case 70...: return .green
+        case 40...: return .orange
+        default:    return .red
+        }
+    }
+
+    // MARK: - Monthly spend card
+
+    private var spendCard: some View {
+        HStack {
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Monatliche Ausgaben")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
                 Text(formattedMonthlySpend)
                     .font(.title2)
                     .fontWeight(.semibold)
-                Text("monatliche Ausgaben")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
             }
+            Spacer()
+            Image(systemName: "eurosign.circle.fill")
+                .font(.system(size: 36))
+                .foregroundStyle(.blue.opacity(0.8))
         }
-        .padding(.vertical, 32)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .padding()
+        .background(Color(.secondarySystemGroupedBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 
-    /// Empty state when portfolio has no confirmed contracts.
-    @ViewBuilder
+    // MARK: - Category section
+
+    private func categorySection(
+        title: String,
+        categories: [ContractCategory],
+        icon: String,
+        color: Color
+    ) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(title)
+                .font(.subheadline)
+                .fontWeight(.semibold)
+                .foregroundStyle(.secondary)
+            VStack(spacing: 0) {
+                ForEach(categories) { category in
+                    HStack(spacing: 10) {
+                        Image(systemName: icon)
+                            .foregroundStyle(color)
+                            .frame(width: 20)
+                        Text(category.nameDe)
+                            .font(.subheadline)
+                        Spacer()
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 10)
+                    if category.id != categories.last?.id {
+                        Divider().padding(.leading, 46)
+                    }
+                }
+            }
+            .background(Color(.secondarySystemGroupedBackground))
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+        }
+    }
+
+    // MARK: - Empty state
+
     private var emptyStateView: some View {
         VStack(spacing: 16) {
-            Image(systemName: "doc.text")
+            Image(systemName: "doc.badge.plus")
                 .font(.system(size: 48))
                 .foregroundStyle(.secondary)
             Text("Noch keine Verträge erfasst")
                 .font(.headline)
                 .foregroundStyle(.secondary)
+            Text("Füge deinen ersten Vertrag im Tab \"Verträge\" hinzu.")
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }

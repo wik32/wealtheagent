@@ -23,12 +23,19 @@ final class DashboardViewModel {
     // MARK: - Observable state (Universe)
 
     /// Percentage of level-1 categories covered by ≥1 confirmed contract (0–100).
-    /// Abdeckungsgrad in German user-facing strings.
     private(set) var coverageScore: Int = 0
 
     /// Sum of all confirmed contract premiums normalised to monthly EUR.
-    /// Monatliche Ausgaben in German user-facing strings.
     private(set) var monthlySpend: Double = 0.0
+
+    /// Level-1 categories already covered by at least one contract.
+    private(set) var coveredCategories: [ContractCategory] = []
+
+    /// Level-1 categories with no contract yet.
+    private(set) var missingCategories: [ContractCategory] = []
+
+    /// Total confirmed contract count.
+    private(set) var contractCount: Int = 0
 
     private(set) var isLoading: Bool = false
     private(set) var error: Error?
@@ -57,10 +64,19 @@ final class DashboardViewModel {
             let computed = InsightsEngine.insights(contracts: contracts, catalog: catalog)
             coverageScore = computed.coverageScore
             monthlySpend = DashboardViewModel.computeMonthlySpend(contracts: contracts)
+            contractCount = contracts.count
+
+            let coveredKeys = Set(contracts.map(\.categoryKey))
+            let level1 = catalog.level1Categories
+            coveredCategories = level1.filter { coveredKeys.contains($0.key) }
+            missingCategories = level1.filter { !coveredKeys.contains($0.key) }
         } catch {
             self.error = error
             coverageScore = 0
             monthlySpend = 0.0
+            contractCount = 0
+            coveredCategories = []
+            missingCategories = []
         }
         isLoading = false
     }

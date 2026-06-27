@@ -37,7 +37,12 @@ struct ContractListView: View {
                 } else {
                     List {
                         ForEach(viewModel.contracts) { contract in
-                            ContractRow(contract: contract)
+                            ContractRow(
+                                contract: contract,
+                                categoryDisplayName: catalogProvider.catalog()
+                                    .category(for: contract.categoryKey)?.nameDe
+                                    ?? contract.categoryKey
+                            )
                                 .contentShape(Rectangle())
                                 .onTapGesture { editingContract = contract }
                         }
@@ -154,6 +159,7 @@ struct ContractListView: View {
 struct ContractRow: View {
 
     let contract: Contract
+    let categoryDisplayName: String
 
     var body: some View {
         HStack {
@@ -161,7 +167,7 @@ struct ContractRow: View {
                 Text(contract.provider)
                     .font(.body)
                     .fontWeight(.medium)
-                Text(contract.categoryKey)
+                Text(categoryDisplayName)
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
