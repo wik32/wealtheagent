@@ -15,8 +15,7 @@
 
 import XCTest
 @testable import WealthEagent
-// DELIVER: uncomment when @Model types exist
-// import SwiftData
+import SwiftData
 
 // MARK: - LocalContractRepositoryTests
 
@@ -33,18 +32,12 @@ final class LocalContractRepositoryTests: XCTestCase {
     // MARK: - setUp / tearDown
 
     override func setUp() async throws {
-        // DELIVER: replace with real in-memory ModelContainer
-        //
-        // let config = ModelConfiguration(isStoredInMemoryOnly: true)
-        // let container = try ModelContainer(
-        //     for: ContractRecord.self, PendingContractRecord.self,
-        //     configurations: config
-        // )
-        // sut = LocalContractRepository(modelContainer: container)
-        //
-        // For now (RED scaffold phase): construct without container.
-        // Tests will throw or fail at the protocol call — correct RED behaviour.
-        sut = LocalContractRepository()
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let container = try ModelContainer(
+            for: ContractRecord.self, PendingContractRecord.self,
+            configurations: config
+        )
+        sut = LocalContractRepository(modelContainer: container)
     }
 
     override func tearDown() async throws {
@@ -81,7 +74,6 @@ final class LocalContractRepositoryTests: XCTestCase {
     // Goal: fresh store returns ([], []) — no crash, no stale data.
 
     func testEmptyStoreReturnsEmptyCollections() async throws {
-        try XCTSkipIf(true, "DELIVER: enable after TEST-01 is GREEN")
 
         let contracts = try await sut.list()
         let pending = try await sut.listPending()
@@ -95,7 +87,6 @@ final class LocalContractRepositoryTests: XCTestCase {
     // Goal: OCR output (PendingContract) survives a save → listPending round-trip.
 
     func testSavePendingContractAndListPendingReturnsIt() async throws {
-        try XCTSkipIf(true, "DELIVER: enable after TEST-02 is GREEN")
 
         // Given: an OCR draft awaiting user review
         let pending = PendingContract.fixture(
@@ -119,7 +110,6 @@ final class LocalContractRepositoryTests: XCTestCase {
     // Goal: deleted contract disappears; other contracts are unaffected.
 
     func testDeleteContractRemovesItFromPortfolio() async throws {
-        try XCTSkipIf(true, "DELIVER: enable after TEST-03 is GREEN")
 
         // Given: two contracts in the portfolio
         let toDelete = Contract.fixture(categoryKey: "privathaftpflicht", provider: "HUK-COBURG")
@@ -144,7 +134,6 @@ final class LocalContractRepositoryTests: XCTestCase {
     //       and removes it from the pending list.
 
     func testConfirmPendingWithoutCorrectionsPreservesExtractedFields() async throws {
-        try XCTSkipIf(true, "DELIVER: enable after TEST-04 is GREEN")
 
         // Given: an OCR draft with extracted fields
         let extractedFields = ContractFields(["provider": .text("AXA")])
@@ -178,7 +167,6 @@ final class LocalContractRepositoryTests: XCTestCase {
     // Goal: user corrections override OCR-extracted values in the confirmed contract.
 
     func testConfirmPendingWithCorrectedFieldsUsesUserValues() async throws {
-        try XCTSkipIf(true, "DELIVER: enable after TEST-05 is GREEN")
 
         // Given: an OCR draft with an incorrect category
         let pending = PendingContract.fixture(
@@ -205,7 +193,6 @@ final class LocalContractRepositoryTests: XCTestCase {
     // Goal: discarded OCR draft disappears; the confirmed portfolio is untouched.
 
     func testDiscardPendingRemovesItWithoutAddingToPortfolio() async throws {
-        try XCTSkipIf(true, "DELIVER: enable after TEST-06 is GREEN")
 
         // Given: one confirmed contract and one pending draft
         let contract = Contract.fixture(categoryKey: "depot", provider: "Deutsche Bank")
@@ -235,7 +222,6 @@ final class LocalContractRepositoryTests: XCTestCase {
     // Goal: three distinct contracts are all retrievable after saving.
 
     func testMultipleContractsAllReturnedByList() async throws {
-        try XCTSkipIf(true, "DELIVER: enable after TEST-07 is GREEN")
 
         // Given: three contracts across different categories
         let phv = Contract.fixture(categoryKey: "privathaftpflicht", provider: "HUK-COBURG")
@@ -266,24 +252,34 @@ final class LocalContractRepositoryTests: XCTestCase {
     // DELIVER: configure a temp-directory URL for the store and clean up in tearDown.
 
     func testContractSurvivedNewRepositoryInstance() async throws {
-        try XCTSkipIf(true, "DELIVER: enable after TEST-08 is GREEN — requires file-backed ModelContainer")
+        // Given: a file-backed ModelContainer in a temp directory
+        let storeURL = FileManager.default.temporaryDirectory
+            .appendingPathComponent("test-\(UUID().uuidString).store")
+        defer { try? FileManager.default.removeItem(at: storeURL) }
 
-        // Given: a contract saved through the first repository instance
-        //   (sut uses the shared file-backed store in this test only)
+        let config = ModelConfiguration(url: storeURL)
+        let container1 = try ModelContainer(
+            for: ContractRecord.self, PendingContractRecord.self,
+            configurations: config
+        )
+        let repo1 = LocalContractRepository(modelContainer: container1)
+
+        // When: a contract is saved through the first instance
         let contract = Contract.fixture(categoryKey: "privathaftpflicht", provider: "HUK-COBURG")
-        try await sut.save(contract)
+        try await repo1.save(contract)
 
-        // When: a second repository instance is created pointing at the same store
-        // let sut2 = LocalContractRepository(modelContainer: <same file-backed container>)
-        // let stored = try await sut2.list()
-        //
-        // Then: the contract is present
-        // XCTAssertEqual(stored.count, 1)
-        // XCTAssertEqual(stored[0].id, contract.id)
+        // And: a second instance is created pointing at the same on-disk store
+        let container2 = try ModelContainer(
+            for: ContractRecord.self, PendingContractRecord.self,
+            configurations: ModelConfiguration(url: storeURL)
+        )
+        let repo2 = LocalContractRepository(modelContainer: container2)
+        let stored = try await repo2.list()
 
-        // DELIVER fills in the sut2 setup above. Placeholder assertion to make the
-        // test compile before DELIVER:
-        XCTFail("TEST-09 body must be completed in DELIVER wave")
+        // Then: the contract is present in the second instance
+        XCTAssertEqual(stored.count, 1)
+        XCTAssertEqual(stored[0].id, contract.id)
+        XCTAssertEqual(stored[0].provider, "HUK-COBURG")
     }
 
     // MARK: - TEST-10: Confirm non-existent pending — throws notFound
@@ -293,7 +289,6 @@ final class LocalContractRepositoryTests: XCTestCase {
     //       throws ContractRepositoryError.notFound rather than silently succeeding.
 
     func testConfirmNonExistentPendingThrowsNotFound() async throws {
-        try XCTSkipIf(true, "DELIVER: enable after TEST-09 is GREEN")
 
         // Given: a pending contract that was never saved to the store
         let phantom = PendingContract.fixture(

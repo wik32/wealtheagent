@@ -91,7 +91,7 @@ struct Contract: Identifiable, Equatable {
 // MARK: - ContractFields (value object)
 
 /// Typed field values for a specific contract. A value object — no independent identity.
-struct ContractFields: Equatable {
+struct ContractFields: Equatable, Codable {
     var values: [String: ContractFieldValue]
 
     init(_ values: [String: ContractFieldValue] = [:]) {

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		03BC1138B57874B6DFBAD987 /* InMemoryContractRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B681B0B6E68CA74814C0F9A2 /* InMemoryContractRepository.swift */; };
+		A2C1F88E4D3B5E671F9A0001 /* LocalContractRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C1F88E4D3B5E671F9A0002 /* LocalContractRepositoryTests.swift */; };
 		04CD6D5A2B34EA4325F0214A /* ContractRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA945059A87E8C70DDA320E /* ContractRepository.swift */; };
 		131305B59DB1A1FA4C0EFD67 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E6CD9C997B132642C5D8FB4 /* DashboardView.swift */; };
 		18410085FD4C4E65B64E315E /* BundleCatalogProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E092F74D768692D8AE0B5AF /* BundleCatalogProvider.swift */; };
@@ -83,6 +84,7 @@
 		CDD703CECA91642042E46451 /* ContractListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractListViewModelTests.swift; sourceTree = "<group>"; };
 		DB569B9B60F756831B510D46 /* ObservationsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationsViewModelTests.swift; sourceTree = "<group>"; };
 		DBE5AF723E7A50C147C97CEE /* LocalContractRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalContractRepository.swift; sourceTree = "<group>"; };
+		A2C1F88E4D3B5E671F9A0002 /* LocalContractRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalContractRepositoryTests.swift; sourceTree = "<group>"; };
 		EA831E573CC0D38461A04A61 /* CatalogTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogTests.swift; sourceTree = "<group>"; };
 		F5558D4CA853C7F641A9A45A /* WealthEagentTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = WealthEagentTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6BA756955178691E99F1F10 /* WealthEagent.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = WealthEagent.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -155,12 +157,21 @@
 			isa = PBXGroup;
 			children = (
 				45A7D700AC32D44FD17515E7 /* WealthEagentTests.swift */,
+				A2C1F88E4D3B5E671F9A0003 /* Adapters */,
 				E5B15B32839AE52004EC64EB /* Domain */,
 				704822ADC95D065AE1BE3066 /* Mocks */,
 				0D572EF2A29F1EE8BB5CFBB6 /* ViewModels */,
 				FE93D8EF9768B2AAABA63D80 /* Views */,
 			);
 			path = WealthEagentTests;
+			sourceTree = "<group>";
+		};
+		A2C1F88E4D3B5E671F9A0003 /* Adapters */ = {
+			isa = PBXGroup;
+			children = (
+				A2C1F88E4D3B5E671F9A0002 /* LocalContractRepositoryTests.swift */,
+			);
+			path = Adapters;
 			sourceTree = "<group>";
 		};
 		704822ADC95D065AE1BE3066 /* Mocks */ = {
@@ -360,6 +371,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A2C1F88E4D3B5E671F9A0001 /* LocalContractRepositoryTests.swift in Sources */,
 				E5D317B00AD45673BB15F3CB /* CatalogTests.swift in Sources */,
 				3154075DF5D1CF5EC2534B68 /* ContractListViewModelTests.swift in Sources */,
 				7CD8DE5DBF43E6923C30B78F /* ContractListViewTests.swift in Sources */,

@@ -1,23 +1,13 @@
 // LocalContractRepository.swift
 // Adapters — implements ContractRepository protocol using SwiftData.
-// SCAFFOLD: true
 //
 // Note: CloudKit entitlement removed due to free Apple account limitation.
 // SwiftData (local persistent store) is the mechanism for Stage 1.
 // CloudKit will be added when paid account is available.
 // The ContractRepository protocol is unchanged — swap is adapter-only.
-//
-// DELIVER wave: replace every fatalError with a real SwiftData implementation.
-// Pattern:
-//   1. Add `import SwiftData`
-//   2. Store a `ModelContainer` (injected via init)
-//   3. Each method opens a `@MainActor ModelContext` from the container and
-//      operates on `ContractRecord` / `PendingContractRecord` @Model objects
-//   4. Map @Model ↔ Domain value types via the extensions at the bottom of this file.
 
 import Foundation
-// SwiftData import added by DELIVER when @Model types are defined.
-// import SwiftData
+import SwiftData
 
 // MARK: - ContractRepositoryError
 
@@ -25,6 +15,94 @@ import Foundation
 enum ContractRepositoryError: Error, Equatable {
     /// No record with the given identifier exists in the store.
     case notFound(UUID)
+}
+
+// MARK: - ContractRecord (@Model)
+
+/// SwiftData persistent model for a confirmed contract.
+/// Separate from the Contract domain value type — adapter layer only.
+@Model
+final class ContractRecord {
+    var id: UUID
+    var categoryKey: String
+    var provider: String
+    var contractNumber: String?
+    var startDate: Date?
+    var endDate: Date?
+    var premiumAmount: Double?
+    var premiumInterval: String?
+    var fieldsData: Data
+    var criteriaData: Data
+    var confirmedAt: Date
+    var schemaVersion: String
+
+    init(from contract: Contract) throws {
+        id = contract.id
+        categoryKey = contract.categoryKey
+        provider = contract.provider
+        contractNumber = contract.contractNumber
+        startDate = contract.startDate
+        endDate = contract.endDate
+        premiumAmount = contract.premiumAmount
+        premiumInterval = contract.premiumInterval
+        fieldsData = try JSONEncoder().encode(contract.fields)
+        criteriaData = try JSONEncoder().encode(contract.criteria)
+        confirmedAt = contract.confirmedAt
+        schemaVersion = contract.schemaVersion
+    }
+
+    func toDomain() throws -> Contract {
+        Contract(
+            id: id,
+            categoryKey: categoryKey,
+            provider: provider,
+            contractNumber: contractNumber,
+            startDate: startDate,
+            endDate: endDate,
+            premiumAmount: premiumAmount,
+            premiumInterval: premiumInterval,
+            fields: try JSONDecoder().decode(ContractFields.self, from: fieldsData),
+            criteria: try JSONDecoder().decode([String: Bool].self, from: criteriaData),
+            confirmedAt: confirmedAt,
+            schemaVersion: schemaVersion
+        )
+    }
+}
+
+// MARK: - PendingContractRecord (@Model)
+
+/// SwiftData persistent model for a pending (OCR-extracted) contract.
+@Model
+final class PendingContractRecord {
+    var id: UUID
+    var categoryKey: String
+    var rawOCRText: String
+    var ocrConfidence: Double
+    var extractedAt: Date
+    var extractedFieldsData: Data
+    var schemaVersion: String
+
+    init(from pending: PendingContract) throws {
+        id = pending.id
+        categoryKey = pending.categoryKey
+        rawOCRText = pending.rawOCRText
+        ocrConfidence = pending.ocrConfidence
+        extractedAt = pending.extractedAt
+        extractedFieldsData = try JSONEncoder().encode(pending.extractedFields)
+        schemaVersion = pending.schemaVersion
+    }
+
+    func toDomain() throws -> PendingContract {
+        PendingContract(
+            id: id,
+            categoryKey: categoryKey,
+            rawOCRText: rawOCRText,
+            ocrConfidence: ocrConfidence,
+            extractedAt: extractedAt,
+            extractedFields: try JSONDecoder().decode(ContractFields.self, from: extractedFieldsData),
+            schemaVersion: schemaVersion
+        )
+    }
 }
 
 // MARK: - LocalContractRepository
@@ -35,71 +113,99 @@ enum ContractRepositoryError: Error, Equatable {
 ///
 /// Test isolation: inject a ModelContainer configured with
 /// `ModelConfiguration(isStoredInMemoryOnly: true)` in setUp().
-final class LocalContractRepository: ContractRepository, @unchecked Sendable {
+@MainActor
+final class LocalContractRepository: ContractRepository {
 
-    // MARK: - SCAFFOLD placeholder
-    // DELIVER wave: inject ModelContainer and implement below.
-    //
-    // Example init (DELIVER fills this in):
-    //   init(modelContainer: ModelContainer) {
-    //       self.modelContainer = modelContainer
-    //   }
-    //   private let modelContainer: ModelContainer
+    private let modelContext: ModelContext
+
+    init(modelContainer: ModelContainer) {
+        modelContext = ModelContext(modelContainer)
+    }
+
+    // MARK: - ContractRepository
 
     func list() async throws -> [Contract] {
-        // DELIVER: fetch all ContractRecord from ModelContext, map to Contract
-        throw ContractRepositoryError.notFound(UUID())
+        try modelContext
+            .fetch(FetchDescriptor<ContractRecord>())
+            .map { try $0.toDomain() }
     }
 
     func listPending() async throws -> [PendingContract] {
-        // DELIVER: fetch all PendingContractRecord from ModelContext, map to PendingContract
-        throw ContractRepositoryError.notFound(UUID())
+        try modelContext
+            .fetch(FetchDescriptor<PendingContractRecord>())
+            .map { try $0.toDomain() }
     }
 
     func save(_ contract: Contract) async throws {
-        // DELIVER: upsert ContractRecord in ModelContext (insert or update by id)
-        throw ContractRepositoryError.notFound(UUID())
+        if let existing = try fetchContractRecord(id: contract.id) {
+            modelContext.delete(existing)
+        }
+        modelContext.insert(try ContractRecord(from: contract))
+        try modelContext.save()
     }
 
     func savePending(_ pending: PendingContract) async throws {
-        // DELIVER: upsert PendingContractRecord in ModelContext
-        throw ContractRepositoryError.notFound(UUID())
+        if let existing = try fetchPendingRecord(id: pending.id) {
+            modelContext.delete(existing)
+        }
+        modelContext.insert(try PendingContractRecord(from: pending))
+        try modelContext.save()
     }
 
     func confirm(_ pending: PendingContract, corrected: ContractFields?) async throws -> Contract {
-        // DELIVER:
-        //   1. Fetch PendingContractRecord by pending.id — throw .notFound if absent
-        //   2. Build Contract value from pending + corrected fields
-        //   3. Delete PendingContractRecord
-        //   4. Insert ContractRecord
-        //   5. try modelContext.save()
-        //   6. Return the new Contract value
-        throw ContractRepositoryError.notFound(pending.id)
+        guard let pendingRecord = try fetchPendingRecord(id: pending.id) else {
+            throw ContractRepositoryError.notFound(pending.id)
+        }
+        let effectiveFields = corrected ?? pending.extractedFields
+        let confirmed = Contract(
+            id: pending.id,
+            categoryKey: pending.categoryKey,
+            provider: providerName(from: effectiveFields, fallback: pending.categoryKey),
+            fields: effectiveFields,
+            confirmedAt: Date()
+        )
+        modelContext.delete(pendingRecord)
+        modelContext.insert(try ContractRecord(from: confirmed))
+        try modelContext.save()
+        return confirmed
     }
 
     func delete(id: UUID) async throws {
-        // DELIVER: fetch ContractRecord by id, delete, save context
-        throw ContractRepositoryError.notFound(id)
+        guard let record = try fetchContractRecord(id: id) else {
+            throw ContractRepositoryError.notFound(id)
+        }
+        modelContext.delete(record)
+        try modelContext.save()
     }
 
     func discard(id: UUID) async throws {
-        // DELIVER: fetch PendingContractRecord by id, delete, save context
-        throw ContractRepositoryError.notFound(id)
+        guard let record = try fetchPendingRecord(id: id) else {
+            throw ContractRepositoryError.notFound(id)
+        }
+        modelContext.delete(record)
+        try modelContext.save()
+    }
+
+    // MARK: - Private helpers
+
+    private func fetchContractRecord(id: UUID) throws -> ContractRecord? {
+        var descriptor = FetchDescriptor<ContractRecord>(
+            predicate: #Predicate { $0.id == id }
+        )
+        descriptor.fetchLimit = 1
+        return try modelContext.fetch(descriptor).first
+    }
+
+    private func fetchPendingRecord(id: UUID) throws -> PendingContractRecord? {
+        var descriptor = FetchDescriptor<PendingContractRecord>(
+            predicate: #Predicate { $0.id == id }
+        )
+        descriptor.fetchLimit = 1
+        return try modelContext.fetch(descriptor).first
+    }
+
+    private func providerName(from fields: ContractFields, fallback: String) -> String {
+        if case .text(let name) = fields.values["provider"] { return name }
+        return fallback
     }
 }
-
-// MARK: - SwiftData @Model types (SCAFFOLD — defined here for test compilation)
-//
-// DELIVER: move these into their own files and add `import SwiftData`.
-// Annotate with @Model. The init and mapping extensions below drive the
-// ContractRecord <-> Contract round-trip.
-//
-// @Model
-// final class ContractRecord { ... }
-//
-// @Model
-// final class PendingContractRecord { ... }
-//
-// Each @Model class mirrors the Contract / PendingContract domain fields
-// using SwiftData-compatible types (String, Double, Date, Data for encoded blobs).
-// The JSON encoding strategy follows ADR-002 (fieldsJSON as String).

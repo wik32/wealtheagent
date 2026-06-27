@@ -1,10 +1,24 @@
 import SwiftUI
+import SwiftData
 
 @main
 struct WealthEagentApp: App {
 
-    private let contractRepository: ContractRepository = InMemoryContractRepository()
+    private let modelContainer: ModelContainer
+    private let contractRepository: ContractRepository
     private let catalogProvider: CatalogProvider = BundleCatalogProvider()
+
+    init() {
+        do {
+            let container = try ModelContainer(
+                for: ContractRecord.self, PendingContractRecord.self
+            )
+            self.modelContainer = container
+            self.contractRepository = LocalContractRepository(modelContainer: container)
+        } catch {
+            fatalError("SwiftData ModelContainer init failed: \(error)")
+        }
+    }
 
     var body: some Scene {
         WindowGroup {
