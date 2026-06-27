@@ -53,6 +53,7 @@
 		A9A215025648FC18F14EFF09 /* CompareViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C68B60B1CC1309533DEAD3C4 /* CompareViewModelTests.swift */; };
 		AEC9BB0B6888015A2E6BCD61 /* OCRResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F74E01DB0CCD782E828F7F /* OCRResult.swift */; };
 		AFBCAF22E5EF37E5B3B6F00F /* ContractParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB42AEC6097D95654ABB7CB3 /* ContractParserTests.swift */; };
+		B898BDB7A9452E68049692FA /* ContractDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B36C8627DC7D224CFDA9FB9 /* ContractDetailView.swift */; };
 		B8C6B08876D776267A511FAD /* PendingContractReviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 315B41E8DCFF5226B6E4EA84 /* PendingContractReviewViewModel.swift */; };
 		B912712808752938CFBEB3E9 /* ContractCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83FD35FEDFBE05721D42B9D5 /* ContractCategory.swift */; };
 		BD8874A10FD2D1DAF25712F2 /* ScanViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4FA3FA8E14149E903B5FA2D /* ScanViewModel.swift */; };
@@ -91,6 +92,7 @@
 		1E6CD9C997B132642C5D8FB4 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
 		20147EA0524858A4CFD09693 /* EditContractViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditContractViewModelTests.swift; sourceTree = "<group>"; };
 		24923F11B52207F59123F109 /* CatalogProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogProvider.swift; sourceTree = "<group>"; };
+		2B36C8627DC7D224CFDA9FB9 /* ContractDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractDetailView.swift; sourceTree = "<group>"; };
 		2EF3930C97A0F7625C92BD1C /* ContractListViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractListViewTests.swift; sourceTree = "<group>"; };
 		2FA6503C264BC38257C5E253 /* ObservationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationsViewModel.swift; sourceTree = "<group>"; };
 		315B41E8DCFF5226B6E4EA84 /* PendingContractReviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingContractReviewViewModel.swift; sourceTree = "<group>"; };
@@ -204,6 +206,7 @@
 				47D182619268769F87BADD3E /* CameraPickerView.swift */,
 				CBFBB2E59ED83C71B6474024 /* CompareView.swift */,
 				1D4485079719C38983628CD6 /* ContentView.swift */,
+				2B36C8627DC7D224CFDA9FB9 /* ContractDetailView.swift */,
 				382BD1F2BCE1B790E77F2551 /* ContractListView.swift */,
 				1E6CD9C997B132642C5D8FB4 /* DashboardView.swift */,
 				0FAA668D3436A4942867B054 /* DatenschutzView.swift */,
@@ -471,6 +474,7 @@
 				990CB43C091AC80A983FF5B5 /* ContentView.swift in Sources */,
 				EADFC1C2DCA388510132698C /* Contract.swift in Sources */,
 				B912712808752938CFBEB3E9 /* ContractCategory.swift in Sources */,
+				B898BDB7A9452E68049692FA /* ContractDetailView.swift in Sources */,
 				9896C49C7D0C68BBB290B8D1 /* ContractListView.swift in Sources */,
 				28D0AE37B5C85DD69F7319F1 /* ContractListViewModel.swift in Sources */,
 				2B81B336F920740DE0F6720D /* ContractParser.swift in Sources */,

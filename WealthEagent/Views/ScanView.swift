@@ -1,11 +1,8 @@
 // ScanView.swift
 // Views — Document scan: live camera OR photo library → Apple Vision OCR.
+// Unterstützt Einzelseiten- und Mehrseitenscan.
 //
-// Stage-1 vocabulary constraint (CLAUDE.md):
-//   - "Dokument scannen" — sheet title
-//   - "Foto aufnehmen" — camera button
-//   - "Aus Bibliothek wählen" — library button
-//   - "Empfehlung" / "empfehlen" BANNED
+// Stage-1 vocabulary constraint (CLAUDE.md): "Empfehlung" / "empfehlen" BANNED
 
 import SwiftUI
 import PhotosUI
@@ -36,11 +33,11 @@ struct ScanView: View {
                 }
             }
             .onChange(of: selectedItem) { _, newItem in
-                Task { await loadAndScan(item: newItem) }
+                Task { await handleLibrarySelection(newItem) }
             }
             .fullScreenCover(isPresented: $showCamera) {
                 CameraPickerView { data in
-                    Task { await viewModel.scan(imageData: data) }
+                    Task { await handleCapture(data) }
                 }
             }
         }
@@ -54,10 +51,14 @@ struct ScanView: View {
             scanningState
         } else if viewModel.scannedPending != nil {
             successState
+        } else if viewModel.hasPages {
+            multiPageState
         } else {
             pickerState
         }
     }
+
+    // MARK: - Initial picker state
 
     @ViewBuilder
     private var pickerState: some View {
@@ -82,10 +83,7 @@ struct ScanView: View {
                     .buttonStyle(.borderedProminent)
                 }
 
-                PhotosPicker(
-                    selection: $selectedItem,
-                    matching: .images
-                ) {
+                PhotosPicker(selection: $selectedItem, matching: .images) {
                     Label("Aus Bibliothek wählen", systemImage: "photo.on.rectangle")
                         .frame(maxWidth: .infinity)
                 }
@@ -101,16 +99,77 @@ struct ScanView: View {
         }
     }
 
+    // MARK: - Multi-page accumulation state
+
+    @ViewBuilder
+    private var multiPageState: some View {
+        VStack(spacing: 20) {
+            Image(systemName: "doc.on.doc.fill")
+                .font(.system(size: 56))
+                .foregroundStyle(.blue)
+
+            Text("\(viewModel.pageCount) \(viewModel.pageCount == 1 ? "Seite" : "Seiten") erkannt")
+                .font(.headline)
+
+            Text("Weitere Seite hinzufügen oder Auswertung starten.")
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+
+            VStack(spacing: 12) {
+                if CameraPickerView.isAvailable {
+                    Button {
+                        showCamera = true
+                    } label: {
+                        Label("Weitere Seite aufnehmen", systemImage: "camera.badge.plus")
+                            .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.bordered)
+                }
+
+                PhotosPicker(selection: $selectedItem, matching: .images) {
+                    Label("Seite aus Bibliothek", systemImage: "photo.badge.plus")
+                        .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(BorderedButtonStyle())
+
+                Button {
+                    Task { await viewModel.finalizeMultiPage() }
+                } label: {
+                    Label("Auswerten", systemImage: "wand.and.stars")
+                        .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(.borderedProminent)
+
+                Button(role: .destructive) {
+                    viewModel.reset()
+                } label: {
+                    Text("Neu starten")
+                }
+                .buttonStyle(.borderless)
+            }
+
+            if let error = viewModel.error {
+                Text(error.localizedDescription)
+                    .foregroundStyle(.red)
+                    .font(.caption)
+            }
+        }
+    }
+
+    // MARK: - Scanning state
+
     @ViewBuilder
     private var scanningState: some View {
         VStack(spacing: 16) {
-            ProgressView()
-                .scaleEffect(1.5)
+            ProgressView().scaleEffect(1.5)
             Text("Dokument wird analysiert …")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
         }
     }
+
+    // MARK: - Success state
 
     @ViewBuilder
     private var successState: some View {
@@ -129,11 +188,19 @@ struct ScanView: View {
         }
     }
 
-    // MARK: - Helpers
+    // MARK: - Input handlers
 
-    private func loadAndScan(item: PhotosPickerItem?) async {
-        guard let item else { return }
-        guard let data = try? await item.loadTransferable(type: Data.self) else { return }
-        await viewModel.scan(imageData: data)
+    private func handleLibrarySelection(_ item: PhotosPickerItem?) async {
+        guard let item, let data = try? await item.loadTransferable(type: Data.self) else { return }
+        selectedItem = nil
+        await handleCapture(data)
+    }
+
+    private func handleCapture(_ data: Data) async {
+        if viewModel.hasPages || viewModel.scannedPending != nil {
+            await viewModel.addPage(imageData: data)
+        } else {
+            await viewModel.addPage(imageData: data)
+        }
     }
 }

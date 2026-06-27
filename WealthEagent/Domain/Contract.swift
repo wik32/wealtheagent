@@ -44,7 +44,7 @@ struct PendingContract: Identifiable, Equatable {
 /// User-confirmed financial contract. Canonical portfolio unit.
 /// Vertrag in German user-facing strings.
 /// The only type InsightsEngine accepts — PendingContract is excluded by type.
-struct Contract: Identifiable, Equatable {
+struct Contract: Identifiable, Equatable, Hashable {
     var id: UUID
     var categoryKey: String             // catalog key e.g. "privathaftpflicht"
     var provider: String                // required, non-empty
@@ -90,7 +90,7 @@ struct Contract: Identifiable, Equatable {
 // MARK: - ContractFields (value object)
 
 /// Typed field values for a specific contract. A value object — no independent identity.
-struct ContractFields: Equatable, Codable {
+struct ContractFields: Equatable, Codable, Hashable {
     var values: [String: ContractFieldValue]
 
     init(_ values: [String: ContractFieldValue] = [:]) {
@@ -105,7 +105,7 @@ struct ContractFields: Equatable, Codable {
 
 // MARK: - ContractFieldValue
 
-enum ContractFieldValue: Equatable, Codable {
+enum ContractFieldValue: Equatable, Codable, Hashable {
     case text(String)
     case number(Double)
     case boolean(Bool)

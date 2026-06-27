@@ -93,7 +93,7 @@ final class ScanViewModelTests: XCTestCase {
 
     // MARK: — Reset
 
-    /// reset() clears scannedPending and error state.
+    /// reset() clears scannedPending, pageTexts and error state.
     func testResetBereingtZustand() async throws {
         mockScanner.result = MockDocumentScanner.hukPrivathaftpflichtFixture()
         let sut = ScanViewModel(documentScanner: mockScanner, contractRepository: mockRepo)
@@ -104,5 +104,36 @@ final class ScanViewModelTests: XCTestCase {
 
         XCTAssertNil(sut.scannedPending, "Nach Reset muss scannedPending nil sein")
         XCTAssertNil(sut.error, "Nach Reset muss error nil sein")
+        XCTAssertTrue(sut.pageTexts.isEmpty, "Nach Reset müssen alle Seiten gelöscht sein")
+    }
+
+    // MARK: — Mehrseitenscan
+
+    /// addPage() accumulates page texts without saving.
+    func testMehrseitenScanSammeltSeiten() async throws {
+        mockScanner.result = MockDocumentScanner.hukPrivathaftpflichtFixture()
+        let sut = ScanViewModel(documentScanner: mockScanner, contractRepository: mockRepo)
+
+        await sut.addPage(imageData: Data())
+        await sut.addPage(imageData: Data())
+
+        XCTAssertEqual(sut.pageCount, 2, "Zwei addPage-Aufrufe müssen 2 Seiten akkumulieren")
+        XCTAssertNil(sut.scannedPending, "addPage darf noch keinen Entwurf anlegen")
+        let pending = try await mockRepo.listPending()
+        XCTAssertTrue(pending.isEmpty, "addPage darf noch nichts im Repository speichern")
+    }
+
+    /// finalizeMultiPage() combines pages and saves one PendingContract.
+    func testFinalizeMultiPageSpeichertEinenEntwurf() async throws {
+        mockScanner.result = MockDocumentScanner.hukPrivathaftpflichtFixture()
+        let sut = ScanViewModel(documentScanner: mockScanner, contractRepository: mockRepo)
+
+        await sut.addPage(imageData: Data())
+        await sut.addPage(imageData: Data())
+        await sut.finalizeMultiPage()
+
+        let pending = try await mockRepo.listPending()
+        XCTAssertEqual(pending.count, 1, "Finalisierung muss genau einen Entwurf anlegen")
+        XCTAssertNotNil(sut.scannedPending)
     }
 }

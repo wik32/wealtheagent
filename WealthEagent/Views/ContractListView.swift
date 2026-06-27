@@ -1,19 +1,15 @@
 // ContractListView.swift
-// Views — SwiftUI. Reads from ContractListViewModel (@Observable). No business logic.
+// Views — SwiftUI. Verträge-Tab mit Suche, Detail-Navigation, Add und Scan.
 //
-// Stage-1 vocabulary constraint (ubiquitous-language.md + CLAUDE.md):
+// Stage-1 vocabulary constraint (CLAUDE.md):
+//   - "Deine Verträge" — title
 //   - "Noch nichts erfasst" — empty state
-//   - "+" button — opens AddContractView sheet
-//   - Camera button — opens ScanView sheet
-//   - "Empfehlung" / "empfehlen" are BANNED from all View text
+//   - "Empfehlung" / "empfehlen" BANNED
 
 import SwiftUI
 
 // MARK: - ContractListView
 
-/// Verträge tab — lists confirmed contracts in the user's portfolio.
-/// Each row shows: provider name, category name, monthly premium.
-/// Toolbar: "+" (manual entry) + camera (OCR scan).
 struct ContractListView: View {
 
     @State var viewModel: ContractListViewModel
@@ -23,7 +19,20 @@ struct ContractListView: View {
     @State private var showAddContract = false
     @State private var showScan = false
     @State private var pendingToReview: PendingContract?
-    @State private var editingContract: Contract?
+    @State private var searchText = ""
+
+    // MARK: - Filtered contracts
+
+    private var filteredContracts: [Contract] {
+        guard !searchText.isEmpty else { return viewModel.contracts }
+        let query = searchText.lowercased()
+        return viewModel.contracts.filter { contract in
+            let categoryName = catalogProvider.catalog()
+                .category(for: contract.categoryKey)?.nameDe ?? contract.categoryKey
+            return contract.provider.lowercased().contains(query) ||
+                   categoryName.lowercased().contains(query)
+        }
+    }
 
     // MARK: - Body
 
@@ -34,29 +43,14 @@ struct ContractListView: View {
                     ProgressView()
                 } else if viewModel.contracts.isEmpty {
                     emptyStateView
+                } else if filteredContracts.isEmpty {
+                    noResultsView
                 } else {
-                    List {
-                        ForEach(viewModel.contracts) { contract in
-                            ContractRow(
-                                contract: contract,
-                                categoryDisplayName: catalogProvider.catalog()
-                                    .category(for: contract.categoryKey)?.nameDe
-                                    ?? contract.categoryKey
-                            )
-                                .contentShape(Rectangle())
-                                .onTapGesture { editingContract = contract }
-                        }
-                        .onDelete { indexSet in
-                            for index in indexSet {
-                                let contract = viewModel.contracts[index]
-                                Task { await viewModel.delete(contract: contract) }
-                            }
-                        }
-                    }
-                    .listStyle(.plain)
+                    contractList
                 }
             }
             .navigationTitle("Deine Verträge")
+            .searchable(text: $searchText, prompt: "Anbieter oder Kategorie")
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
                     addButton
@@ -65,7 +59,14 @@ struct ContractListView: View {
                     scanButton
                 }
             }
-            // Add-contract sheet (manual entry)
+            .navigationDestination(for: Contract.self) { contract in
+                ContractDetailView(
+                    contract: contract,
+                    catalog: catalogProvider.catalog(),
+                    contractRepository: viewModel.contractRepository
+                )
+            }
+            // Add-contract sheet
             .sheet(isPresented: $showAddContract, onDismiss: {
                 Task { await viewModel.load() }
             }) {
@@ -86,20 +87,7 @@ struct ContractListView: View {
             }) {
                 ScanView(viewModel: scanViewModel, onDismiss: { showScan = false })
             }
-            // Edit-contract sheet (tap on existing contract row)
-            .sheet(item: $editingContract, onDismiss: {
-                Task { await viewModel.load() }
-            }) { contract in
-                EditContractView(
-                    viewModel: EditContractViewModel(
-                        contract: contract,
-                        contractRepository: viewModel.contractRepository,
-                        catalog: catalogProvider.catalog()
-                    ),
-                    onDismiss: { editingContract = nil }
-                )
-            }
-            // Review sheet (shown after successful scan)
+            // Review sheet after scan
             .sheet(item: $pendingToReview, onDismiss: {
                 scanViewModel.reset()
                 Task { await viewModel.load() }
@@ -115,6 +103,29 @@ struct ContractListView: View {
             }
         }
         .task { await viewModel.load() }
+    }
+
+    // MARK: - Contract list
+
+    private var contractList: some View {
+        List {
+            ForEach(filteredContracts) { contract in
+                NavigationLink(value: contract) {
+                    ContractRow(
+                        contract: contract,
+                        categoryDisplayName: catalogProvider.catalog()
+                            .category(for: contract.categoryKey)?.nameDe ?? contract.categoryKey
+                    )
+                }
+            }
+            .onDelete { indexSet in
+                for index in indexSet {
+                    let contract = filteredContracts[index]
+                    Task { await viewModel.delete(contract: contract) }
+                }
+            }
+        }
+        .listStyle(.plain)
     }
 
     // MARK: - Subviews
@@ -133,10 +144,22 @@ struct ContractListView: View {
     }
 
     @ViewBuilder
+    private var noResultsView: some View {
+        VStack(spacing: 12) {
+            Image(systemName: "magnifyingglass")
+                .font(.system(size: 36))
+                .foregroundStyle(.secondary)
+            Text("Kein Vertrag gefunden für \"\(searchText)\"")
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+
+    @ViewBuilder
     private var addButton: some View {
-        Button {
-            showAddContract = true
-        } label: {
+        Button { showAddContract = true } label: {
             Image(systemName: "plus")
         }
     }
@@ -154,8 +177,6 @@ struct ContractListView: View {
 
 // MARK: - ContractRow
 
-/// Single row in the Verträge list.
-/// Shows: provider name + category key + monthly premium (if available).
 struct ContractRow: View {
 
     let contract: Contract
@@ -181,23 +202,21 @@ struct ContractRow: View {
         .padding(.vertical, 4)
     }
 
-    // MARK: - Formatting
-
     private func formattedPremium(amount: Double, interval: String?) -> String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
         formatter.currencyCode = "EUR"
         formatter.locale = Locale(identifier: "de_DE")
         let formatted = formatter.string(from: NSNumber(value: amount)) ?? "\(amount)"
-        let intervalLabel: String
+        let label: String
         switch interval {
-        case "monatlich":        intervalLabel = "/ Monat"
-        case "vierteljaehrlich": intervalLabel = "/ Quartal"
-        case "halbjaehrlich":    intervalLabel = "/ Halbjahr"
-        case "jaehrlich":        intervalLabel = "/ Jahr"
-        case "einmalig":         intervalLabel = "(einmalig)"
-        default:                 intervalLabel = ""
+        case "monatlich":        label = "/ Monat"
+        case "vierteljaehrlich": label = "/ Quartal"
+        case "halbjaehrlich":    label = "/ Halbjahr"
+        case "jaehrlich":        label = "/ Jahr"
+        case "einmalig":         label = "(einmalig)"
+        default:                 label = ""
         }
-        return intervalLabel.isEmpty ? formatted : "\(formatted) \(intervalLabel)"
+        return label.isEmpty ? formatted : "\(formatted) \(label)"
     }
 }
