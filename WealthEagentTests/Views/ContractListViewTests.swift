@@ -30,7 +30,7 @@ final class ContractListViewTests: XCTestCase {
         let vm = ContractListViewModel(
             contractRepository: MockContractRepository(contracts: MockContractRepository.fixtureContracts())
         )
-        XCTAssertNoThrow(ContractListView(viewModel: vm))
+        XCTAssertNoThrow(ContractListView(viewModel: vm, catalogProvider: MockCatalogProvider()))
     }
 
     // MARK: - Focused scenarios

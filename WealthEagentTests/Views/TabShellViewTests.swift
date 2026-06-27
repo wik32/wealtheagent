@@ -37,7 +37,8 @@ final class TabShellViewTests: XCTestCase {
             observationsViewModel: ObservationsViewModel(
                 contractRepository: contractRepository,
                 catalogProvider: catalogProvider
-            )
+            ),
+            catalogProvider: catalogProvider
         )
     }
 

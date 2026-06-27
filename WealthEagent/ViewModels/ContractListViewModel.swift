@@ -29,7 +29,7 @@ final class ContractListViewModel {
 
     // MARK: - Dependencies (protocol-typed, injectable for tests)
 
-    private let contractRepository: ContractRepository
+    let contractRepository: ContractRepository
 
     // MARK: - Init
 

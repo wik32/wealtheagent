@@ -3,7 +3,7 @@
 //
 // Stage-1 vocabulary constraint (ubiquitous-language.md + CLAUDE.md):
 //   - "Noch nichts erfasst" — empty state
-//   - "+" button label — navigates to add-contract sheet
+//   - "+" button — opens AddContractView sheet
 //   - "Empfehlung" / "empfehlen" are BANNED from all View text
 
 import SwiftUI
@@ -12,11 +12,12 @@ import SwiftUI
 
 /// Verträge tab — lists confirmed contracts in the user's portfolio.
 /// Each row shows: provider name, category name, monthly premium.
-/// "+" toolbar button navigates to add-contract flow.
-/// Receives a ContractListViewModel via dependency injection (Pillar 3).
+/// "+" toolbar button opens the add-contract form as a modal sheet.
 struct ContractListView: View {
 
     @State var viewModel: ContractListViewModel
+    let catalogProvider: CatalogProvider
+    @State private var showAddContract = false
 
     // MARK: - Body
 
@@ -40,6 +41,17 @@ struct ContractListView: View {
                     addButton
                 }
             }
+            .sheet(isPresented: $showAddContract, onDismiss: {
+                Task { await viewModel.load() }
+            }) {
+                AddContractView(
+                    viewModel: AddContractViewModel(
+                        contractRepository: viewModel.contractRepository,
+                        catalog: catalogProvider.catalog()
+                    ),
+                    onDismiss: { showAddContract = false }
+                )
+            }
         }
         .task { await viewModel.load() }
     }
@@ -62,7 +74,7 @@ struct ContractListView: View {
     @ViewBuilder
     private var addButton: some View {
         Button {
-            // Add-contract flow — Stage 2 scope
+            showAddContract = true
         } label: {
             Image(systemName: "plus")
         }

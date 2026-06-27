@@ -33,7 +33,8 @@ struct WealthEagentApp: App {
                 observationsViewModel: ObservationsViewModel(
                     contractRepository: contractRepository,
                     catalogProvider: catalogProvider
-                )
+                ),
+                catalogProvider: catalogProvider
             )
         }
     }
