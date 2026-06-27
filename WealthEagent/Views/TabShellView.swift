@@ -21,6 +21,10 @@ struct TabShellView: View {
     let catalogProvider: CatalogProvider
     let scanViewModel: ScanViewModel
 
+    // MARK: - First-launch disclaimer
+
+    @AppStorage("hasAcceptedDisclaimer") private var hasAcceptedDisclaimer = false
+
     // MARK: - Tab selection (first tab on launch)
 
     @State private var selectedTab: Int = 0
@@ -45,19 +49,14 @@ struct TabShellView: View {
                 .tabItem { Label("Beobachtungen", systemImage: "eye") }
                 .tag(2)
 
-            SettingsPlaceholderView()
+            SettingsView()
                 .tabItem { Label("Mehr", systemImage: "gearshape") }
                 .tag(3)
         }
-    }
-}
-
-// MARK: - SettingsPlaceholderView
-
-/// Placeholder for the "Mehr" tab (SettingsView / KnowledgeHubView — Stage 2 scope).
-struct SettingsPlaceholderView: View {
-    var body: some View {
-        Text("Einstellungen folgen")
-            .foregroundStyle(.secondary)
+        .fullScreenCover(isPresented: .constant(!hasAcceptedDisclaimer)) {
+            OnboardingDisclaimerView {
+                hasAcceptedDisclaimer = true
+            }
+        }
     }
 }

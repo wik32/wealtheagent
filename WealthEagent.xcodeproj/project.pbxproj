@@ -12,18 +12,22 @@
 		1264A1697AEF4BDEF701E446 /* EditContractViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF74E4D0C10162E46E3F5DB9 /* EditContractViewModel.swift */; };
 		131305B59DB1A1FA4C0EFD67 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E6CD9C997B132642C5D8FB4 /* DashboardView.swift */; };
 		18410085FD4C4E65B64E315E /* BundleCatalogProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E092F74D768692D8AE0B5AF /* BundleCatalogProvider.swift */; };
+		18C8AF3A2865E016E026CC00 /* DatenschutzView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FAA668D3436A4942867B054 /* DatenschutzView.swift */; };
 		270938B995C41BD2D7242A73 /* InsightsEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE3384024629E4E973A8990 /* InsightsEngineTests.swift */; };
+		280A96DCE154EFD5E24233B4 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62F6B49D2F823AA3F3880523 /* SettingsView.swift */; };
 		28D0AE37B5C85DD69F7319F1 /* ContractListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FED3B8B0C8140C82827437E /* ContractListViewModel.swift */; };
 		2922E082E5F70291B1DD0963 /* VisionDocumentScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B1E0B1617C7CAA48F617035 /* VisionDocumentScanner.swift */; };
 		295E3AF31753E1E73A23D169 /* LocalContractRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5B2B2A1C7A59069A037295 /* LocalContractRepositoryTests.swift */; };
 		2B81B336F920740DE0F6720D /* ContractParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0098EE7AE251137359A4E6BB /* ContractParser.swift */; };
 		2BC7A4A5FA0B54F9C8915851 /* DashboardViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12337E758B1CB82A34D133DF /* DashboardViewModelTests.swift */; };
+		2E7B0D440ECE7594CB9F6D48 /* ImpressumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD77F31739B341929BE0C60 /* ImpressumView.swift */; };
 		2F3EBB1ECEEC0C61EDD5282A /* AddContractViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D793EE0542BF1279F145DA17 /* AddContractViewModel.swift */; };
 		3154075DF5D1CF5EC2534B68 /* ContractListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD703CECA91642042E46451 /* ContractListViewModelTests.swift */; };
 		32786EDBFE9BCAC18E7945B8 /* catalog.json in Resources */ = {isa = PBXBuildFile; fileRef = C709899C7EDDA3F4CAE1F3E4 /* catalog.json */; };
 		4157FA36B5785F62B54FB7E6 /* CompareViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986BCF27A189C5ECCD8B9253 /* CompareViewModel.swift */; };
 		4C1366428B9B0686455B135E /* BundleCatalogProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F81CB5D05417968BA083F5D /* BundleCatalogProviderTests.swift */; };
 		56EA6BDB0A6E10DF336DD49D /* InsightsEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005AC39A300D122CA4ED8BBE /* InsightsEngine.swift */; };
+		5D99AE226342715E9F6F6875 /* DisclaimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0578EE4DDD0B75E80B5068C /* DisclaimerView.swift */; };
 		5E3C75B5556997BA19E39638 /* DocumentScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6476F5CE6EC88D99A012E5D5 /* DocumentScanner.swift */; };
 		6726C5556531123FD9FF2ABD /* TabShellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E720E924D960B291B823CEE /* TabShellView.swift */; };
 		69010BB5B1432D2C9FDE2311 /* Catalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C24918D7B1B6B548819D41 /* Catalog.swift */; };
@@ -37,6 +41,7 @@
 		85F657ADE7BB632DB3514515 /* MockContractRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE8015359DBEA1460AC2EB0 /* MockContractRepository.swift */; };
 		8B1DEB89C99189CAA88CC226 /* EditContractView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72E7BC3C872D4C8E8D9A25A /* EditContractView.swift */; };
 		8D77F54EF3CD0275B58C7957 /* LocalContractRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBE5AF723E7A50C147C97CEE /* LocalContractRepository.swift */; };
+		9145240F1C9B38C84A0EA20D /* OnboardingDisclaimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BA8E8CE885FAA296CF180E /* OnboardingDisclaimerView.swift */; };
 		946EC19FB095A9EC83E1C22A /* WealthEagentApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA09DD53DA5B76D2F9638FB /* WealthEagentApp.swift */; };
 		97948E64FE94B212B0C728DA /* WealthEagentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A7D700AC32D44FD17515E7 /* WealthEagentTests.swift */; };
 		9896C49C7D0C68BBB290B8D1 /* ContractListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 382BD1F2BCE1B790E77F2551 /* ContractListView.swift */; };
@@ -79,6 +84,7 @@
 		0098EE7AE251137359A4E6BB /* ContractParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractParser.swift; sourceTree = "<group>"; };
 		0B1E0B1617C7CAA48F617035 /* VisionDocumentScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionDocumentScanner.swift; sourceTree = "<group>"; };
 		0D5B2B2A1C7A59069A037295 /* LocalContractRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalContractRepositoryTests.swift; sourceTree = "<group>"; };
+		0FAA668D3436A4942867B054 /* DatenschutzView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatenschutzView.swift; sourceTree = "<group>"; };
 		12337E758B1CB82A34D133DF /* DashboardViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewModelTests.swift; sourceTree = "<group>"; };
 		1D4485079719C38983628CD6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		1E6CD9C997B132642C5D8FB4 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
@@ -96,6 +102,7 @@
 		545A5895211B936A7B5247FD /* ScanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanView.swift; sourceTree = "<group>"; };
 		5793F1734F28E5E2C40D0B75 /* DashboardViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewTests.swift; sourceTree = "<group>"; };
 		596FA21DE8587D8A64061357 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		62F6B49D2F823AA3F3880523 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		6476F5CE6EC88D99A012E5D5 /* DocumentScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentScanner.swift; sourceTree = "<group>"; };
 		698E35E76A55A6DDA78B4993 /* AddContractViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContractViewTests.swift; sourceTree = "<group>"; };
 		6B81D0A841C58F7CAB356714 /* PendingContractReviewViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingContractReviewViewModelTests.swift; sourceTree = "<group>"; };
@@ -104,6 +111,7 @@
 		7D28DE6CAC728C3AF9CFECF5 /* WealthEagent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WealthEagent.entitlements; sourceTree = "<group>"; };
 		811D14C278546725C4611396 /* ObservationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationsView.swift; sourceTree = "<group>"; };
 		83FD35FEDFBE05721D42B9D5 /* ContractCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractCategory.swift; sourceTree = "<group>"; };
+		84BA8E8CE885FAA296CF180E /* OnboardingDisclaimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingDisclaimerView.swift; sourceTree = "<group>"; };
 		885E4D7D31281E5056BA09E8 /* FinInsights.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinInsights.swift; sourceTree = "<group>"; };
 		8A23D3F2EE99AF93E89AA55C /* AddContractView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContractView.swift; sourceTree = "<group>"; };
 		8B83BC698F86F43A51BF64AF /* MockCatalogProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCatalogProvider.swift; sourceTree = "<group>"; };
@@ -126,10 +134,12 @@
 		CB42AEC6097D95654ABB7CB3 /* ContractParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractParserTests.swift; sourceTree = "<group>"; };
 		CBFBB2E59ED83C71B6474024 /* CompareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompareView.swift; sourceTree = "<group>"; };
 		CDD703CECA91642042E46451 /* ContractListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractListViewModelTests.swift; sourceTree = "<group>"; };
+		CDD77F31739B341929BE0C60 /* ImpressumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImpressumView.swift; sourceTree = "<group>"; };
 		D793EE0542BF1279F145DA17 /* AddContractViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContractViewModel.swift; sourceTree = "<group>"; };
 		DB569B9B60F756831B510D46 /* ObservationsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationsViewModelTests.swift; sourceTree = "<group>"; };
 		DBE5AF723E7A50C147C97CEE /* LocalContractRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalContractRepository.swift; sourceTree = "<group>"; };
 		DFFF1AA241B10E2AC54BFFAC /* PendingContractReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingContractReviewView.swift; sourceTree = "<group>"; };
+		E0578EE4DDD0B75E80B5068C /* DisclaimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisclaimerView.swift; sourceTree = "<group>"; };
 		E72E7BC3C872D4C8E8D9A25A /* EditContractView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditContractView.swift; sourceTree = "<group>"; };
 		EA831E573CC0D38461A04A61 /* CatalogTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogTests.swift; sourceTree = "<group>"; };
 		F5558D4CA853C7F641A9A45A /* WealthEagentTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = WealthEagentTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -193,10 +203,15 @@
 				1D4485079719C38983628CD6 /* ContentView.swift */,
 				382BD1F2BCE1B790E77F2551 /* ContractListView.swift */,
 				1E6CD9C997B132642C5D8FB4 /* DashboardView.swift */,
+				0FAA668D3436A4942867B054 /* DatenschutzView.swift */,
+				E0578EE4DDD0B75E80B5068C /* DisclaimerView.swift */,
 				E72E7BC3C872D4C8E8D9A25A /* EditContractView.swift */,
+				CDD77F31739B341929BE0C60 /* ImpressumView.swift */,
 				811D14C278546725C4611396 /* ObservationsView.swift */,
+				84BA8E8CE885FAA296CF180E /* OnboardingDisclaimerView.swift */,
 				DFFF1AA241B10E2AC54BFFAC /* PendingContractReviewView.swift */,
 				545A5895211B936A7B5247FD /* ScanView.swift */,
+				62F6B49D2F823AA3F3880523 /* SettingsView.swift */,
 				8E720E924D960B291B823CEE /* TabShellView.swift */,
 			);
 			path = Views;
@@ -458,19 +473,24 @@
 				04CD6D5A2B34EA4325F0214A /* ContractRepository.swift in Sources */,
 				131305B59DB1A1FA4C0EFD67 /* DashboardView.swift in Sources */,
 				85F016352F15F1DBD168D756 /* DashboardViewModel.swift in Sources */,
+				18C8AF3A2865E016E026CC00 /* DatenschutzView.swift in Sources */,
+				5D99AE226342715E9F6F6875 /* DisclaimerView.swift in Sources */,
 				5E3C75B5556997BA19E39638 /* DocumentScanner.swift in Sources */,
 				8B1DEB89C99189CAA88CC226 /* EditContractView.swift in Sources */,
 				1264A1697AEF4BDEF701E446 /* EditContractViewModel.swift in Sources */,
 				DF6B85789AE6899332631828 /* FinInsights.swift in Sources */,
+				2E7B0D440ECE7594CB9F6D48 /* ImpressumView.swift in Sources */,
 				56EA6BDB0A6E10DF336DD49D /* InsightsEngine.swift in Sources */,
 				8D77F54EF3CD0275B58C7957 /* LocalContractRepository.swift in Sources */,
 				AEC9BB0B6888015A2E6BCD61 /* OCRResult.swift in Sources */,
 				EAD80E9FEA85D705A5FA9323 /* ObservationsView.swift in Sources */,
 				6F90E38D0CCC863EAE70C257 /* ObservationsViewModel.swift in Sources */,
+				9145240F1C9B38C84A0EA20D /* OnboardingDisclaimerView.swift in Sources */,
 				6F13708631165E2A963592BB /* PendingContractReviewView.swift in Sources */,
 				B8C6B08876D776267A511FAD /* PendingContractReviewViewModel.swift in Sources */,
 				9D700040734EA0340DF407A5 /* ScanView.swift in Sources */,
 				BD8874A10FD2D1DAF25712F2 /* ScanViewModel.swift in Sources */,
+				280A96DCE154EFD5E24233B4 /* SettingsView.swift in Sources */,
 				6726C5556531123FD9FF2ABD /* TabShellView.swift in Sources */,
 				2922E082E5F70291B1DD0963 /* VisionDocumentScanner.swift in Sources */,
 				946EC19FB095A9EC83E1C22A /* WealthEagentApp.swift in Sources */,
