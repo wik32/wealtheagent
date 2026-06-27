@@ -59,12 +59,23 @@ final class PendingContractReviewViewModel {
     /// Atomically saves the confirmed Contract + discards the PendingContract.
     func confirm() async throws {
         let trimmedProvider = provider.trimmingCharacters(in: .whitespaces)
+
+        // Extract criteria heuristically detected during OCR scan
+        var extractedCriteria: [String: Bool] = [:]
+        for (key, value) in pending.extractedFields.values where key.hasPrefix("criterion_") {
+            if case .boolean(let met) = value {
+                let criterionKey = String(key.dropFirst("criterion_".count))
+                extractedCriteria[criterionKey] = met
+            }
+        }
+
         let contract = Contract(
             categoryKey: selectedCategoryKey.isEmpty ? pending.categoryKey : selectedCategoryKey,
             provider: trimmedProvider.isEmpty ? "Unbekannt" : trimmedProvider,
             contractNumber: contractNumber.isEmpty ? nil : contractNumber,
             premiumAmount: pending.extractedFields["premium_amount"]?.numberValue,
-            premiumInterval: pending.extractedFields["premium_interval"]?.textValue
+            premiumInterval: pending.extractedFields["premium_interval"]?.textValue,
+            criteria: extractedCriteria
         )
         try await contractRepository.save(contract)
         try await contractRepository.discard(id: pending.id)

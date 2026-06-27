@@ -8,6 +8,7 @@ struct WealthEagentApp: App {
     private let contractRepository: ContractRepository
     private let catalogProvider: CatalogProvider = BundleCatalogProvider()
     private let documentScanner: DocumentScanner = VisionDocumentScanner()
+    private let notificationAdapter: NotificationPort = LocalNotificationAdapter()
 
     init() {
         do {
@@ -29,7 +30,8 @@ struct WealthEagentApp: App {
                     catalogProvider: catalogProvider
                 ),
                 contractListViewModel: ContractListViewModel(
-                    contractRepository: contractRepository
+                    contractRepository: contractRepository,
+                    notificationPort: notificationAdapter
                 ),
                 observationsViewModel: ObservationsViewModel(
                     contractRepository: contractRepository,
@@ -39,7 +41,8 @@ struct WealthEagentApp: App {
                 scanViewModel: ScanViewModel(
                     documentScanner: documentScanner,
                     contractRepository: contractRepository
-                )
+                ),
+                notificationPort: notificationAdapter
             )
         }
     }

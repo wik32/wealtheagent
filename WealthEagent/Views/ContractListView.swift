@@ -20,18 +20,25 @@ struct ContractListView: View {
     @State private var showScan = false
     @State private var pendingToReview: PendingContract?
     @State private var searchText = ""
+    @State private var sortOrder: ContractSortOrder = .provider
 
-    // MARK: - Filtered contracts
+    // MARK: - Filtered + sorted contracts
 
     private var filteredContracts: [Contract] {
-        guard !searchText.isEmpty else { return viewModel.contracts }
-        let query = searchText.lowercased()
-        return viewModel.contracts.filter { contract in
-            let categoryName = catalogProvider.catalog()
-                .category(for: contract.categoryKey)?.nameDe ?? contract.categoryKey
-            return contract.provider.lowercased().contains(query) ||
-                   categoryName.lowercased().contains(query)
+        let all = viewModel.contracts
+        let filtered: [Contract]
+        if searchText.isEmpty {
+            filtered = all
+        } else {
+            let query = searchText.lowercased()
+            filtered = all.filter { contract in
+                let name = catalogProvider.catalog()
+                    .category(for: contract.categoryKey)?.nameDe ?? contract.categoryKey
+                return contract.provider.lowercased().contains(query) ||
+                       name.lowercased().contains(query)
+            }
         }
+        return sortOrder.apply(to: filtered, catalog: catalogProvider.catalog())
     }
 
     // MARK: - Body
@@ -55,7 +62,8 @@ struct ContractListView: View {
                 ToolbarItem(placement: .primaryAction) {
                     addButton
                 }
-                ToolbarItem(placement: .secondaryAction) {
+                ToolbarItemGroup(placement: .secondaryAction) {
+                    sortMenu
                     scanButton
                 }
             }
@@ -161,6 +169,25 @@ struct ContractListView: View {
     private var addButton: some View {
         Button { showAddContract = true } label: {
             Image(systemName: "plus")
+        }
+    }
+
+    @ViewBuilder
+    private var sortMenu: some View {
+        Menu {
+            ForEach(ContractSortOrder.allCases) { order in
+                Button {
+                    sortOrder = order
+                } label: {
+                    if sortOrder == order {
+                        Label(order.label, systemImage: "checkmark")
+                    } else {
+                        Text(order.label)
+                    }
+                }
+            }
+        } label: {
+            Image(systemName: "arrow.up.arrow.down")
         }
     }
 

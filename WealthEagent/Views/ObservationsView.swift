@@ -17,6 +17,7 @@ struct ObservationsView: View {
     @State private var comparingInsight: Insight?
     @State private var showAddForMissing = false
     @State private var missingCategoryKey = ""
+    @State private var detailInsight: Insight?
 
     var body: some View {
         NavigationStack {
@@ -32,6 +33,9 @@ struct ObservationsView: View {
             .navigationTitle("Beobachtungen")
             .sheet(item: $comparingInsight) { insight in
                 compareSheet(for: insight)
+            }
+            .sheet(item: $detailInsight) { insight in
+                InsightDetailView(insight: insight, onDismiss: { detailInsight = nil })
             }
             .sheet(isPresented: $showAddForMissing, onDismiss: {
                 Task { await viewModel.loadInsights() }
@@ -73,7 +77,12 @@ struct ObservationsView: View {
                 .buttonStyle(.plain)
 
             case .comparison:
-                BeobachtungRow(insight: insight, isInteractive: false)
+                Button {
+                    detailInsight = insight
+                } label: {
+                    BeobachtungRow(insight: insight, isInteractive: true)
+                }
+                .buttonStyle(.plain)
             }
         }
         .listStyle(.plain)

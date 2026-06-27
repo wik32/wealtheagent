@@ -20,6 +20,7 @@ struct TabShellView: View {
     @State var observationsViewModel: ObservationsViewModel
     let catalogProvider: CatalogProvider
     let scanViewModel: ScanViewModel
+    let notificationPort: NotificationPort
 
     // MARK: - First-launch disclaimer
 
@@ -49,9 +50,13 @@ struct TabShellView: View {
                 .tabItem { Label("Beobachtungen", systemImage: "eye") }
                 .tag(2)
 
-            SettingsView()
-                .tabItem { Label("Mehr", systemImage: "gearshape") }
-                .tag(3)
+            SettingsView(
+                contractRepository: contractListViewModel.contractRepository,
+                catalogProvider: catalogProvider,
+                notificationPort: notificationPort
+            )
+            .tabItem { Label("Mehr", systemImage: "gearshape") }
+            .tag(3)
         }
         .fullScreenCover(isPresented: .constant(!hasAcceptedDisclaimer)) {
             OnboardingDisclaimerView {

@@ -30,11 +30,13 @@ final class ContractListViewModel {
     // MARK: - Dependencies (protocol-typed, injectable for tests)
 
     let contractRepository: ContractRepository
+    private let notificationPort: NotificationPort?
 
     // MARK: - Init
 
-    init(contractRepository: ContractRepository) {
+    init(contractRepository: ContractRepository, notificationPort: NotificationPort? = nil) {
         self.contractRepository = contractRepository
+        self.notificationPort = notificationPort
     }
 
     // MARK: - Commands
@@ -58,6 +60,7 @@ final class ContractListViewModel {
     func add(contract: Contract) async {
         do {
             try await contractRepository.save(contract)
+            await notificationPort?.scheduleExpiryReminder(for: contract)
             await load()
         } catch {
             self.error = error
@@ -78,6 +81,7 @@ final class ContractListViewModel {
     /// Permanently deletes a confirmed contract.
     func delete(contract: Contract) async {
         do {
+            await notificationPort?.cancelReminder(for: contract.id)
             try await contractRepository.delete(id: contract.id)
             await load()
         } catch {

@@ -22,6 +22,9 @@ enum ContractParser {
         var premiumInterval: String?
         var extractedFields: ContractFields
         var fieldConfidences: [String: FieldConfidence]
+        /// Heuristically detected criteria from OCR text.
+        /// Stored in extractedFields as "criterion_KEY" = .boolean(value).
+        var extractedCriteria: [String: Bool]
     }
 
     // MARK: - Public entry point
@@ -36,6 +39,7 @@ enum ContractParser {
         let contractNumber = extractContractNumber(from: text)
         let (premiumAmount, premiumInterval) = extractPremium(from: text)
         let categoryHint = extractCategoryHint(from: text)
+        let extractedCriteria = extractCriteria(from: text)
 
         if let providerName = provider {
             fields["provider"] = .text(providerName)
@@ -53,6 +57,10 @@ enum ContractParser {
             fields["premium_interval"] = .text(interval)
             confidences["premium_interval"] = FieldConfidence(confidence: 0.85, needsReview: false)
         }
+        // Store extracted criteria as special fields for passthrough to confirmed Contract
+        for (key, value) in extractedCriteria {
+            fields["criterion_\(key)"] = .boolean(value)
+        }
 
         return ParseResult(
             categoryHint: categoryHint,
@@ -61,7 +69,8 @@ enum ContractParser {
             premiumAmount: premiumAmount,
             premiumInterval: premiumInterval,
             extractedFields: fields,
-            fieldConfidences: confidences
+            fieldConfidences: confidences,
+            extractedCriteria: extractedCriteria
         )
     }
 
@@ -185,6 +194,52 @@ enum ContractParser {
             }
         }
         return nil
+    }
+
+    // MARK: - Criteria extraction
+
+    /// Heuristically detects criterion keys from OCR text.
+    /// Only marks criteria as `true` when keywords are clearly present.
+    /// Missing keywords → criterion is omitted (not assumed false).
+    static func extractCriteria(from text: String) -> [String: Bool] {
+        var criteria: [String: Bool] = [:]
+        let lower = text.lowercased()
+
+        func contains(_ keywords: [String]) -> Bool {
+            keywords.contains { lower.contains($0.lowercased()) }
+        }
+
+        if contains(["grobe fahrlässigkeit", "grob fahrlässig", "grober fahrlässigkeit"]) {
+            criteria["gross_negligence_waiver"] = true
+        }
+        if contains(["schlüsselverlust", "schlüssel verlust", "verlust von schlüsseln"]) {
+            criteria["lost_key_cover"] = true
+        }
+        if contains(["ausland", "auslandsschäden", "weltweit"]) {
+            criteria["overseas_cover"] = true
+        }
+        if contains(["allmählichkeitsschäden", "allmählichkeit"]) {
+            criteria["gradual_damage"] = true
+        }
+        if contains(["mietsachschäden", "mietverhältnis", "gemietete sachen"]) {
+            criteria["tenant_damage"] = true
+        }
+        if contains(["ehrenamt", "ehrenamtlich", "freiwillige"]) {
+            criteria["volunteer_work"] = true
+        }
+        if contains(["e-mobility", "e-scooter", "e-bike", "pedelec"]) {
+            criteria["e_mobility"] = true
+        }
+        if contains(["inkasso", "ausfalldeckung", "forderungsausfall"]) {
+            criteria["contingency_cover"] = true
+        }
+        if contains(["tierhüten", "pet-sitting", "fremde tiere"]) {
+            criteria["pet_sitting"] = true
+        }
+        if contains(["50 mio", "50.000.000", "deckungssumme 50"]) {
+            criteria["min_coverage_sum"] = true
+        }
+        return criteria
     }
 
     // MARK: - Regex helper

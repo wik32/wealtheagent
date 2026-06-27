@@ -42,7 +42,8 @@ final class TabShellViewTests: XCTestCase {
             scanViewModel: ScanViewModel(
                 documentScanner: MockDocumentScanner(),
                 contractRepository: contractRepository
-            )
+            ),
+            notificationPort: MockNotificationPort()
         )
     }
 
