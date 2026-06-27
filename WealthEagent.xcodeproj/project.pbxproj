@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		03BC1138B57874B6DFBAD987 /* InMemoryContractRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B681B0B6E68CA74814C0F9A2 /* InMemoryContractRepository.swift */; };
 		04CD6D5A2B34EA4325F0214A /* ContractRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA945059A87E8C70DDA320E /* ContractRepository.swift */; };
+		0AD1FE4A57DAC1257E94EBEA /* CompareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBFBB2E59ED83C71B6474024 /* CompareView.swift */; };
 		131305B59DB1A1FA4C0EFD67 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E6CD9C997B132642C5D8FB4 /* DashboardView.swift */; };
 		18410085FD4C4E65B64E315E /* BundleCatalogProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E092F74D768692D8AE0B5AF /* BundleCatalogProvider.swift */; };
 		270938B995C41BD2D7242A73 /* InsightsEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE3384024629E4E973A8990 /* InsightsEngineTests.swift */; };
@@ -19,6 +20,7 @@
 		2BC7A4A5FA0B54F9C8915851 /* DashboardViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12337E758B1CB82A34D133DF /* DashboardViewModelTests.swift */; };
 		2F3EBB1ECEEC0C61EDD5282A /* AddContractViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D793EE0542BF1279F145DA17 /* AddContractViewModel.swift */; };
 		3154075DF5D1CF5EC2534B68 /* ContractListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD703CECA91642042E46451 /* ContractListViewModelTests.swift */; };
+		4157FA36B5785F62B54FB7E6 /* CompareViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986BCF27A189C5ECCD8B9253 /* CompareViewModel.swift */; };
 		56EA6BDB0A6E10DF336DD49D /* InsightsEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005AC39A300D122CA4ED8BBE /* InsightsEngine.swift */; };
 		5E3C75B5556997BA19E39638 /* DocumentScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6476F5CE6EC88D99A012E5D5 /* DocumentScanner.swift */; };
 		6726C5556531123FD9FF2ABD /* TabShellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E720E924D960B291B823CEE /* TabShellView.swift */; };
@@ -39,6 +41,7 @@
 		9D700040734EA0340DF407A5 /* ScanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545A5895211B936A7B5247FD /* ScanView.swift */; };
 		A1B55DE98106B7E33704BCBE /* DashboardViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5793F1734F28E5E2C40D0B75 /* DashboardViewTests.swift */; };
 		A3450EE766CE3551D2D04142 /* AddContractViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698E35E76A55A6DDA78B4993 /* AddContractViewTests.swift */; };
+		A9A215025648FC18F14EFF09 /* CompareViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C68B60B1CC1309533DEAD3C4 /* CompareViewModelTests.swift */; };
 		AEC9BB0B6888015A2E6BCD61 /* OCRResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F74E01DB0CCD782E828F7F /* OCRResult.swift */; };
 		AFBCAF22E5EF37E5B3B6F00F /* ContractParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB42AEC6097D95654ABB7CB3 /* ContractParserTests.swift */; };
 		B8C6B08876D776267A511FAD /* PendingContractReviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 315B41E8DCFF5226B6E4EA84 /* PendingContractReviewViewModel.swift */; };
@@ -102,6 +105,7 @@
 		8E720E924D960B291B823CEE /* TabShellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabShellView.swift; sourceTree = "<group>"; };
 		8E8F3E123D016F44641A0199 /* AddContractViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContractViewModelTests.swift; sourceTree = "<group>"; };
 		8FED3B8B0C8140C82827437E /* ContractListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractListViewModel.swift; sourceTree = "<group>"; };
+		986BCF27A189C5ECCD8B9253 /* CompareViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompareViewModel.swift; sourceTree = "<group>"; };
 		9AA945059A87E8C70DDA320E /* ContractRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractRepository.swift; sourceTree = "<group>"; };
 		9B72045EFA49D93B44B52E4D /* DashboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewModel.swift; sourceTree = "<group>"; };
 		9BD9287173F8458945A67EE8 /* Contract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contract.swift; sourceTree = "<group>"; };
@@ -111,7 +115,9 @@
 		B1C24918D7B1B6B548819D41 /* Catalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Catalog.swift; sourceTree = "<group>"; };
 		B681B0B6E68CA74814C0F9A2 /* InMemoryContractRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryContractRepository.swift; sourceTree = "<group>"; };
 		BCA09DD53DA5B76D2F9638FB /* WealthEagentApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WealthEagentApp.swift; sourceTree = "<group>"; };
+		C68B60B1CC1309533DEAD3C4 /* CompareViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompareViewModelTests.swift; sourceTree = "<group>"; };
 		CB42AEC6097D95654ABB7CB3 /* ContractParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractParserTests.swift; sourceTree = "<group>"; };
+		CBFBB2E59ED83C71B6474024 /* CompareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompareView.swift; sourceTree = "<group>"; };
 		CDD703CECA91642042E46451 /* ContractListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractListViewModelTests.swift; sourceTree = "<group>"; };
 		D793EE0542BF1279F145DA17 /* AddContractViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContractViewModel.swift; sourceTree = "<group>"; };
 		DB569B9B60F756831B510D46 /* ObservationsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationsViewModelTests.swift; sourceTree = "<group>"; };
@@ -127,6 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				D793EE0542BF1279F145DA17 /* AddContractViewModel.swift */,
+				986BCF27A189C5ECCD8B9253 /* CompareViewModel.swift */,
 				8FED3B8B0C8140C82827437E /* ContractListViewModel.swift */,
 				9B72045EFA49D93B44B52E4D /* DashboardViewModel.swift */,
 				2FA6503C264BC38257C5E253 /* ObservationsViewModel.swift */,
@@ -140,6 +147,7 @@
 			isa = PBXGroup;
 			children = (
 				8E8F3E123D016F44641A0199 /* AddContractViewModelTests.swift */,
+				C68B60B1CC1309533DEAD3C4 /* CompareViewModelTests.swift */,
 				CDD703CECA91642042E46451 /* ContractListViewModelTests.swift */,
 				12337E758B1CB82A34D133DF /* DashboardViewModelTests.swift */,
 				DB569B9B60F756831B510D46 /* ObservationsViewModelTests.swift */,
@@ -163,6 +171,7 @@
 			isa = PBXGroup;
 			children = (
 				8A23D3F2EE99AF93E89AA55C /* AddContractView.swift */,
+				CBFBB2E59ED83C71B6474024 /* CompareView.swift */,
 				1D4485079719C38983628CD6 /* ContentView.swift */,
 				382BD1F2BCE1B790E77F2551 /* ContractListView.swift */,
 				1E6CD9C997B132642C5D8FB4 /* DashboardView.swift */,
@@ -406,6 +415,8 @@
 				18410085FD4C4E65B64E315E /* BundleCatalogProvider.swift in Sources */,
 				69010BB5B1432D2C9FDE2311 /* Catalog.swift in Sources */,
 				E4E8F013CBC76B9D5EA2127B /* CatalogProvider.swift in Sources */,
+				0AD1FE4A57DAC1257E94EBEA /* CompareView.swift in Sources */,
+				4157FA36B5785F62B54FB7E6 /* CompareViewModel.swift in Sources */,
 				990CB43C091AC80A983FF5B5 /* ContentView.swift in Sources */,
 				EADFC1C2DCA388510132698C /* Contract.swift in Sources */,
 				B912712808752938CFBEB3E9 /* ContractCategory.swift in Sources */,
@@ -440,6 +451,7 @@
 				FF2539BBE5A7591E9F55181F /* AddContractViewModelTests.swift in Sources */,
 				A3450EE766CE3551D2D04142 /* AddContractViewTests.swift in Sources */,
 				E5D317B00AD45673BB15F3CB /* CatalogTests.swift in Sources */,
+				A9A215025648FC18F14EFF09 /* CompareViewModelTests.swift in Sources */,
 				3154075DF5D1CF5EC2534B68 /* ContractListViewModelTests.swift in Sources */,
 				7CD8DE5DBF43E6923C30B78F /* ContractListViewTests.swift in Sources */,
 				AFBCAF22E5EF37E5B3B6F00F /* ContractParserTests.swift in Sources */,

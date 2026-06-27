@@ -22,6 +22,8 @@ final class ObservationsViewModel {
     // MARK: - Observable state (Universe)
 
     private(set) var insights: FinInsights = FinInsights()
+    private(set) var contracts: [Contract] = []
+    private(set) var catalog: Catalog = Catalog(categories: [])
     private(set) var isLoading: Bool = false
     private(set) var error: Error?
 
@@ -47,6 +49,8 @@ final class ObservationsViewModel {
             let contracts = try await contractRepository.list()
             let catalog = catalogProvider.catalog()
             insights = InsightsEngine.insights(contracts: contracts, catalog: catalog)
+            self.contracts = contracts
+            self.catalog = catalog
         } catch {
             self.error = error
             insights = FinInsights()

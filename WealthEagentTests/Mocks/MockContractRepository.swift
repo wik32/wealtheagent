@@ -134,7 +134,7 @@ final class MockContractRepository: ContractRepository, @unchecked Sendable {
         )
     }
 
-    /// AXA Privathaftpflicht: 3/10 criteria met.
+    /// AXA Privathaftpflicht: 2/10 criteria met (lost_key_cover + e_mobility).
     /// gross_negligence_waiver=false, lost_key_cover=true, tenant_damage=false
     static func axaPrivathaftpflicht() -> Contract {
         Contract(

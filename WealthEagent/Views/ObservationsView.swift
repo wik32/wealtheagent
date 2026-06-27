@@ -5,6 +5,7 @@
 //   - "Beobachtungen" — headline and list title (NOT "Empfehlungen")
 //   - "Dopplung" / "Lücke" / "Vergleich" — kind badge labels
 //   - "Keine Beobachtungen — füge Verträge hinzu" — empty state
+//   - Tapping a "Dopplung" row opens CompareView (factual comparison, NO Empfehlung)
 //   - "Empfehlung" / "empfehlen" are BANNED from all View text
 
 import SwiftUI
@@ -12,11 +13,11 @@ import SwiftUI
 // MARK: - ObservationsView
 
 /// Beobachtungen tab — lists factual observations derived from the contract portfolio.
-/// Each row shows kind badge (Dopplung/Lücke/Vergleich), title, and detail.
-/// Receives an ObservationsViewModel via dependency injection (Pillar 3).
+/// Duplicate insights are tappable and open a side-by-side CompareView.
 struct ObservationsView: View {
 
     @State var viewModel: ObservationsViewModel
+    @State private var comparingInsight: Insight?
 
     // MARK: - Body
 
@@ -28,18 +29,57 @@ struct ObservationsView: View {
                 } else if viewModel.insights.isEmpty {
                     emptyStateView
                 } else {
-                    List(viewModel.insights.beobachtungen) { insight in
-                        BeobachtungRow(insight: insight)
-                    }
-                    .listStyle(.plain)
+                    insightsList
                 }
             }
             .navigationTitle("Beobachtungen")
+            .sheet(item: $comparingInsight) { insight in
+                compareSheet(for: insight)
+            }
         }
         .task { await viewModel.loadInsights() }
     }
 
-    // MARK: - Subviews
+    // MARK: - Insights list
+
+    @ViewBuilder
+    private var insightsList: some View {
+        List(viewModel.insights.beobachtungen) { insight in
+            if insight.kind == .duplicate {
+                Button {
+                    comparingInsight = insight
+                } label: {
+                    BeobachtungRow(insight: insight, isInteractive: true)
+                }
+                .buttonStyle(.plain)
+            } else {
+                BeobachtungRow(insight: insight, isInteractive: false)
+            }
+        }
+        .listStyle(.plain)
+    }
+
+    // MARK: - Compare sheet
+
+    @ViewBuilder
+    private func compareSheet(for insight: Insight) -> some View {
+        let contracts = viewModel.contracts.filter { $0.categoryKey == insight.categoryKey }
+        let compareVM = CompareViewModel(
+            categoryKey: insight.categoryKey,
+            contracts: contracts,
+            catalog: viewModel.catalog
+        )
+        NavigationStack {
+            CompareView(viewModel: compareVM)
+                .toolbar {
+                    ToolbarItem(placement: .confirmationAction) {
+                        Button("Fertig") { comparingInsight = nil }
+                    }
+                }
+        }
+    }
+
+    // MARK: - Empty state
 
     @ViewBuilder
     private var emptyStateView: some View {
@@ -61,9 +101,11 @@ struct ObservationsView: View {
 
 /// Single row in the Beobachtungen list.
 /// Shows: kind badge (Dopplung/Lücke/Vergleich) + title + detail.
+/// Interactive duplicate rows show a chevron to signal tappability.
 struct BeobachtungRow: View {
 
     let insight: Insight
+    let isInteractive: Bool
 
     // MARK: - Kind badge label mapping (domain language — no technical terms)
 
@@ -101,6 +143,14 @@ struct BeobachtungRow: View {
                 Text(insight.detailDe)
                     .font(.caption)
                     .foregroundStyle(.secondary)
+            }
+
+            Spacer()
+
+            if isInteractive {
+                Image(systemName: "chevron.right")
+                    .font(.caption)
+                    .foregroundStyle(.tertiary)
             }
         }
         .padding(.vertical, 4)
