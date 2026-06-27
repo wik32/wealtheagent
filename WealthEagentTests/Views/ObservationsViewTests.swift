@@ -26,7 +26,6 @@ final class ObservationsViewTests: XCTestCase {
     ///
     /// Verifies: ObservationsView compiles and accepts ObservationsViewModel without crash.
     func testObservationsViewInitializesWithViewModel() throws {
-        throw XCTSkip("Pending — enable after DashboardView walking skeleton is GREEN")
 
         let vm = ObservationsViewModel(
             contractRepository: MockContractRepository(contracts: MockContractRepository.fixtureContracts()),
@@ -45,7 +44,6 @@ final class ObservationsViewTests: XCTestCase {
     ///
     /// Business value: user can see that two policies cover the same risk — factual, not advisory.
     func testDopplungBeobachtungErscheintBeiZweiGleichenVertraegen() async throws {
-        throw XCTSkip("Pending — enable after ObservationsView walking skeleton is GREEN")
 
         let vm = ObservationsViewModel(
             contractRepository: MockContractRepository(contracts: MockContractRepository.fixtureContracts()),
@@ -65,7 +63,6 @@ final class ObservationsViewTests: XCTestCase {
     ///
     /// Business value: empty state is honest — no phantom observations appear.
     func testLeerePortfolioZeigtKeineBeobachtungen() async throws {
-        throw XCTSkip("Pending — enable after ObservationsView walking skeleton is GREEN")
 
         let vm = ObservationsViewModel(
             contractRepository: MockContractRepository(contracts: MockContractRepository.emptyPortfolio()),

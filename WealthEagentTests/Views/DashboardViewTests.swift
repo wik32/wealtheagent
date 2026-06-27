@@ -49,8 +49,6 @@ final class DashboardViewTests: XCTestCase {
     ///
     /// Business value: user sees factual coverage measurement after adding contracts.
     func testAbdeckungsgradIsGreaterThanZeroAfterPortfolioLoaded() async throws {
-        throw XCTSkip("Pending — enable in DELIVER after DashboardView body is implemented")
-
         let vm = DashboardViewModel(
             contractRepository: MockContractRepository(contracts: MockContractRepository.fixtureContracts()),
             catalogProvider: MockCatalogProvider()
@@ -68,8 +66,6 @@ final class DashboardViewTests: XCTestCase {
     ///
     /// Business value: empty state correctly shows zero coverage — not a phantom score.
     func testLeerePortfolioZeigtNullAbdeckungUndNullAusgaben() async throws {
-        throw XCTSkip("Pending — enable in DELIVER after DashboardView empty state is implemented")
-
         let vm = DashboardViewModel(
             contractRepository: MockContractRepository(contracts: MockContractRepository.emptyPortfolio()),
             catalogProvider: MockCatalogProvider()

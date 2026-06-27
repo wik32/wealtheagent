@@ -50,7 +50,6 @@ final class TabShellViewTests: XCTestCase {
     /// A mismatch in ViewModel init signatures or tab-composition wiring fails here — before
     /// any UI automation test is needed.
     func testTabShellViewInitializesWithAllViewModels() throws {
-        throw XCTSkip("Pending — enable after ContractListView walking skeleton is GREEN")
 
         XCTAssertNoThrow(makeTabShell())
     }
@@ -67,7 +66,6 @@ final class TabShellViewTests: XCTestCase {
     /// Tab label verification ("Übersicht", "Verträge", "Beobachtungen", "Mehr") is verified
     /// via UI test in a future UITest target — at this layer we verify structural compilation.
     func testVierTabsKoennenInitialisiertWerden() throws {
-        throw XCTSkip("Pending — enable after TabShellView walking skeleton is GREEN")
 
         let shell = makeTabShell()
         // If TabShellView requires exactly three ViewModels and this compiles, the four-tab

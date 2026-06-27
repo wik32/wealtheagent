@@ -48,6 +48,7 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: de.wealtheagent.tests
+        GENERATE_INFOPLIST_FILE: YES
     dependencies:
       - target: WealthEagent
 

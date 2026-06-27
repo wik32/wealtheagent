@@ -1,7 +1,6 @@
 // TabShellView.swift
 // Views — SwiftUI. Root TabView with 4 tabs. Replaces ContentView as main UI entry point.
 //
-// SCAFFOLD: true
 // Tab labels (ubiquitous-language.md):
 //   "Übersicht" | "Verträge" | "Beobachtungen" | "Mehr"
 // First tab (Übersicht) is selected on launch.
@@ -27,23 +26,23 @@ struct TabShellView: View {
     // MARK: - Body
 
     var body: some View {
-        fatalError("SCAFFOLD — TabShellView body not yet implemented. Remove fatalError in DELIVER.")
-        // Design spec:
-        //
-        // TabView(selection: $selectedTab) {
-        //     DashboardView(viewModel: dashboardViewModel)
-        //         .tabItem { Label("Übersicht", systemImage: "chart.pie") }
-        //         .tag(0)
-        //     ContractListView(viewModel: contractListViewModel)
-        //         .tabItem { Label("Verträge", systemImage: "doc.text") }
-        //         .tag(1)
-        //     ObservationsView(viewModel: observationsViewModel)
-        //         .tabItem { Label("Beobachtungen", systemImage: "eye") }
-        //         .tag(2)
-        //     SettingsPlaceholderView()
-        //         .tabItem { Label("Mehr", systemImage: "ellipsis") }
-        //         .tag(3)
-        // }
+        TabView(selection: $selectedTab) {
+            DashboardView(viewModel: dashboardViewModel)
+                .tabItem { Label("Übersicht", systemImage: "house") }
+                .tag(0)
+
+            ContractListView(viewModel: contractListViewModel)
+                .tabItem { Label("Verträge", systemImage: "doc.text") }
+                .tag(1)
+
+            ObservationsView(viewModel: observationsViewModel)
+                .tabItem { Label("Beobachtungen", systemImage: "eye") }
+                .tag(2)
+
+            SettingsPlaceholderView()
+                .tabItem { Label("Mehr", systemImage: "gearshape") }
+                .tag(3)
+        }
     }
 }
 
@@ -52,6 +51,7 @@ struct TabShellView: View {
 /// Placeholder for the "Mehr" tab (SettingsView / KnowledgeHubView — Stage 2 scope).
 struct SettingsPlaceholderView: View {
     var body: some View {
-        Text("Mehr")
+        Text("Einstellungen folgen")
+            .foregroundStyle(.secondary)
     }
 }

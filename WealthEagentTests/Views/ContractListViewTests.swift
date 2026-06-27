@@ -26,7 +26,6 @@ final class ContractListViewTests: XCTestCase {
     ///
     /// Verifies: ContractListView compiles and accepts ContractListViewModel without crash.
     func testContractListViewInitializesWithViewModel() throws {
-        throw XCTSkip("Pending — enable after ObservationsView walking skeleton is GREEN")
 
         let vm = ContractListViewModel(
             contractRepository: MockContractRepository(contracts: MockContractRepository.fixtureContracts())
@@ -44,7 +43,6 @@ final class ContractListViewTests: XCTestCase {
     ///
     /// Business value: user sees their complete portfolio — no contracts missing from the list.
     func testDreiVertraegeWerdenNachLadenAngezeigt() async throws {
-        throw XCTSkip("Pending — enable after ContractListView walking skeleton is GREEN")
 
         let vm = ContractListViewModel(
             contractRepository: MockContractRepository(contracts: MockContractRepository.fixtureContracts())
@@ -62,7 +60,6 @@ final class ContractListViewTests: XCTestCase {
     ///
     /// Business value: new user sees honest empty state, not a broken list.
     func testLeerePortfolioZeigtLeereVertragsliste() async throws {
-        throw XCTSkip("Pending — enable after ContractListView walking skeleton is GREEN")
 
         let vm = ContractListViewModel(
             contractRepository: MockContractRepository(contracts: MockContractRepository.emptyPortfolio())
