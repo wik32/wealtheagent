@@ -1,7 +1,7 @@
 // BundleCatalogProvider.swift
 // Adapters — implements CatalogProvider protocol with hard-coded Swift catalog data.
-// Single source of truth for catalog content in the production app.
-// Equivalent data is mirrored in MockCatalogProvider for tests.
+// TO BE REPLACED: catalog.json will externalize this data (next iteration).
+// swiftlint:disable file_length line_length type_body_length
 
 import Foundation
 

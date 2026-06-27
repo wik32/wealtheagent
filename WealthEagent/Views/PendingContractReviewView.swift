@@ -111,9 +111,9 @@ struct PendingContractReviewView: View {
     // MARK: - Helpers
 
     private var confidenceColor: Color {
-        let c = viewModel.pending.ocrConfidence
-        if c >= 0.8 { return .green }
-        if c >= 0.5 { return .orange }
+        let confidence = viewModel.pending.ocrConfidence
+        if confidence >= 0.8 { return .green }
+        if confidence >= 0.5 { return .orange }
         return .red
     }
 }

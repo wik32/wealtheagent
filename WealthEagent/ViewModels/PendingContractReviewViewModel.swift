@@ -80,12 +80,12 @@ final class PendingContractReviewViewModel {
 
 extension ContractFieldValue {
     var textValue: String? {
-        if case .text(let s) = self { return s }
+        if case .text(let str) = self { return str }
         return nil
     }
 
     var numberValue: Double? {
-        if case .number(let n) = self { return n }
+        if case .number(let num) = self { return num }
         return nil
     }
 }

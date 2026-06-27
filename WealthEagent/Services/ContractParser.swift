@@ -37,8 +37,8 @@ enum ContractParser {
         let (premiumAmount, premiumInterval) = extractPremium(from: text)
         let categoryHint = extractCategoryHint(from: text)
 
-        if let p = provider {
-            fields["provider"] = .text(p)
+        if let providerName = provider {
+            fields["provider"] = .text(providerName)
             confidences["provider"] = FieldConfidence(confidence: 0.90, needsReview: false)
         }
         if let cn = contractNumber {

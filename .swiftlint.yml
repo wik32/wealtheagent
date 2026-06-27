@@ -6,24 +6,159 @@ opt_in_rules:
   - explicit_init
   - force_unwrapping
 
+# ─────────────────────────────────────────────────────────────────
+# Layer Enforcement (CLAUDE.md Architecture)
+#
+# Dependency rule (hard):
+#   Domain     → Foundation only
+#   Ports      → Domain + Foundation only
+#   ViewModels → Ports + Domain + Foundation + Observation
+#   Adapters   → Ports + Apple frameworks (unrestricted)
+#   Views      → ViewModels + Domain + SwiftUI + PhotosUI
+#
+# The rules below enforce the INWARD direction: upper layers
+# must not bleed framework imports into lower layers.
+# ─────────────────────────────────────────────────────────────────
+
 custom_rules:
+
+  # ── Domain layer ─────────────────────────────────────────────
+  # Domain may only import Foundation. Nothing else.
+
   no_cloudkit_in_domain:
     name: "No CloudKit in Domain"
-    regex: "import CloudKit"
+    regex: "^import CloudKit"
     included: "WealthEagent/Domain/.*\\.swift"
-    message: "Domain layer must not import CloudKit"
+    message: "Domain layer must only import Foundation — remove CloudKit"
     severity: error
 
   no_vision_in_domain:
     name: "No Vision in Domain"
-    regex: "import Vision"
+    regex: "^import Vision"
     included: "WealthEagent/Domain/.*\\.swift"
-    message: "Domain layer must not import Vision"
+    message: "Domain layer must only import Foundation — remove Vision"
     severity: error
+
+  no_uikit_in_domain:
+    name: "No UIKit in Domain"
+    regex: "^import UIKit"
+    included: "WealthEagent/Domain/.*\\.swift"
+    message: "Domain layer must only import Foundation — remove UIKit"
+    severity: error
+
+  no_swiftui_in_domain:
+    name: "No SwiftUI in Domain"
+    regex: "^import SwiftUI"
+    included: "WealthEagent/Domain/.*\\.swift"
+    message: "Domain layer must only import Foundation — remove SwiftUI"
+    severity: error
+
+  no_swiftdata_in_domain:
+    name: "No SwiftData in Domain"
+    regex: "^import SwiftData"
+    included: "WealthEagent/Domain/.*\\.swift"
+    message: "Domain layer must only import Foundation — remove SwiftData"
+    severity: error
+
+  # ── Ports layer ───────────────────────────────────────────────
+  # Ports may only import Foundation + Domain types.
+  # No framework imports — keeps protocols technology-agnostic.
+
+  no_cloudkit_in_ports:
+    name: "No CloudKit in Ports"
+    regex: "^import CloudKit"
+    included: "WealthEagent/Ports/.*\\.swift"
+    message: "Ports layer must only import Foundation — remove CloudKit (use ContractRepository protocol instead)"
+    severity: error
+
+  no_vision_in_ports:
+    name: "No Vision in Ports"
+    regex: "^import Vision"
+    included: "WealthEagent/Ports/.*\\.swift"
+    message: "Ports layer must only import Foundation — remove Vision (use DocumentScanner protocol instead)"
+    severity: error
+
+  no_uikit_in_ports:
+    name: "No UIKit in Ports"
+    regex: "^import UIKit"
+    included: "WealthEagent/Ports/.*\\.swift"
+    message: "Ports layer must only import Foundation — remove UIKit"
+    severity: error
+
+  no_swiftui_in_ports:
+    name: "No SwiftUI in Ports"
+    regex: "^import SwiftUI"
+    included: "WealthEagent/Ports/.*\\.swift"
+    message: "Ports layer must only import Foundation — remove SwiftUI"
+    severity: error
+
+  no_swiftdata_in_ports:
+    name: "No SwiftData in Ports"
+    regex: "^import SwiftData"
+    included: "WealthEagent/Ports/.*\\.swift"
+    message: "Ports layer must only import Foundation — remove SwiftData"
+    severity: error
+
+  # ── ViewModels layer ──────────────────────────────────────────
+  # ViewModels may import: Foundation, Observation, Ports protocols, Domain types.
+  # Must NOT import UI frameworks or storage frameworks directly.
 
   no_cloudkit_in_viewmodels:
     name: "No CloudKit in ViewModels"
-    regex: "import CloudKit"
+    regex: "^import CloudKit"
     included: "WealthEagent/ViewModels/.*\\.swift"
-    message: "ViewModels must use ContractRepository protocol, not CloudKit directly"
+    message: "ViewModels must use ContractRepository protocol — remove CloudKit"
+    severity: error
+
+  no_vision_in_viewmodels:
+    name: "No Vision in ViewModels"
+    regex: "^import Vision"
+    included: "WealthEagent/ViewModels/.*\\.swift"
+    message: "ViewModels must use DocumentScanner protocol — remove Vision"
+    severity: error
+
+  no_uikit_in_viewmodels:
+    name: "No UIKit in ViewModels"
+    regex: "^import UIKit"
+    included: "WealthEagent/ViewModels/.*\\.swift"
+    message: "ViewModels must not import UIKit — move image handling to Views or Adapters"
+    severity: error
+
+  no_swiftui_in_viewmodels:
+    name: "No SwiftUI in ViewModels"
+    regex: "^import SwiftUI"
+    included: "WealthEagent/ViewModels/.*\\.swift"
+    message: "ViewModels must not import SwiftUI — use @Observable only (Observation framework)"
+    severity: error
+
+  no_swiftdata_in_viewmodels:
+    name: "No SwiftData in ViewModels"
+    regex: "^import SwiftData"
+    included: "WealthEagent/ViewModels/.*\\.swift"
+    message: "ViewModels must use ContractRepository protocol — remove SwiftData (only Adapters may use SwiftData)"
+    severity: error
+
+  # ── Views layer ───────────────────────────────────────────────
+  # Views may import SwiftUI, PhotosUI, ViewModels, Domain.
+  # Must NOT import storage or recognition frameworks directly.
+
+  no_cloudkit_in_views:
+    name: "No CloudKit in Views"
+    regex: "^import CloudKit"
+    included: "WealthEagent/Views/.*\\.swift"
+    message: "Views must not import CloudKit — use ViewModels that call ContractRepository"
+    severity: error
+
+  no_swiftdata_in_views:
+    name: "No SwiftData in Views"
+    regex: "^import SwiftData"
+    included: "WealthEagent/Views/.*\\.swift"
+    message: "Views must not import SwiftData — use ViewModels that call ContractRepository"
+    severity: error
+
+  no_vision_in_views:
+    name: "No Vision in Views"
+    regex: "^import Vision"
+    included: "WealthEagent/Views/.*\\.swift"
+    message: "Views must not import Vision — use ScanViewModel that calls DocumentScanner"
     severity: error
