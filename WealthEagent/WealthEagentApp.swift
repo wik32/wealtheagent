@@ -7,6 +7,7 @@ struct WealthEagentApp: App {
     private let modelContainer: ModelContainer
     private let contractRepository: ContractRepository
     private let catalogProvider: CatalogProvider = BundleCatalogProvider()
+    private let documentScanner: DocumentScanner = VisionDocumentScanner()
 
     init() {
         do {
@@ -34,7 +35,11 @@ struct WealthEagentApp: App {
                     contractRepository: contractRepository,
                     catalogProvider: catalogProvider
                 ),
-                catalogProvider: catalogProvider
+                catalogProvider: catalogProvider,
+                scanViewModel: ScanViewModel(
+                    documentScanner: documentScanner,
+                    contractRepository: contractRepository
+                )
             )
         }
     }

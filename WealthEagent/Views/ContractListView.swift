@@ -4,6 +4,7 @@
 // Stage-1 vocabulary constraint (ubiquitous-language.md + CLAUDE.md):
 //   - "Noch nichts erfasst" — empty state
 //   - "+" button — opens AddContractView sheet
+//   - Camera button — opens ScanView sheet
 //   - "Empfehlung" / "empfehlen" are BANNED from all View text
 
 import SwiftUI
@@ -12,12 +13,16 @@ import SwiftUI
 
 /// Verträge tab — lists confirmed contracts in the user's portfolio.
 /// Each row shows: provider name, category name, monthly premium.
-/// "+" toolbar button opens the add-contract form as a modal sheet.
+/// Toolbar: "+" (manual entry) + camera (OCR scan).
 struct ContractListView: View {
 
     @State var viewModel: ContractListViewModel
     let catalogProvider: CatalogProvider
+    let scanViewModel: ScanViewModel
+
     @State private var showAddContract = false
+    @State private var showScan = false
+    @State private var pendingToReview: PendingContract?
 
     // MARK: - Body
 
@@ -40,7 +45,11 @@ struct ContractListView: View {
                 ToolbarItem(placement: .primaryAction) {
                     addButton
                 }
+                ToolbarItem(placement: .secondaryAction) {
+                    scanButton
+                }
             }
+            // Add-contract sheet (manual entry)
             .sheet(isPresented: $showAddContract, onDismiss: {
                 Task { await viewModel.load() }
             }) {
@@ -50,6 +59,29 @@ struct ContractListView: View {
                         catalog: catalogProvider.catalog()
                     ),
                     onDismiss: { showAddContract = false }
+                )
+            }
+            // OCR scan sheet
+            .sheet(isPresented: $showScan, onDismiss: {
+                if let pending = scanViewModel.scannedPending {
+                    pendingToReview = pending
+                }
+                Task { await viewModel.load() }
+            }) {
+                ScanView(viewModel: scanViewModel, onDismiss: { showScan = false })
+            }
+            // Review sheet (shown after successful scan)
+            .sheet(item: $pendingToReview, onDismiss: {
+                scanViewModel.reset()
+                Task { await viewModel.load() }
+            }) { pending in
+                PendingContractReviewView(
+                    viewModel: PendingContractReviewViewModel(
+                        pending: pending,
+                        contractRepository: viewModel.contractRepository,
+                        catalog: catalogProvider.catalog()
+                    ),
+                    onDismiss: { pendingToReview = nil }
                 )
             }
         }
@@ -77,6 +109,16 @@ struct ContractListView: View {
             showAddContract = true
         } label: {
             Image(systemName: "plus")
+        }
+    }
+
+    @ViewBuilder
+    private var scanButton: some View {
+        Button {
+            scanViewModel.reset()
+            showScan = true
+        } label: {
+            Image(systemName: "camera.viewfinder")
         }
     }
 }

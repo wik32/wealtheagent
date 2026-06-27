@@ -10,7 +10,7 @@ import SwiftUI
 // MARK: - TabShellView
 
 /// Root tab interface. Wires the four top-level destinations.
-/// Requires all ViewModels and CatalogProvider injected — no ad-hoc construction inside (Pillar 3).
+/// Requires all ViewModels and providers injected — no ad-hoc construction inside (Pillar 3).
 struct TabShellView: View {
 
     // MARK: - Injected ViewModels
@@ -19,6 +19,7 @@ struct TabShellView: View {
     @State var contractListViewModel: ContractListViewModel
     @State var observationsViewModel: ObservationsViewModel
     let catalogProvider: CatalogProvider
+    let scanViewModel: ScanViewModel
 
     // MARK: - Tab selection (first tab on launch)
 
@@ -32,9 +33,13 @@ struct TabShellView: View {
                 .tabItem { Label("Übersicht", systemImage: "house") }
                 .tag(0)
 
-            ContractListView(viewModel: contractListViewModel, catalogProvider: catalogProvider)
-                .tabItem { Label("Verträge", systemImage: "doc.text") }
-                .tag(1)
+            ContractListView(
+                viewModel: contractListViewModel,
+                catalogProvider: catalogProvider,
+                scanViewModel: scanViewModel
+            )
+            .tabItem { Label("Verträge", systemImage: "doc.text") }
+            .tag(1)
 
             ObservationsView(viewModel: observationsViewModel)
                 .tabItem { Label("Beobachtungen", systemImage: "eye") }

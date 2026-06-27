@@ -172,11 +172,4 @@ final class MockContractRepository: ContractRepository, @unchecked Sendable {
     }
 }
 
-// MARK: - Helper extension
-
-private extension ContractFieldValue {
-    var textValue: String? {
-        if case .text(let s) = self { return s }
-        return nil
-    }
-}
+// textValue/numberValue helpers are defined in PendingContractReviewViewModel.swift

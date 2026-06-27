@@ -38,7 +38,11 @@ final class TabShellViewTests: XCTestCase {
                 contractRepository: contractRepository,
                 catalogProvider: catalogProvider
             ),
-            catalogProvider: catalogProvider
+            catalogProvider: catalogProvider,
+            scanViewModel: ScanViewModel(
+                documentScanner: MockDocumentScanner(),
+                contractRepository: contractRepository
+            )
         )
     }
 

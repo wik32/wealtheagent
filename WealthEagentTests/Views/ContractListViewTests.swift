@@ -27,10 +27,13 @@ final class ContractListViewTests: XCTestCase {
     /// Verifies: ContractListView compiles and accepts ContractListViewModel without crash.
     func testContractListViewInitializesWithViewModel() throws {
 
-        let vm = ContractListViewModel(
-            contractRepository: MockContractRepository(contracts: MockContractRepository.fixtureContracts())
-        )
-        XCTAssertNoThrow(ContractListView(viewModel: vm, catalogProvider: MockCatalogProvider()))
+        let repo = MockContractRepository(contracts: MockContractRepository.fixtureContracts())
+        let vm = ContractListViewModel(contractRepository: repo)
+        XCTAssertNoThrow(ContractListView(
+            viewModel: vm,
+            catalogProvider: MockCatalogProvider(),
+            scanViewModel: ScanViewModel(documentScanner: MockDocumentScanner(), contractRepository: repo)
+        ))
     }
 
     // MARK: - Focused scenarios
