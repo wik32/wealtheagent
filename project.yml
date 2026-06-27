@@ -30,6 +30,8 @@ targets:
       path: WealthEagent/WealthEagent.entitlements
       # CloudKit wird aktiviert sobald paid Developer Account vorhanden.
       # Bis dahin: LocalContractRepository (SwiftData)
+    resources:
+      - path: WealthEagent/Resources
     dependencies: []
     preBuildScripts:
       - name: SwiftLint

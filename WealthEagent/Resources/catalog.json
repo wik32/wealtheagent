@@ -1,0 +1,859 @@
+{
+  "categories" : [
+    {
+      "criteria" : [
+        {
+          "key" : "min_coverage_sum",
+          "labelDe" : "Mindestdeckungssumme",
+          "labelEn" : "Minimum coverage sum",
+          "whyItMatters" : "Gut-Tarife decken mindestens 50 Mio. € (Franke & Bornberg 2025)."
+        },
+        {
+          "key" : "gradual_damage",
+          "labelDe" : "Allmählichkeitsschäden",
+          "labelEn" : "Gradual damage",
+          "whyItMatters" : "Schäden, die sich über Zeit entwickeln, sind nicht automatisch versichert."
+        },
+        {
+          "key" : "gross_negligence_waiver",
+          "labelDe" : "Verzicht auf grobe Fahrlässigkeit",
+          "labelEn" : "Gross negligence waiver",
+          "whyItMatters" : "Ohne diese Klausel kann der Versicherer die Leistung kürzen."
+        },
+        {
+          "key" : "lost_key_cover",
+          "labelDe" : "Schlüsselverlust",
+          "labelEn" : "Lost-key cover",
+          "whyItMatters" : "Verlust von Haus- oder Fahrzeugschlüsseln kann teure Schloss-Austauschaktionen auslösen."
+        },
+        {
+          "key" : "volunteer_work",
+          "labelDe" : "Ehrenamt",
+          "labelEn" : "Volunteer work cover",
+          "whyItMatters" : "Schäden beim Ehrenamt sind nicht automatisch mitversichert."
+        },
+        {
+          "key" : "tenant_damage",
+          "labelDe" : "Mietsachschäden",
+          "labelEn" : "Tenant property damage",
+          "whyItMatters" : "Schäden an gemieteten Wohnungen oder Ferienhäusern müssen explizit eingeschlossen sein."
+        },
+        {
+          "key" : "overseas_cover",
+          "labelDe" : "Auslandsschutz",
+          "labelEn" : "Overseas cover",
+          "whyItMatters" : "Voller Versicherungsschutz muss auch temporär im Ausland gelten."
+        },
+        {
+          "key" : "pet_sitting",
+          "labelDe" : "Hütekind-Haftung",
+          "labelEn" : "Pet-sitting liability",
+          "whyItMatters" : "Haftet man für einen fremden Hund oder ein fremdes Pferd, greift die normale Tierhalterhaftpflicht nicht."
+        },
+        {
+          "key" : "contingency_cover",
+          "labelDe" : "Vorsorgeversicherung",
+          "labelEn" : "Contingency cover",
+          "whyItMatters" : "Überbrückungsschutz für neue Risiken bis zur Zeichnung einer Spezialpolice."
+        },
+        {
+          "key" : "e_mobility",
+          "labelDe" : "E-Mobilität",
+          "labelEn" : "E-mobility coverage",
+          "whyItMatters" : "Schäden durch Wallboxen, E-Scooter und E-Bikes sind nicht automatisch enthalten."
+        }
+      ],
+      "fieldSpecs" : [
+        {
+          "choices" : [
+
+          ],
+          "fieldKey" : "coverage_sum",
+          "kind" : "money",
+          "labelDe" : "Deckungssumme",
+          "labelEn" : "Coverage sum",
+          "required" : true
+        },
+        {
+          "choices" : [
+            {
+              "labelDe" : "Einzelperson",
+              "labelEn" : "Single",
+              "value" : "single"
+            },
+            {
+              "labelDe" : "Familie",
+              "labelEn" : "Family",
+              "value" : "family"
+            }
+          ],
+          "fieldKey" : "insured_persons",
+          "kind" : "choice",
+          "labelDe" : "Versicherte Personen",
+          "labelEn" : "Insured persons",
+          "required" : true
+        }
+      ],
+      "key" : "privathaftpflicht",
+      "knowledgeArticles" : [
+
+      ],
+      "nameDe" : "Privathaftpflicht",
+      "nameEn" : "Personal Liability",
+      "needsLevel" : 1,
+      "purpose" : "Schützt vor finanziellen Folgen, wenn du anderen Personen oder deren Eigentum Schaden zufügst.",
+      "relevance" : "Ein einziger Haftpflichtschaden kann existenzbedrohend sein. Anerkannte Bedarfssystematik: Stufe 1.",
+      "watch" : "Deckungssumme, grobe Fahrlässigkeit, Schlüsselverlust, Auslandsschutz."
+    },
+    {
+      "criteria" : [
+        {
+          "key" : "no_abstract_referral",
+          "labelDe" : "Verzicht auf abstrakte Verweisung",
+          "labelEn" : "No abstract referral",
+          "whyItMatters" : "Ohne Verzicht kann der Versicherer die Rente verweigern, wenn theoretisch ein anderer Beruf ausübbar wäre."
+        },
+        {
+          "key" : "six_month_prognosis",
+          "labelDe" : "6-Monats-Prognose",
+          "labelEn" : "Six-month prognosis clause",
+          "whyItMatters" : "Leistung wird fällig, wenn die BU voraussichtlich 6 Monate andauert."
+        },
+        {
+          "key" : "retrospective_payment",
+          "labelDe" : "Rückwirkende Leistung",
+          "labelEn" : "Retrospective benefit payment",
+          "whyItMatters" : "Renten werden ab Beginn der BU gezahlt, bis zu 3 Jahre rückwirkend."
+        },
+        {
+          "key" : "post_notification_waiver",
+          "labelDe" : "Verzicht auf Mitteilungspflicht",
+          "labelEn" : "Waiver of notification obligation",
+          "whyItMatters" : "Fehlende Meldungen können zur Leistungsverweigerung führen."
+        },
+        {
+          "key" : "nachversicherung",
+          "labelDe" : "Nachversicherungsgarantie",
+          "labelEn" : "Guaranteed increase option",
+          "whyItMatters" : "Rentenerhöhung nach Lebensereignissen ohne erneute Gesundheitsprüfung."
+        },
+        {
+          "key" : "au_clause",
+          "labelDe" : "AU-Klausel",
+          "labelEn" : "Incapacity-to-work bridge",
+          "whyItMatters" : "Zahlung bereits nach 3–4 Monaten Arbeitsunfähigkeit."
+        },
+        {
+          "key" : "profession_recheck",
+          "labelDe" : "Günstigerprüfung",
+          "labelEn" : "Most-favourable profession check",
+          "whyItMatters" : "Berufseinstufung wird bei Verlängerung nicht schlechter gestellt."
+        },
+        {
+          "key" : "benefit_dynamics",
+          "labelDe" : "Garantierte Leistungsdynamik",
+          "labelEn" : "Guaranteed benefit increase",
+          "whyItMatters" : "Jährliche Rentenanpassung schützt vor Kaufkraftverlust."
+        },
+        {
+          "key" : "health_question_period",
+          "labelDe" : "Gesundheitsfragenzeitraum",
+          "labelEn" : "Health disclosure look-back period",
+          "whyItMatters" : "Kurze Rückfragezeiträume bedeuten weniger Anfechtungsrisiko."
+        },
+        {
+          "key" : "no_reapplication_disclosure",
+          "labelDe" : "Kein Antragsstatus",
+          "labelEn" : "No prior-application disclosure",
+          "whyItMatters" : "Vermeidet Benachteiligung durch frühere Ablehnungen."
+        }
+      ],
+      "fieldSpecs" : [
+
+      ],
+      "key" : "berufsunfaehigkeit",
+      "knowledgeArticles" : [
+
+      ],
+      "nameDe" : "Berufsunfähigkeit",
+      "nameEn" : "Disability Insurance",
+      "needsLevel" : 1,
+      "purpose" : "Sichert das Einkommen ab, wenn du deinen Beruf dauerhaft nicht mehr ausüben kannst.",
+      "relevance" : "Einer der häufigsten Gründe für Altersarmut. Anerkannte Bedarfssystematik: Stufe 1.",
+      "watch" : "Verzicht auf abstrakte Verweisung, AU-Klausel, Nachversicherungsgarantie."
+    },
+    {
+      "criteria" : [
+
+      ],
+      "fieldSpecs" : [
+
+      ],
+      "key" : "krankenversicherung",
+      "knowledgeArticles" : [
+
+      ],
+      "nameDe" : "Krankenversicherung",
+      "nameEn" : "Health Insurance",
+      "needsLevel" : 1,
+      "purpose" : "Übernimmt Kosten für medizinische Behandlungen.",
+      "relevance" : "Pflichtversicherung in Deutschland. Anerkannte Bedarfssystematik: Stufe 1.",
+      "watch" : "GKV vs. PKV, Zusatzleistungen, Selbstbeteiligung."
+    },
+    {
+      "criteria" : [
+
+      ],
+      "fieldSpecs" : [
+
+      ],
+      "key" : "pflegeversicherung",
+      "knowledgeArticles" : [
+
+      ],
+      "nameDe" : "Pflegeversicherung",
+      "nameEn" : "Long-term Care Insurance",
+      "needsLevel" : 1,
+      "purpose" : "Deckt Kosten für Pflege bei dauerhafter Pflegebedürftigkeit.",
+      "relevance" : "Pflegelücke kann €2.000+\/Monat betragen. Anerkannte Bedarfssystematik: Stufe 1.",
+      "watch" : "Pflegegrad-Leistungen, Wartezeiten, Inflationsschutz."
+    },
+    {
+      "criteria" : [
+        {
+          "key" : "guaranteed_increase_option",
+          "labelDe" : "Nachversicherungsgarantie",
+          "labelEn" : "Guaranteed increase option",
+          "whyItMatters" : "Versicherungssumme kann bei Lebensereignissen ohne erneute Gesundheitsprüfung erhöht werden."
+        },
+        {
+          "key" : "property_purchase_trigger",
+          "labelDe" : "Immobilienkauf-Aufstockung",
+          "labelEn" : "Property purchase increase",
+          "whyItMatters" : "Explizite Garantie zur Erhöhung bei Immobilienfinanzierung."
+        },
+        {
+          "key" : "accelerated_death_benefit",
+          "labelDe" : "Vorgezogene Todesfallleistung",
+          "labelEn" : "Accelerated death benefit",
+          "whyItMatters" : "Auszahlung bereits bei einer Lebenserwartung unter 12 Monate."
+        },
+        {
+          "key" : "flexible_term_extension",
+          "labelDe" : "Flexible Laufzeitverlängerung",
+          "labelEn" : "Flexible term extension",
+          "whyItMatters" : "Laufzeit kann verlängert werden ohne erneute Gesundheitsprüfung."
+        },
+        {
+          "key" : "premium_pause",
+          "labelDe" : "Beitragsstundung",
+          "labelEn" : "Premium pause \/ payment relief",
+          "whyItMatters" : "Kurzfristige Zahlungsschwierigkeiten führen nicht sofort zum Policenverfall."
+        },
+        {
+          "key" : "annuity_conversion",
+          "labelDe" : "Rentenumwandlung",
+          "labelEn" : "Annuity conversion option",
+          "whyItMatters" : "Option, die Todesfallsumme in eine Rente umzuwandeln."
+        },
+        {
+          "key" : "decreasing_sum",
+          "labelDe" : "Fallende Versicherungssumme",
+          "labelEn" : "Decreasing sum insured",
+          "whyItMatters" : "Parallele Abnahme zur Restschuld der Hypothek — günstigere Prämie."
+        },
+        {
+          "key" : "no_interest_cap",
+          "labelDe" : "Kein Zinscap",
+          "labelEn" : "No interest-rate cap (surplus)",
+          "whyItMatters" : "Tarife mit Zinsobergrenze können Überschussbeteiligungen begrenzen."
+        }
+      ],
+      "fieldSpecs" : [
+
+      ],
+      "key" : "risikoleben",
+      "knowledgeArticles" : [
+
+      ],
+      "nameDe" : "Risikolebensversicherung",
+      "nameEn" : "Term Life Insurance",
+      "needsLevel" : 1,
+      "purpose" : "Zahlt eine Summe an Hinterbliebene, wenn der Versicherungsnehmer stirbt.",
+      "relevance" : "Wichtig für Haushalte mit Abhängigen oder Hypothek. Anerkannte Bedarfssystematik: Stufe 1.",
+      "watch" : "Versicherungssumme, Laufzeit, Nachversicherungsgarantie."
+    },
+    {
+      "criteria" : [
+
+      ],
+      "fieldSpecs" : [
+
+      ],
+      "key" : "unfallversicherung",
+      "knowledgeArticles" : [
+
+      ],
+      "nameDe" : "Unfallversicherung",
+      "nameEn" : "Accident Insurance",
+      "needsLevel" : 1,
+      "purpose" : "Zahlt eine Kapitalleistung oder Rente bei dauerhafter Invalidität durch Unfall.",
+      "relevance" : "Ergänzt BU für Risiken, die nicht berufsbedingt sind. Anerkannte Bedarfssystematik: Stufe 1.",
+      "watch" : "Invaliditätssumme, Gliedertaxe, Eigenbewegungsschutz."
+    },
+    {
+      "criteria" : [
+        {
+          "key" : "elementar_cover",
+          "labelDe" : "Elementarschäden",
+          "labelEn" : "Natural hazard cover",
+          "whyItMatters" : "Starkregen, Überschwemmung, Erdrutsch sind im Basisschutz nicht automatisch enthalten."
+        },
+        {
+          "key" : "gross_negligence_waiver",
+          "labelDe" : "Grobe Fahrlässigkeit",
+          "labelEn" : "Gross negligence waiver",
+          "whyItMatters" : "Tarife, die bei grober Fahrlässigkeit kürzen, werden von Stiftung Warentest sofort abgewertet."
+        },
+        {
+          "key" : "overvoltage_cover",
+          "labelDe" : "Überspannungsschäden",
+          "labelEn" : "Overvoltage cover",
+          "whyItMatters" : "Blitzschlag-induzierte Überspannungen beschädigen Elektronik."
+        },
+        {
+          "key" : "valuables_limit",
+          "labelDe" : "Wertsachen-Limit",
+          "labelEn" : "Valuables sub-limit",
+          "whyItMatters" : "Mindest 20 % der Versicherungssumme für Wertsachen ist Stiftung Warentest-Standard."
+        },
+        {
+          "key" : "bicycle_theft",
+          "labelDe" : "Fahrraddiebstahl",
+          "labelEn" : "Bicycle theft",
+          "whyItMatters" : "Fahrräder sind vom Hausrat oft ausgenommen."
+        },
+        {
+          "key" : "temp_housing_costs",
+          "labelDe" : "Hotelkosten",
+          "labelEn" : "Temporary housing costs",
+          "whyItMatters" : "Unbewohnbare Wohnung nach Schaden — Unterbringungskosten sollten gedeckt sein."
+        },
+        {
+          "key" : "heat_scorch_damage",
+          "labelDe" : "Sengschäden",
+          "labelEn" : "Heat \/ scorch damage",
+          "whyItMatters" : "Schäden durch Hitze ohne offene Flamme sind nicht automatisch versichert."
+        },
+        {
+          "key" : "provisional_cover",
+          "labelDe" : "Vorsorgeversicherung",
+          "labelEn" : "Advance cover",
+          "whyItMatters" : "Schutz vor Unterversicherung durch Neuanschaffungen."
+        },
+        {
+          "key" : "garden_furniture_theft",
+          "labelDe" : "Gartendiebstahl",
+          "labelEn" : "Garden furniture theft",
+          "whyItMatters" : "Gartenmöbel im Außenbereich sind ohne expliziten Einschluss nicht abgesichert."
+        },
+        {
+          "key" : "mobility_aid_theft",
+          "labelDe" : "Hilfsmitteldiebstahl",
+          "labelEn" : "Mobility-aid \/ pram theft",
+          "whyItMatters" : "Diebstahl von Rollstühlen, Rollatoren und Kinderwagen auf dem Grundstück."
+        }
+      ],
+      "fieldSpecs" : [
+
+      ],
+      "key" : "hausrat",
+      "knowledgeArticles" : [
+
+      ],
+      "nameDe" : "Hausratversicherung",
+      "nameEn" : "Household Contents Insurance",
+      "needsLevel" : 1,
+      "purpose" : "Versichert den Hausrat gegen Feuer, Einbruch, Leitungswasser und Elementarschäden.",
+      "relevance" : "Mobilien stellen oft mehrere Jahreseinkommen dar. Anerkannte Bedarfssystematik: Stufe 1.",
+      "watch" : "Elementarschutz, grobe Fahrlässigkeit, Fahrraddiebstahl, Wertsachen-Limit."
+    },
+    {
+      "criteria" : [
+        {
+          "key" : "elementar_included",
+          "labelDe" : "Elementarschutz inklusive",
+          "labelEn" : "Elementary hazard cover included",
+          "whyItMatters" : "Stiftung Warentest nimmt nur Tarife in den Test, die Elementarschutz enthalten."
+        },
+        {
+          "key" : "gross_negligence_waiver",
+          "labelDe" : "Verzicht auf grobe Fahrlässigkeit",
+          "labelEn" : "Gross negligence waiver",
+          "whyItMatters" : "Das wichtigste Einzelkriterium — Tarife ohne Verzicht erhalten sofort 'mangelhaft'."
+        },
+        {
+          "key" : "demolition_cleanup_costs",
+          "labelDe" : "Abbruch- und Aufräumkosten",
+          "labelEn" : "Demolition and cleanup costs",
+          "whyItMatters" : "Abrisskosten nach Totalschaden sind ein häufig unterschätzter Kostenfaktor."
+        },
+        {
+          "key" : "regulatory_surcharge",
+          "labelDe" : "Behördliche Mehrkosten",
+          "labelEn" : "Regulatory surcharge cover",
+          "whyItMatters" : "Behördliche Auflagen können Wiederaufbau verteuern."
+        },
+        {
+          "key" : "hotel_costs",
+          "labelDe" : "Hotelkosten",
+          "labelEn" : "Temporary accommodation",
+          "whyItMatters" : "Übernachtungskosten bei vorübergehend unbewohnbarem Gebäude."
+        },
+        {
+          "key" : "pipe_freeze_break",
+          "labelDe" : "Frost- und Rohrbruch auf Grundstück",
+          "labelEn" : "Pipe freeze \/ break on property",
+          "whyItMatters" : "Ableitungsrohre außerhalb des Gebäudes sind nicht automatisch mitversichert."
+        },
+        {
+          "key" : "overvoltage_lightning",
+          "labelDe" : "Überspannung durch Blitz",
+          "labelEn" : "Overvoltage \/ lightning surge",
+          "whyItMatters" : "Blitzinduzierte Überspannung beschädigt Elektroinstallationen."
+        },
+        {
+          "key" : "advance_cover",
+          "labelDe" : "Vorsorgeversicherung Gebäude",
+          "labelEn" : "Advance \/ contingency cover",
+          "whyItMatters" : "Automatischer Schutz bei Umbau oder Erweiterungen."
+        },
+        {
+          "key" : "expert_costs",
+          "labelDe" : "Sachverständigenkosten",
+          "labelEn" : "Expert witness costs",
+          "whyItMatters" : "Kosten für Gutachter bei Streit über Schadenhöhe werden übernommen."
+        },
+        {
+          "key" : "energy_efficient_rebuild",
+          "labelDe" : "Energieeffizienter Wiederaufbau",
+          "labelEn" : "Energy-efficient rebuild cover",
+          "whyItMatters" : "Mehrkosten für energetisch bessere Bauweise beim Wiederaufbau werden erstattet."
+        }
+      ],
+      "fieldSpecs" : [
+
+      ],
+      "key" : "wohngebaeude",
+      "knowledgeArticles" : [
+
+      ],
+      "nameDe" : "Wohngebäudeversicherung",
+      "nameEn" : "Building Insurance",
+      "needsLevel" : 1,
+      "purpose" : "Versichert das Gebäude gegen Feuer, Sturm, Hagel, Leitungswasser und Elementarschäden.",
+      "relevance" : "Pflicht für Eigentümer. Anerkannte Bedarfssystematik: Stufe 1.",
+      "watch" : "Elementarschutz inklusive, grobe Fahrlässigkeit, Behördenmehrkosten."
+    },
+    {
+      "criteria" : [
+        {
+          "key" : "no_waiting_period",
+          "labelDe" : "Kein Wartefrist (Verkehr)",
+          "labelEn" : "No waiting period (traffic)",
+          "whyItMatters" : "Tarife, die generell auf Wartezeiten verzichten, sind vorzuziehen."
+        },
+        {
+          "key" : "short_employment_wait",
+          "labelDe" : "Kurze Wartezeit Arbeitsrecht",
+          "labelEn" : "Short employment-law waiting period",
+          "whyItMatters" : "Standard ist 3 Monate (allgemein), 6 Monate (Arbeitsrecht)."
+        },
+        {
+          "key" : "high_coverage_sum",
+          "labelDe" : "Hohe Deckungssumme",
+          "labelEn" : "High coverage sum",
+          "whyItMatters" : "Mindestens 1 Mio. € Deckungssumme pro Rechtsfall."
+        },
+        {
+          "key" : "employment_law",
+          "labelDe" : "Arbeitsrechtsschutz",
+          "labelEn" : "Employment law cover",
+          "whyItMatters" : "Schutz bei Kündigung, Abmahnung und Lohnstreitigkeiten."
+        },
+        {
+          "key" : "tenant_law",
+          "labelDe" : "Mietrechtsschutz",
+          "labelEn" : "Tenant law cover",
+          "whyItMatters" : "Streit mit Vermieter über Nebenkostenabrechnung oder Kündigung."
+        },
+        {
+          "key" : "traffic_law",
+          "labelDe" : "Verkehrsrechtsschutz",
+          "labelEn" : "Traffic law cover",
+          "whyItMatters" : "Schutz bei Bußgeldbescheiden, Kfz-Kaufstreitigkeiten und Unfallschadensersatz."
+        },
+        {
+          "key" : "social_law",
+          "labelDe" : "Sozialrechtsschutz",
+          "labelEn" : "Social-law cover",
+          "whyItMatters" : "Streit mit Behörden über Sozialleistungen, Rente oder Krankenkasse."
+        },
+        {
+          "key" : "ombudsman_access",
+          "labelDe" : "Ombudsmann-Teilnahme",
+          "labelEn" : "Insurance ombudsman access",
+          "whyItMatters" : "Ermöglicht kostenlose außergerichtliche Streitbeilegung."
+        },
+        {
+          "key" : "claims_handling_quality",
+          "labelDe" : "Regulierungsverhalten",
+          "labelEn" : "Claims handling quality",
+          "whyItMatters" : "Stiftung Warentest erhebt Versichererdaten zum Regulierungsverhalten."
+        },
+        {
+          "key" : "family_cover",
+          "labelDe" : "Familienmitversicherung",
+          "labelEn" : "Family member cover",
+          "whyItMatters" : "Partner, Kinder und Haushaltsmitglieder sind beitragsfrei mitversichert."
+        }
+      ],
+      "fieldSpecs" : [
+
+      ],
+      "key" : "rechtsschutz",
+      "knowledgeArticles" : [
+
+      ],
+      "nameDe" : "Rechtsschutzversicherung",
+      "nameEn" : "Legal Expenses Insurance",
+      "needsLevel" : 1,
+      "purpose" : "Übernimmt Anwalts- und Gerichtskosten bei rechtlichen Auseinandersetzungen.",
+      "relevance" : "Rechtsstreitigkeiten können schnell fünfstellig werden. Anerkannte Bedarfssystematik: Stufe 1.",
+      "watch" : "Wartezeiten, Deckungssumme, Arbeitsrechtsschutz, Mietrechtsschutz."
+    },
+    {
+      "criteria" : [
+        {
+          "key" : "high_liability_limit",
+          "labelDe" : "Hohe Deckungssumme",
+          "labelEn" : "High liability limit",
+          "whyItMatters" : "Mind. 100 Mio. € Deckungssumme (Stiftung Warentest)."
+        },
+        {
+          "key" : "mallorca_policy",
+          "labelDe" : "Mallorca-Police",
+          "labelEn" : "Mallorca \/ abroad rental cover",
+          "whyItMatters" : "Erweitert Haftpflichtschutz auf Mietwagen im Ausland."
+        },
+        {
+          "key" : "animal_bite_followup",
+          "labelDe" : "Tierbissfolgeschäden",
+          "labelEn" : "Animal-bite consequential damage",
+          "whyItMatters" : "Schäden durch Tierbiss an Kabeln und Schläuchen."
+        },
+        {
+          "key" : "extended_wildlife",
+          "labelDe" : "Erweiterter Wildschadenschutz",
+          "labelEn" : "Extended wildlife cover",
+          "whyItMatters" : "Standard deckt nur Haarwild — gute Tarife decken alle Wirbeltiere."
+        },
+        {
+          "key" : "gross_negligence_waiver",
+          "labelDe" : "Grobe Fahrlässigkeit Kasko",
+          "labelEn" : "Gross negligence waiver (Kasko)",
+          "whyItMatters" : "Ohne diese Klausel kürzt der Versicherer bei Unachtsamkeit."
+        },
+        {
+          "key" : "new_car_replacement",
+          "labelDe" : "Neupreisentschädigung",
+          "labelEn" : "New-car replacement value",
+          "whyItMatters" : "Vollkasko zahlt bei Totalschaden den Neupreis statt des Zeitwerts."
+        },
+        {
+          "key" : "no_claims_buyback",
+          "labelDe" : "Schadenrückkauf",
+          "labelEn" : "No-claims buyback",
+          "whyItMatters" : "Ermöglicht, einen Schaden selbst zu bezahlen, um die SF-Klasse zu erhalten."
+        },
+        {
+          "key" : "discount_protection",
+          "labelDe" : "Rabattschutz",
+          "labelEn" : "Discount \/ no-claims protection",
+          "whyItMatters" : "Ein selbstverschuldeter Unfall führt nicht zur SF-Rückstufung."
+        },
+        {
+          "key" : "ev_battery_cover",
+          "labelDe" : "Akkudeckung",
+          "labelEn" : "EV battery cover",
+          "whyItMatters" : "Deckung für Akkuschutz, Ladeausrüstung und Wallbox-Schäden."
+        },
+        {
+          "key" : "breakdown_cover",
+          "labelDe" : "Pannenhilfe",
+          "labelEn" : "Breakdown assistance",
+          "whyItMatters" : "Pannenhilfe und Abschleppkosten sind in vielen Basistarifen nicht enthalten."
+        }
+      ],
+      "fieldSpecs" : [
+
+      ],
+      "key" : "kfz",
+      "knowledgeArticles" : [
+
+      ],
+      "nameDe" : "Kfz-Versicherung",
+      "nameEn" : "Motor Insurance",
+      "needsLevel" : 1,
+      "purpose" : "Deckt Haftpflicht für Fahrzeugschäden und optional Kaskoschäden.",
+      "relevance" : "Kfz-Haftpflicht ist in Deutschland Pflicht. Anerkannte Bedarfssystematik: Stufe 1.",
+      "watch" : "Deckungssumme, grobe Fahrlässigkeit Kasko, Mallorca-Police, Neupreisentschädigung."
+    },
+    {
+      "criteria" : [
+
+      ],
+      "fieldSpecs" : [
+
+      ],
+      "key" : "tierhalterhaftpflicht",
+      "knowledgeArticles" : [
+
+      ],
+      "nameDe" : "Tierhalterhaftpflicht",
+      "nameEn" : "Pet Liability Insurance",
+      "needsLevel" : 1,
+      "purpose" : "Deckt Schäden, die durch das eigene Tier an Dritten entstehen.",
+      "relevance" : "Halter von Hunden und Pferden haften unbegrenzt für Tierschäden. Anerkannte Bedarfssystematik: Stufe 1.",
+      "watch" : "Deckungssumme, Auslandsschutz."
+    },
+    {
+      "criteria" : [
+
+      ],
+      "fieldSpecs" : [
+
+      ],
+      "key" : "liquiditaetsreserve",
+      "knowledgeArticles" : [
+
+      ],
+      "nameDe" : "Liquiditätsreserve",
+      "nameEn" : "Emergency Fund",
+      "needsLevel" : 2,
+      "purpose" : "Sofortverfügbares Kapital für ungeplante Ausgaben (3–6 Monatsnettogehälter).",
+      "relevance" : "Verhindert Schulden bei unerwarteten Kosten. Anerkannte Bedarfssystematik: Stufe 2.",
+      "watch" : "Höhe, Verfügbarkeit, Verzinsung."
+    },
+    {
+      "criteria" : [
+
+      ],
+      "fieldSpecs" : [
+
+      ],
+      "key" : "altersvorsorge",
+      "knowledgeArticles" : [
+
+      ],
+      "nameDe" : "Altersvorsorge",
+      "nameEn" : "Retirement Provision",
+      "needsLevel" : 2,
+      "purpose" : "Baut Kapital für das Rentenalter auf.",
+      "relevance" : "Die gesetzliche Rente allein reicht in der Regel nicht. Anerkannte Bedarfssystematik: Stufe 2.",
+      "watch" : "Laufende Kosten (TER), Flexibilität, Renditechancen."
+    },
+    {
+      "criteria" : [
+
+      ],
+      "fieldSpecs" : [
+
+      ],
+      "key" : "lebensversicherung",
+      "knowledgeArticles" : [
+
+      ],
+      "nameDe" : "Lebensversicherung",
+      "nameEn" : "Endowment Life Insurance",
+      "needsLevel" : 2,
+      "purpose" : "Kombination aus Todesfallschutz und Kapitalaufbau.",
+      "relevance" : "Häufig aus Altverträgen; laufende Kosten prüfen. Anerkannte Bedarfssystematik: Stufe 2.",
+      "watch" : "Laufende Kosten, garantierter Zins, Flexibilität."
+    },
+    {
+      "criteria" : [
+
+      ],
+      "fieldSpecs" : [
+
+      ],
+      "key" : "immobilienfinanzierung",
+      "knowledgeArticles" : [
+
+      ],
+      "nameDe" : "Immobilienfinanzierung",
+      "nameEn" : "Property Financing",
+      "needsLevel" : 2,
+      "purpose" : "Finanziert den Kauf oder Bau einer Immobilie.",
+      "relevance" : "Größte Einzelverbindlichkeit für viele Haushalte. Anerkannte Bedarfssystematik: Stufe 2.",
+      "watch" : "Zinsbindung, Tilgungsrate, Sondertilgungsrecht."
+    },
+    {
+      "criteria" : [
+
+      ],
+      "fieldSpecs" : [
+
+      ],
+      "key" : "bausparvertrag",
+      "knowledgeArticles" : [
+
+      ],
+      "nameDe" : "Bausparvertrag",
+      "nameEn" : "Building Society Contract",
+      "needsLevel" : 2,
+      "purpose" : "Spart zinssicher Kapital für Immobilienerwerb oder -renovierung an.",
+      "relevance" : "Staatlich gefördert über Wohnungsbauprämie. Anerkannte Bedarfssystematik: Stufe 2.",
+      "watch" : "Sparzins, Darlehenszins, Abschlussgebühr."
+    },
+    {
+      "criteria" : [
+
+      ],
+      "fieldSpecs" : [
+
+      ],
+      "key" : "depot",
+      "knowledgeArticles" : [
+
+      ],
+      "nameDe" : "Depot",
+      "nameEn" : "Investment Portfolio",
+      "needsLevel" : 2,
+      "purpose" : "Verwahrt und verwaltet Wertpapiere (Aktien, ETFs, Fonds).",
+      "relevance" : "Wichtigster Kanal für langfristigen Vermögensaufbau. Anerkannte Bedarfssystematik: Stufe 2.",
+      "watch" : "Laufende Kosten (TER), Depotgebühren, Anlagepolitik."
+    },
+    {
+      "criteria" : [
+
+      ],
+      "fieldSpecs" : [
+
+      ],
+      "key" : "sparplan",
+      "knowledgeArticles" : [
+
+      ],
+      "nameDe" : "Sparplan",
+      "nameEn" : "Savings Plan",
+      "needsLevel" : 2,
+      "purpose" : "Regelmäßige Einzahlungen in Fonds oder ETFs (Cost Averaging).",
+      "relevance" : "Disziplinierter Aufbau von Vermögen über Zeit. Anerkannte Bedarfssystematik: Stufe 2.",
+      "watch" : "Ausführungsgebühren, Mindestrate, Produktauswahl."
+    },
+    {
+      "criteria" : [
+
+      ],
+      "fieldSpecs" : [
+
+      ],
+      "key" : "tagesgeld_festgeld",
+      "knowledgeArticles" : [
+
+      ],
+      "nameDe" : "Tagesgeld \/ Festgeld",
+      "nameEn" : "Savings \/ Fixed-term Deposit",
+      "needsLevel" : 2,
+      "purpose" : "Kurz- bis mittelfristige Zinsanlage mit hoher Verfügbarkeit (Tagesgeld) oder Laufzeitbindung (Festgeld).",
+      "relevance" : "Sicherheitspuffer und Renditepuffer im Niedrigzinsumfeld. Anerkannte Bedarfssystematik: Stufe 2.",
+      "watch" : "Zinssatz, Einlagensicherung, Laufzeit."
+    },
+    {
+      "criteria" : [
+
+      ],
+      "fieldSpecs" : [
+
+      ],
+      "key" : "sterbegeld",
+      "knowledgeArticles" : [
+
+      ],
+      "nameDe" : "Sterbegeldversicherung",
+      "nameEn" : "Funeral Cost Insurance",
+      "needsLevel" : 3,
+      "purpose" : "Finanziert Bestattungskosten.",
+      "relevance" : "Entlastet Hinterbliebene von Bestattungskosten. Anerkannte Bedarfssystematik: Stufe 3.",
+      "watch" : "Versicherungssumme, Wartezeit, Beitragsverlauf."
+    },
+    {
+      "criteria" : [
+        {
+          "key" : "medical_costs_unlimited",
+          "labelDe" : "Unbegrenzte Heilkosten",
+          "labelEn" : "Unlimited medical cost cover",
+          "whyItMatters" : "Auslandsbehandlungen können extrem teuer werden."
+        },
+        {
+          "key" : "medical_repatriation",
+          "labelDe" : "Medizinischer Rücktransport",
+          "labelEn" : "Medical repatriation",
+          "whyItMatters" : "Einer der teuersten Einzelschäden — Pflichtkriterium."
+        },
+        {
+          "key" : "search_rescue",
+          "labelDe" : "Such- und Rettungskosten",
+          "labelEn" : "Search and rescue costs",
+          "whyItMatters" : "Mind. 10.000 € Deckung wird von Stiftung Warentest gefordert."
+        },
+        {
+          "key" : "pre_existing_condition",
+          "labelDe" : "Vorerkrankungen",
+          "labelEn" : "Pre-existing condition cover",
+          "whyItMatters" : "Plötzliche Verschlechterung einer Vorerkrankung im Urlaub."
+        },
+        {
+          "key" : "no_deductible",
+          "labelDe" : "Keine Selbstbeteiligung",
+          "labelEn" : "No deductible",
+          "whyItMatters" : "Stiftung Warentest fordert Tarife ohne Selbstbeteiligung."
+        }
+      ],
+      "fieldSpecs" : [
+
+      ],
+      "key" : "reiseversicherung",
+      "knowledgeArticles" : [
+
+      ],
+      "nameDe" : "Reiseversicherung",
+      "nameEn" : "Travel Insurance",
+      "needsLevel" : 3,
+      "purpose" : "Deckt Stornierungskosten und medizinische Notfälle im Ausland.",
+      "relevance" : "Auslandsbehandlungen und Rücktransport können sehr teuer sein. Anerkannte Bedarfssystematik: Stufe 3.",
+      "watch" : "Reisekranken, Rücktritt, Rückholung, Vorerkrankungen."
+    },
+    {
+      "criteria" : [
+
+      ],
+      "fieldSpecs" : [
+
+      ],
+      "key" : "krankentagegeld",
+      "knowledgeArticles" : [
+
+      ],
+      "nameDe" : "Krankentagegeld",
+      "nameEn" : "Daily Sickness Benefit",
+      "needsLevel" : 3,
+      "purpose" : "Zahlt bei längerer Krankheit ein Tagegeld, wenn der Arbeitgeber nicht mehr zahlt.",
+      "relevance" : "Relevant für Selbstständige und Arbeitnehmer mit niedrigem Krankengeld. Anerkannte Bedarfssystematik: Stufe 3.",
+      "watch" : "Wartezeit, Karenztage, Höhe des Tagegeldes."
+    }
+  ],
+  "schemaVersion" : "1.0"
+}

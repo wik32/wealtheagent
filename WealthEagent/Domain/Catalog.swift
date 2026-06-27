@@ -8,7 +8,7 @@ import Foundation
 
 /// The complete collection of 22 contract categories, field specifications,
 /// and knowledge articles. Loaded from catalog.json at startup.
-struct Catalog: Equatable {
+struct Catalog: Equatable, Codable {
     var categories: [ContractCategory]
     var schemaVersion: String
 
